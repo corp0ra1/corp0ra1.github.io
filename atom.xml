@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>corp0ra1&#39;s Blog</title>
+  <icon>https://corp0ra1.github.io/icon.png</icon>
+  <subtitle>追求源于热爱，极致源于梦想</subtitle>
+  <link href="https://corp0ra1.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://corp0ra1.github.io/"/>
+  <updated>2021-06-24T17:10:53.470Z</updated>
+  <id>https://corp0ra1.github.io/</id>
+  
+  <author>
+    <name>corp0ra1</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记一次不停自我追问式的学习</title>
+    <link href="https://corp0ra1.github.io/2021/06/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://corp0ra1.github.io/2021/06/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/</id>
+    <published>2021-06-24T16:30:47.168Z</published>
+    <updated>2021-06-24T17:10:53.470Z</updated>
+    
+    
+    <summary type="html">最初只是简单的搭建环境，拿着公开的POC复现漏洞。然后想着学学Goby如何编写POC&amp;EXP，先拿GUI的形式编写，但是逐渐发现很多想法都满足不了，于是尝试Go语言编写。但也不满足于此，想去探究漏洞成因遂代码审计，最后对漏洞成因进行追溯源头，得出结论！</summary>
+    
+    
+    
+    <category term="漏洞研究" scheme="https://corp0ra1.github.io/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+    
+    
+    <category term="漏洞复现" scheme="https://corp0ra1.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+    <category term="POC编写" scheme="https://corp0ra1.github.io/tags/POC%E7%BC%96%E5%86%99/"/>
+    
+    <category term="代码审计" scheme="https://corp0ra1.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+  </entry>
+  
+</feed>
