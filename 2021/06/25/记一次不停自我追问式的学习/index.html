@@ -14,7 +14,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="最初只是简单的搭建环境，拿着公开的POC复现漏洞。然后想着学学Goby如何编写POC&amp;EXP，先拿GUI的形式编写，但是逐渐发现很多想法都满足不了，于是尝试Go语言编写。但也不满足于此，想去探究漏洞成因遂代码审计，最后对漏洞成因进行追溯源头，得出结论！">
+  <meta name="description" content="最初只是简单的搭建环境，拿着公开的POC复现漏洞。然后想着学学Goby如何编写POC&amp;EXP，先拿GUI的形式编写，但是逐渐发现很多想法都满足不了，于是尝试Go语言编写。但也不满足于此，想去探究漏洞成因遂代码审计，最后追溯漏洞的源头得出结论！">
   <meta name="author" content="corp0ra1">
   <meta name="keywords" content="">
   
@@ -239,7 +239,7 @@
                                 记一次不停自我追问式的学习
                             </h1>
                             <div class="markdown-body">
-                                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最初只是简单的搭建环境，拿着公开的POC复现漏洞。然后想着学学Goby如何编写POC&amp;EXP，先拿GUI的形式编写，但是逐渐发现很多想法都满足不了，于是尝试Go语言编写。但也不满足于此，想去探究漏洞成因遂代码审计，最后对漏洞成因进行长达8年的溯源，得出结论！</p>
+                                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最初只是简单的搭建环境，拿着公开的POC复现漏洞。然后想着学学Goby如何编写POC&amp;EXP，先拿GUI的形式编写，但是逐渐发现很多想法都满足不了，于是尝试Go语言编写。但也不满足于此，想去探究漏洞成因于是选择代码审计，最后对漏洞成因进行跟踪溯源，得出一个较为满意的结论！</p>
 <h1 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1. 准备工作"></a>1. 准备工作</h1><h2 id="1-1-漏洞速览"><a href="#1-1-漏洞速览" class="headerlink" title="1.1 漏洞速览"></a>1.1 漏洞速览</h2><p>漏洞描述：Showdoc存在文件上传漏洞，攻击者可以利用漏洞获取服务器权限。</p>
 <p>漏洞影响：ShowDoc &lt; V2.8.3</p>
 <p>漏洞参考：<a target="_blank" rel="noopener" href="https://www.cnvd.org.cn/flaw/show/CNVD-2020-26585">https://www.cnvd.org.cn/flaw/show/CNVD-2020-26585</a></p>
@@ -488,9 +488,9 @@
 <p>对于Ethan师傅也有点可惜，他觉得是个0day，但未深究跟踪一下代码，也许他就真的发现了一个0day。</p>
 <p>对于CTFer来说，也需要多看WP，也许能收获到不同的东西</p>
 <p>对于面向百度编程的我，也需要警惕不要做一个盲目CV的代码首席移动工程师。</p>
-<h1 id="6-大总结"><a href="#6-大总结" class="headerlink" title="6. 大总结"></a>6. 大总结</h1><p>一个文件上传1day的POC编写，从简单的GUI编写，不满足于是选择用Go语言编写，再到逐个使用Goby自带API优化POC，最终实现一键反弹shell。不仅学习了Go，也对EXP进一步的完善。</p>
+<h1 id="6-大总结"><a href="#6-大总结" class="headerlink" title="6. 大总结"></a>6. 大总结</h1><p>从一个文件上传1day的复现开始，到用Goby简单的GUI编写POC&amp;EXP，再到不满足需求，于是选择用Go语言编写，并且使用Goby自带API不断优化POC，最终实现一键反弹shell。不仅学习了Go，也对EXP进一步的完善。</p>
 <p>代码审计，从一个为什么产生出发，不断地问自己问题，虽然是一次简单的代审，延伸出一次溯源，最后的收获远不止一次代码审计，不可思议的是我的总结居然升华到了人。</p>
-<p>正如Zwell说的“不断问自己问题”的学习方法，随着不停的问自己问题，记录下问题解决它，好奇心吸引着我，最后到了一个新的高度，共勉！</p>
+<p>正如Zwell说的“不断问自己问题”的学习方法，随着不停的问自己问题，记录下问题解决它，好奇心吸引着我，最后抵达了一个新的高度，共勉！</p>
 
                             </div>
                             
