@@ -6,7 +6,7 @@
   <link href="https://corp0ra1.github.io/atom.xml" rel="self"/>
   
   <link href="https://corp0ra1.github.io/"/>
-  <updated>2021-06-24T17:33:39.389Z</updated>
+  <updated>2022-03-12T02:59:56.754Z</updated>
   <id>https://corp0ra1.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>禅道zentaopms-9.1.2-sql SQL注入</title>
+    <link href="https://corp0ra1.github.io/2022/03/12/zentaopms_9.1.2_sql_SQL%E6%B3%A8%E5%85%A5/"/>
+    <id>https://corp0ra1.github.io/2022/03/12/zentaopms_9.1.2_sql_SQL%E6%B3%A8%E5%85%A5/</id>
+    <published>2022-03-12T02:24:24.964Z</published>
+    <updated>2022-03-12T02:59:56.754Z</updated>
+    
+    
+    <summary type="html">本来以为只是个拿到POC一把梭的枯燥漏洞复现，实际操作发现不少坑，也学到了不少新的东西。</summary>
+    
+    
+    
+    <category term="漏洞复现" scheme="https://corp0ra1.github.io/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+    
+    <category term="漏洞复现" scheme="https://corp0ra1.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+    <category term="SQL注入" scheme="https://corp0ra1.github.io/tags/SQL%E6%B3%A8%E5%85%A5/"/>
+    
+    <category term="mysql写日志" scheme="https://corp0ra1.github.io/tags/mysql%E5%86%99%E6%97%A5%E5%BF%97/"/>
+    
+  </entry>
   
   <entry>
     <title>记一次不停自我追问式的学习</title>
