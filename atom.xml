@@ -6,7 +6,7 @@
   <link href="https://corp0ra1.github.io/atom.xml" rel="self"/>
   
   <link href="https://corp0ra1.github.io/"/>
-  <updated>2022-03-12T02:59:56.754Z</updated>
+  <updated>2022-03-15T15:11:05.303Z</updated>
   <id>https://corp0ra1.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>The Dirty Pipe Vulnerability[中文翻译]</title>
+    <link href="https://corp0ra1.github.io/2022/03/15/The%20Dirty%20Pipe%20Vulnerability/"/>
+    <id>https://corp0ra1.github.io/2022/03/15/The%20Dirty%20Pipe%20Vulnerability/</id>
+    <published>2022-03-15T14:56:28.685Z</published>
+    <updated>2022-03-15T15:11:05.303Z</updated>
+    
+    
+    <summary type="html">看到P牛在知识星球发了这个漏洞，想着跟一下漏洞，由于当时资料较少，于是打算先自行翻译一次，了解一下作者整个发现漏洞流程。</summary>
+    
+    
+    
+    <category term="文档翻译" scheme="https://corp0ra1.github.io/categories/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
+    
+    
+    <category term="文档翻译" scheme="https://corp0ra1.github.io/tags/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
+    
+    <category term="CVE-2022-0847" scheme="https://corp0ra1.github.io/tags/CVE-2022-0847/"/>
+    
+    <category term="Dirty Pipe提权漏洞" scheme="https://corp0ra1.github.io/tags/Dirty-Pipe%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/"/>
+    
+  </entry>
   
   <entry>
     <title>禅道zentaopms-9.1.2-sql SQL注入</title>
