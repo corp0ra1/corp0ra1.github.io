@@ -6,7 +6,7 @@
   <link href="https://corp0ra1.github.io/atom.xml" rel="self"/>
   
   <link href="https://corp0ra1.github.io/"/>
-  <updated>2022-03-15T15:11:05.303Z</updated>
+  <updated>2022-03-15T15:21:29.113Z</updated>
   <id>https://corp0ra1.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://corp0ra1.github.io/2022/03/15/The%20Dirty%20Pipe%20Vulnerability/"/>
     <id>https://corp0ra1.github.io/2022/03/15/The%20Dirty%20Pipe%20Vulnerability/</id>
     <published>2022-03-15T14:56:28.685Z</published>
-    <updated>2022-03-15T15:11:05.303Z</updated>
+    <updated>2022-03-15T15:21:29.113Z</updated>
     
     
     <summary type="html">看到P牛在知识星球发了这个漏洞，想着跟一下漏洞，由于当时资料较少，于是打算先自行翻译一次，了解一下作者整个发现漏洞流程。</summary>
