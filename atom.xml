@@ -110,4 +110,69 @@
     
   </entry>
   
+  <entry>
+    <title>first vuln from practice to practice</title>
+    <link href="https://corp0ra1.github.io/2019/07/18/[old]%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B4%9E/"/>
+    <id>https://corp0ra1.github.io/2019/07/18/[old]%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B4%9E/</id>
+    <published>2019-07-18T13:53:00.000Z</published>
+    <updated>2022-06-07T12:06:07.591Z</updated>
+    
+    
+    <summary type="html">渗透从DVWA、sqlmaplabs、uploadlabs等靶场走向实战的第一步</summary>
+    
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="值得纪念" scheme="https://corp0ra1.github.io/tags/%E5%80%BC%E5%BE%97%E7%BA%AA%E5%BF%B5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vscode调试php底层代码</title>
+    <link href="https://corp0ra1.github.io/2019/07/09/[old]php%E5%BA%95%E5%B1%82%E6%BA%90%E4%BB%A3%E7%A0%81/"/>
+    <id>https://corp0ra1.github.io/2019/07/09/[old]php%E5%BA%95%E5%B1%82%E6%BA%90%E4%BB%A3%E7%A0%81/</id>
+    <published>2019-07-09T01:46:00.000Z</published>
+    <updated>2022-06-07T12:05:09.389Z</updated>
+    
+    
+    <summary type="html">缘起是P牛的知识星球trick：VSCODE调试PHP底层源码，不过仅是mac下的，于是试了下windows下的调试</summary>
+    
+    
+    
+    <category term="代码审计" scheme="https://corp0ra1.github.io/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+    
+    <category term="vscode" scheme="https://corp0ra1.github.io/tags/vscode/"/>
+    
+    <category term="学习笔记" scheme="https://corp0ra1.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sqlmap命令备忘录</title>
+    <link href="https://corp0ra1.github.io/2019/07/08/[old]sqlmap%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95/"/>
+    <id>https://corp0ra1.github.io/2019/07/08/[old]sqlmap%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95/</id>
+    <published>2019-07-08T15:46:00.000Z</published>
+    <updated>2022-06-07T12:04:32.312Z</updated>
+    
+    
+    <summary type="html">跟着苑老师学习sqlmap的使用，并且仅命令进行记录</summary>
+    
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="学习笔记" scheme="https://corp0ra1.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="sqlmap" scheme="https://corp0ra1.github.io/tags/sqlmap/"/>
+    
+  </entry>
+  
 </feed>

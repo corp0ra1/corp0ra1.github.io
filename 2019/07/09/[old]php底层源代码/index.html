@@ -14,13 +14,29 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
+  <meta name="description" content="缘起是P牛的知识星球trick：VSCODE调试PHP底层源码，不过仅是mac下的，于是试了下windows下的调试">
   <meta name="author" content="corp0ra1">
   <meta name="keywords" content="">
   
-  <title>归档 - corp0ra1&#39;s Blog</title>
+  <title>vscode调试php底层代码 - corp0ra1&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
 
 
 
@@ -49,7 +65,7 @@
 
 
 <body>
-  <header style="height: 30vh;">
+  <header style="height: 60vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
     <div class="container">
         <a class="navbar-brand" href="/">&nbsp;<strong>Corp0ra1's Blog</strong>&nbsp;</a>
@@ -144,14 +160,59 @@
     </div>
 </nav>
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/sea.jpg') no-repeat center center;
+         style="background: url('/img/tesla.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="归档">
+            <span class="h2" id="subtitle" title="vscode调试php底层代码">
               
             </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-09 09:46" pubdate>
+        2019年7月9日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      565 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      6
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
 
             
           </div>
@@ -164,40 +225,137 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 7 篇文章</p>
-  <hr>
-  
-  
-    
       
-      <p class="h5">2021</p>
-    
-    <a href="/2021/06/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">记一次不停自我追问式的学习</span>
-      <time style="float: right;">06-25</time>
-    </a>
-  
+
+    <div class="container-fluid nopadding-x">
+        <div class="row nomargin-x">
+            <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-x-md">
+                <div class="container nopadding-x-md" id="board-ctn">
+                    <div class="py-5" id="board">
+                        <article class="post-content mx-auto">
+                            <!-- SEO header -->
+                            <h1 style="display: none">
+                                vscode调试php底层代码
+                            </h1>
+                            <div class="markdown-body">
+                                <h1 id="window"><a href="#window" class="headerlink" title="window"></a>window</h1><h2 id="静态编译"><a href="#静态编译" class="headerlink" title="静态编译"></a>静态编译</h2><p>window下参考Rai4over的文章</p>
+<ol>
+<li>文章一：<a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/73801.html">原文但是图片被吞</a><br> 文章二：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/news/286157">含图片但是格式有问题</a><br> 二者都是相同的文章，只是图片和格式互补</li>
+<li>对照上面的步骤<ol>
+<li> 下载VS</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/microsoft/php-sdk-binary-tools">php-sdk</a> 和 <a target="_blank" rel="noopener" href="https://github.com/php/php-src">php-src</a>尝试GitHub下载<br>无奈git clone速度太慢，就直接下zip。速度下载的快一点，但是无法git check来切换php的不同版本分支</li>
+<li> 按照上面的文章 来打包文件，配置文件即可</li>
+<li> vscode按照c/c++拓展+配置lauch文件，同时打开<code>xxxx\phpdev\vs16\x64\php-src\ext\standard\image.c</code>文件设置断点，我这边的在1525<del>1533</del>行，R师傅的在1503行因此对照函数搜即可</li>
+</ol>
+</li>
+</ol>
+<p>运行F5调试会报错</p>
+<ul>
+<li>  调试控制台输出<code>Loaded &#39;C:\Windows\System32\xxxxx.dll&#39;. Cannot find or open the PDB file.</code></li>
+<li>  问题输出<code>&quot;message&quot;: &quot;#include errors detected. Please update your includePath. Squiggles are disabled for this translation unit </code></li>
+<li>  问题输出<code>cannot open source file &quot;xxx.h&quot;</code><br>这些都是正常现象，报错依然可以执行断点，依然可以查看底层代码</li>
+</ul>
+<p><strong>前提你断点 设置的没问题</strong></p>
+<h2 id="动态编译"><a href="#动态编译" class="headerlink" title="动态编译"></a>动态编译</h2><p>上述是静态编译，也就是说无需启动网页，直接编译查看底层源代码<br>下面这个是动态编译步骤，即启动网页才会触发断点，适合传递参数的地方<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/29bc0443b586">https://www.jianshu.com/p/29bc0443b586</a></p>
+<hr>
+<h1 id="其他系统搭建环境"><a href="#其他系统搭建环境" class="headerlink" title="其他系统搭建环境"></a>其他系统搭建环境</h1><p>找到的其他参考：<br>mac下 除了P牛的知识星球文章，另外一个<a target="_blank" rel="noopener" href="https://www.phpzjj.com/article/6054.html">https://www.phpzjj.com/article/6054.html</a><br>win下利用VS断点调试，而非VSCODE <a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2004">https://xz.aliyun.com/t/2004</a> </p>
+<hr>
+<h1 id="教训"><a href="#教训" class="headerlink" title="教训"></a>教训</h1><p>教训断点位置设置错误</p>
+<p>运行1.php文件，报错</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript">#include errors detected. Please update your includePath. Squiggles are disabled for this translation unit (C:<span class="hljs-symbol">\p</span>hp<span class="hljs-symbol">\p</span>hp-sdk-binary-tools-master<span class="hljs-symbol">\p</span>hp-sdk-binary-tools-master<span class="hljs-symbol">\p</span>hpdev<span class="hljs-symbol">\v</span>s16<span class="hljs-symbol">\x</span>64<span class="hljs-symbol">\p</span>hp-src-master<span class="hljs-symbol">\e</span>xt<span class="hljs-symbol">\s</span>tandard<span class="hljs-symbol">\i</span>mage.c).<br></code></pre></td></tr></table></figure>
+<p><del>核心问题在于C语言编译环境我没有配置，于是转mingw去了</del><br>你装了VS，还装什么mingw？有病吧！C++自带好么？（当时真的头昏搞这个东西）</p>
+<p>后面用VS调试，设置断点的时候发现1525和1533都是一样的函数，只是传递过来的参数不同而已，也就是说断点设置错误的了位置</p>
+
+                            </div>
+                            
+                                <p class="note note-info">
+                                    
+                                                    本文最后更新于：
+                                                        2022年6月7日 晚上
+                                                            
+                                </p>
+                                
+                                    <hr>
+                                    <div>
+                                        <div class="post-metas mb-3">
+                                            
+                                                <div class="post-meta mr-3">
+                                                    <i class="iconfont icon-category"></i>
+                                                    
+                                                        <a class="hover-with-bg" href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">
+                                                            代码审计
+                                                        </a>
+                                                        
+                                                </div>
+                                                
+                                                    
+                                                        <div class="post-meta">
+                                                            <i class="iconfont icon-tags"></i>
+                                                            
+                                                                <a class="hover-with-bg" href="/tags/vscode/">
+                                                                    vscode
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                                                                    学习笔记
+                                                                </a>
+                                                                
+                                                        </div>
+                                                        
+                                        </div>
+                                        
+                                            <p class="note note-warning">
+                                                
+                                                            本博客所有文章欢迎转载 ，但希望转载时能注明出处！ </br>关于文章，如有疑问，欢迎讨论！Email:corp0ra1@qq.com </br>如果图片无法显示:https://corp0ra1.github.io/common/imageLoad.html
+                                                                
+                                            </p>
+                                            
+                                                
+                                                    <div class="post-prevnext">
+                                                        <article class="post-prev col-6">
+                                                            
+                                                                
+                                                                    <a href="/2019/07/18/%5Bold%5D%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B4%9E/">
+                                                                        <i class="iconfont icon-arrowleft"></i>
+                                                                        <span class="hidden-mobile">first vuln from practice to practice</span>
+                                                                        <span class="visible-mobile">上一篇</span>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                        <article class="post-next col-6">
+                                                            
+                                                                
+                                                                    <a href="/2019/07/08/%5Bold%5Dsqlmap%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95/">
+                                                                        <span class="hidden-mobile">sqlmap命令备忘录</span>
+                                                                        <span class="visible-mobile">下一篇</span>
+                                                                        <i class="iconfont icon-arrowright"></i>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                    </div>
+                                                    
+                                    </div>
+
+                                    
+                        </article>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+                    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
 </div>
 
-
-
-
-
-              </div>
-            </div>
-          </div>
+                </div>
+                
         </div>
-      </div>
+    </div>
+
+    <!-- Custom -->
+    
     
 
     
@@ -343,9 +501,15 @@
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
 
 
 

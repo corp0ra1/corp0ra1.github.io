@@ -1,0 +1,965 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Avatar.jpg">
+  <link rel="icon" href="/img/Avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="跟着苑老师学习sqlmap的使用，并且仅命令进行记录">
+  <meta name="author" content="corp0ra1">
+  <meta name="keywords" content="">
+  
+  <title>sqlmap命令备忘录 - corp0ra1&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"corp0ra1.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"a1a4ccab78dfa522556928ac810fa739","google":"G-4X9XV0H0D5","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="corp0ra1's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">&nbsp;<strong>Corp0ra1's Blog</strong>&nbsp;</a>
+
+        <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto text-center">
+                
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+                                        </li>
+                                        
+                                            
+                                                
+                                                    <li class="nav-item" id="search-btn">
+                                                        <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+                                                    </li>
+                                                    
+                                                        
+                                                            <li class="nav-item" id="color-toggle-btn">
+                                                                <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+                                                            </li>
+                                                            
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" href="/atom.xml">
+                                                                        <i class="iconfont icon-rss"></i>
+                                                                    </a>
+                                                                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/tesla.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="sqlmap命令备忘录">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-07-08 23:46" pubdate>
+        2019年7月8日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      53
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+    <div class="container-fluid nopadding-x">
+        <div class="row nomargin-x">
+            <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-x-md">
+                <div class="container nopadding-x-md" id="board-ctn">
+                    <div class="py-5" id="board">
+                        <article class="post-content mx-auto">
+                            <!-- SEO header -->
+                            <h1 style="display: none">
+                                sqlmap命令备忘录
+                            </h1>
+                            <div class="markdown-body">
+                                <h1 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h1><p><del>建议大家自己过一次命令，不要仅仅停留在看。<br>网上总结命令的文章一大堆，很全但是很杂包括我这篇文章，看着看着可能就看不下去了，不如一个个的自己过。<br>我个人是看着苑老师的视频过了一次感觉比自己一个个尝试要有趣不少。所以如果有视频的话，大家也可以看着视频过。<br>所以看到这，建议你直接跳到文末看我给你的资料，或者crtl+w马上动手干</del></p>
+<p>时光荏苒，三年过去基本都忘了</p>
+<hr>
+<h1 id="sqlmap用途"><a href="#sqlmap用途" class="headerlink" title="sqlmap用途"></a>sqlmap用途</h1><ul>
+<li>提供五种漏洞检测技术<ol>
+<li>  基于布尔的盲注检测</li>
+<li>  基于时间的盲注检测</li>
+<li>  基于错误的检测</li>
+<li>基于union联合查询的检测<ul>
+<li>  适用于通过循环输出联合查询结果，否则只显示第一项结果</li>
+</ul>
+</li>
+<li>基于堆叠查询的检测<ul>
+<li>  堆叠多个查询语句</li>
+<li>  适用于非select的数据修改，删除操作  </li>
+</ul>
+</li>
+</ol>
+</li>
+<li>其他特性<ol>
+<li>数据库直接连接 -d<ul>
+<li>   前提是拥有对应数据库的账号密码，身份认证信息</li>
+<li>   优点是不需要下载对应的数据库客户端程序，直接使用sqlmap作为客户端去连接对应的数据库的端口</li>
+</ul>
+</li>
+<li>与burpsuite，google联动<ul>
+<li>   结合正则表达式限定搜索目标，然后sqlmap调用GOOGle搜索引擎去搜索，搜索得到的url结果在通过sqlmap测试  </li>
+</ul>
+</li>
+<li>get，post,cookie,referer,可以随机或者指定<ul>
+<li>  cookie过期后自动处理set-cookie头，更新cookie信息。也就你不用担心扫着扫着cookie过期的问题，非常只能</li>
+<li>  user-agent默认是：</li>
+</ul>
+</li>
+<li> 限速：最大并发，延迟发送，使之隐蔽性更强</li>
+<li> 支持basic,digest,html,ca身份认证</li>
+<li> 数据库版本，用户，权限，hash枚举和字典爆破，暴力破解表列名称</li>
+<li> 文件上传、upf，启动并执行存储过程，操作系统命令执行，访问windows注册表（进行增删改查）</li>
+<li> 与w3af，metasploit集成使用，基于数据库服务进程提权和上传执行后门</li>
+</ol>
+</li>
+</ul>
+<h1 id="sqlmap命令"><a href="#sqlmap命令" class="headerlink" title="sqlmap命令"></a>sqlmap命令</h1><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ol>
+<li> -h/hh 后者显示的信息更多</li>
+</ol>
+<h2 id="target"><a href="#target" class="headerlink" title="target"></a>target</h2><ul>
+<li>-u<ul>
+<li>  建议用双引号括起来url地址 ，如果url里面含有双引号 记得\去转义</li>
+<li>  用-p xxx指定特定的参数进行注入，而不是所有参数都查询</li>
+<li>  -f fingerprint 查询指纹信息 比如版本 等信息</li>
+<li>  –users 查询当前数据库的所有管理账号</li>
+<li>  –banner 提示版本信息</li>
+<li>  –dbs 查询数据库管理系统里面有哪些库</li>
+<li>  –schema 查元数据库，会以表格的形式呈现出来，当然需要有查询information_schema库的权限。但是如你所知这个库很大，查询需要半天</li>
+<li>  -a 即all： 上面–xxx都查</li>
+</ul>
+</li>
+<li>-d “mysql://账号:密码@ip：port/数据库名称” -参数 <ul>
+<li>  -f -users -a  因为是直接连接去查询，而不是基于漏洞发现 所以速度很快</li>
+</ul>
+</li>
+<li>-m xx.txt 指定一个含有多个url地址的文件进行扫描<ul>
+<li>  -f -users -a 后面跟上去查询</li>
+</ul>
+</li>
+<li>-g  “inurl:&quot;php?id=1&#39;” 接合google扫描结果<ul>
+<li>  由于要翻墙 要设置代理所以待定</li>
+</ul>
+</li>
+</ul>
+<p>如果是post方法，这个时候就无法传递url去-u传递参数</p>
+<ol>
+<li>使用http请求文件（burpsuite）<ol>
+<li> burp拦截请求，将请求命令复制粘贴到一个post.txt文件（用vi复制粘贴的时候，会出现自动换行 会导致格式出错，gedit编辑文件最好）</li>
+<li> -r post.txt读取对应的文件 在-f –dbs等去查询对应的信息 </li>
+</ol>
+</li>
+<li>使用burpsuite的log文件 <ol>
+<li> 开启log记录：option==&gt;logging=====&gt;选择proxy请求进行保存—&gt;选择保存的文件位置</li>
+<li> 浏览器访问，这个时候请求会自动生成log文件</li>
+<li> sqlmap -l log.txt  </li>
+<li> 可以跟上-p -f等参数</li>
+</ol>
+</li>
+<li> 后面要讲的–data</li>
+</ol>
+<p>https 支持该类请求 –force-ssl指定使用https与目标服务器进行通信<br>如果不是默认的443端口 可以在url后面跟上对应的端口号 xxx?id=1:8843进行请求，防止一定的错误</p>
+<p>可以自定义扫描的配置参数文件，无非就是各种参数-a -d -p的集合，使得你下次再使用sqlmap的时候不用在输入那么长的命令，直接-c sqlmap.conf 来自定义扫描配置文件<br>官方有sqlmap.conf的默认配置文件 可以自己找一找 </p>
+<h2 id="request"><a href="#request" class="headerlink" title="request"></a>request</h2><ul>
+<li>数据段： –data<ul>
+<li>  get/post通用</li>
+<li>-u “xxx” –data=“uanme=xxx&amp;pass=xxx”  -f<ul>
+<li>  此时就不需要和上面一样在url里面指定参数，而单独拿出来，此时就可以不仅get还有post都支持</li>
+</ul>
+</li>
+<li>  不需要前面有个?来间隔参数和url</li>
+<li>  默认以&amp;作为分隔符来逐个识别和注入对应的参数，可以–param-del=’;’来制定特定的参数作为分隔符，此时–data=“uanme=xxx;pass=xxx” 来表示</li>
+</ul>
+</li>
+<li>cookie段： –cookie =”xxxx”<ul>
+<li>  web应用需要基于cookie的身份认证</li>
+<li>  检查cookie中的注入点（使用默认的level-1的时候不会检查，当level ≥2时候才自动后台测试  –level 2）</li>
+<li>  如果服务器端set-cookie使得cookie有更新，sql会自动更新，但是如果你不想使用新的cookie可以–drop-set-cookie，使得继续使用之前的cookie</li>
+</ul>
+</li>
+<li>http头<ul>
+<li>user-agent<ul>
+<li>  默认是sqlmap/1.x-dev-xxxxx(<a target="_blank" rel="noopener" href="http://sqlmap.org)的格式,因为默认是sqlmap/xxxx%EF%BC%8C%E6%89%80%E4%BB%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%8F%AF%E4%BB%A5%E9%87%87%E5%8F%96%E4%B8%80%E5%AE%9A%E7%9A%84%E8%BF%87%E6%BB%A4%E6%89%8B%E6%AE%B5%EF%BC%81">http://sqlmap.org)的格式，因为默认是sqlmap/xxxx，所以服务器端可以采取一定的过滤手段！</a></li>
+<li>  可以–user-agent=”xxx”来指定对应的agent</li>
+<li>  加上参数–random-agent时候他才会向/usr/share/sqlmap/user-agents.txt文件里面随机选取agent（包含 chrome ie  safari  opera firfoxg各个版本的agent）。</li>
+<li>  level≥3才会自动检查agent里面的注入点</li>
+<li>  当手动注入成功，但是sqlmap不成功的话，可能怀疑就是user-agent这里存在一定的过滤</li>
+</ul>
+</li>
+<li>host<ul>
+<li>  –host=“xx”指定对应的主机名</li>
+<li>  level≥5（最高扫描级别）</li>
+</ul>
+</li>
+<li>referer<ul>
+<li>  –referrer=”xxx”指定</li>
+<li>  level≥3</li>
+</ul>
+</li>
+<li>额外的headder: –headers=“xxxx”<ul>
+<li>  万一那天那个怪人指定了一个额外的header头呢？</li>
+<li>  每个头单独写一行（名称区分大小写）<code>--headers=&quot;Host:www.www.com\nUser-Agent=chrome&quot;</code>，即\n换行。但是一定要注意区分大小写！！！！！</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>  上述的都没有指定请求方法，默认先尝试get再post，你也可以指定–method=POST 或者get</li>
+<li>基于HTTP协议的身份验证<ul>
+<li>  Basic</li>
+<li>  Digest（摘要）</li>
+<li>  NTLM</li>
+<li>  方法：–auth-type Basic –auth-cred “USER:PASS”,这样可以过掉需要身份认证的网页，比如DD的那道题要填写账号密码才能访问</li>
+</ul>
+</li>
+<li>–auth-cert /–auth-file<ul>
+<li>  基于客户端进行客户端证书认证（少见，大多出现在网银情况下）</li>
+<li>  –auth-file=”ca.PEM”</li>
+<li>  只支持PEM格式证书（含有或不含有私钥都行）</li>
+</ul>
+</li>
+<li>http(s)代理<ul>
+<li>  –proxy=”<a href="http://127.0.0.1:8087&quot;，如果代理需要身份认证：--proxy-cred=&quot;name:pass&quot;">http://127.0.0.1:8087&quot;，如果代理需要身份认证：--proxy-cred=&quot;name:pass&quot;</a></li>
+<li>  –ignore-proxy：忽略系统级代理设置，通常用于扫描本地网络目标。因为有的基于操作系统层面实现的代理，而非基于浏览器层面实现的代理。这样流量就直接发到外网去了而导致内网的无法访问</li>
+</ul>
+</li>
+<li>请求延迟，超时，尝试重连次数<ul>
+<li>  建议格式 –xxxx=”xxx”  这种格式优于–xxx x，第一方便参数多的时候识别，第二不易出错</li>
+<li>  –delay：请求的延迟时间，浮点数，时间为秒，默认无延迟 </li>
+<li>  –timeout：请求超时时间，浮点数，默认30秒</li>
+<li>  –retries：http连接超时重试次数，默认3次</li>
+<li>  –randomize：长度、类型与原始值保持一致的请求下，指定每次请求随机取值的参数值</li>
+</ul>
+</li>
+<li>–scope,对于前面的-l指定的log文件比较好，可以通过正则表达式筛选扫描对象过滤日志内容<ul>
+<li>  –scope=”(www)?\ .target\ .(com|net|org)”</li>
+<li>  –scope=”(19)?\ .168\ .20(1|10|100)”</li>
+</ul>
+</li>
+<li>–safe-url/–safe-freq<ul>
+<li>  检测和盲注阶段会产生大量请求，服务器端可能会因此销毁session。</li>
+<li>  每经过–safre-freq次注入请求之后，发送一次正常请求，来防止错误次数过多导致的注入无法正常进行</li>
+</ul>
+</li>
+<li>  –skil-urlencode：默认get方法会对传输内容进行编码，但是某些WEB服务器不遵守RFC标准编码，使用原始字符提交数据。这个只是个开关，没有=“”的赋值，开了就是使用原始字符提交数据</li>
+<li>–eval<ul>
+<li>  每次请求之前执行指定的Python代码</li>
+<li>  每次请求更改或者增加新的参数值（时间依赖或者其他参数值依赖）</li>
+<li>  比如<code>--data=&quot;127.0.0.1/?id=xxx&amp;hash=asdasdaasdasdasda&quot; --eval=&quot;import hashlib;hash=hashlib.md5(id).hexdigest()&quot;</code>当id和hash存在关联的时候，单独的注入id，每次必定都错，但是使用了eval这样会调用后面的语句，使得每次hash随着Id变化而实现注入</li>
+<li>  这就需要手动在先才能注入的点 </li>
+</ul>
+</li>
+</ul>
+<h2 id="optimization-优化性能"><a href="#optimization-优化性能" class="headerlink" title="optimization  优化性能"></a>optimization  优化性能</h2><ul>
+<li>–predict-output<ul>
+<li>根据检测方法，比对返回值和统计表内容，不断缩小检测范围，提高检测效率<ul>
+<li>  比如返回一个phpmyadmin，他比对表之后就觉得是mysql的，然后再进行mysql的进一步探测，而不是把orcle sql server，mysql这些都测试一次</li>
+</ul>
+</li>
+<li>  可以检测版本名、用户名、密码、privileges、role、数据库名称、表名、列名</li>
+<li>  与–threads参数不兼容</li>
+<li>  统计表位置/usr/share/sqlmap/txt/common-outputs.txt</li>
+</ul>
+</li>
+<li>–keep-alive<ul>
+<li>  使用http(s)长连接，性能好</li>
+<li>  与–proxy参数不兼容，因为他只保持一个链接</li>
+<li>  长链接避免重复建立连接的网络开销，但大量的长连接会严重占用服务器资源</li>
+</ul>
+</li>
+<li>–null-connection<ul>
+<li>  只获取相应页面的大小值，而非页面的具体内容</li>
+<li>  通常用于盲注判断真/假，降低网络带宽消耗</li>
+<li>  与–text-only参数不兼容（基于页面内容的比较判断真/假）</li>
+</ul>
+</li>
+<li>  -o开启上面的三个参数</li>
+<li>–threads=N<ul>
+<li>  最大并发线程，默认为1，官方建议不超过10，否则可能影响站点可用性</li>
+<li>  盲注时每个线程获取一个字符（N次请求），获取完成后线程结束</li>
+<li>  与–predict-output参数不兼容</li>
+</ul>
+</li>
+</ul>
+<h2 id="injection"><a href="#injection" class="headerlink" title="injection"></a>injection</h2><ul>
+<li>  比较多，只比较重要的讲</li>
+<li>  -p：指定扫描的参数，使得–level失效，-p “user-agent,referer”</li>
+<li>  –skip=“id,user-agnet”  忽略指定的扫描参数，常常搭配–level=N使用</li>
+<li>URL注入点<ul>
+<li>  适用于一些奇葩的URL “URL/param1/value1*/param2/value2”这种参数和值在url里面以//来间隔表示的，在要注入的参数后面加上*，比如此处注入点指定就在value1这里</li>
+<li>  这种是伪静态页面，只是开发人员魔改了url，即你看不到参数传递的过程，不要以为没有参数就不能注入，其实是可以的</li>
+</ul>
+</li>
+<li>  –dbms=“MYSQL（+版本号）/oracleL（+版本号）”:指定特定的数据库，而不会一个个的库测试从而提高效率</li>
+<li>  –os=”Linux/Windows”:提高效率</li>
+<li>–invalid-bignum/–invalid-logical<ul>
+<li>  sqlmap默认使用负值使得参数取值失效id=13===&gt;id=-13，一失效就可以配合其他的逻辑判断进行sql注入漏洞的发现</li>
+<li>  bignum使用大数使得参数值失效id=89999999</li>
+<li>  logical使用布尔判断使取值失效id=13 and 18=19</li>
+</ul>
+</li>
+<li>–no-cast<ul>
+<li>  sqlmap默认处理：榨取数据时，sqlmap将所有结果转换为字符串，并用空格替换null结果</li>
+<li>  老版本mysql数据库需要开启此开关，不然会提取不到数据</li>
+</ul>
+</li>
+<li>–no-escape<ul>
+<li>  出于混淆和避免出错的目的，payload中用单引号界定字符串时，sqlmap默认通过char()编码逃逸的方法替代字符串，如<code>select ‘foo’ </code>===&gt;<code>select char(102)+char(111)+char(111)</code>从而不需要单引号即可表示foo</li>
+<li>  但是某些特殊情况，使用char又会出错，而本参数将关闭此功能</li>
+</ul>
+</li>
+<li>–prefix/–suffix<ul>
+<li>  某些地方需要指定特定的前缀和后缀，比如iscc的union那道题</li>
+<li>  闭合特定的规则：比如id=（“‘“.$_GET[‘ID’].”’”）,普通的sql无法直接使用，这个时候指定–prefix=’)and –suffix=and (‘1’=’1 来闭合前后，这样id就是纯payload</li>
+</ul>
+</li>
+<li>–tamper<ul>
+<li>  混淆脚本，用于绕过应用层过滤，IPS，WAF</li>
+<li>  /opt/sqlmap/tamper目录下已经有了不少编写好的taper脚本</li>
+<li>  –tamper=”xxx1.py,xxx2.py”这样会在tamper目录下依次执行1,2脚本进行绕过，当然也可以指定绝对路径来执行tamper目录之外的脚本（对同一个payload执行1,2，并不是分开执行。比如同时使用大小写，内联注释/<em>!0000SelEct</em>/）</li>
+</ul>
+</li>
+</ul>
+<h2 id="Detection-探测"><a href="#Detection-探测" class="headerlink" title="Detection  探测"></a>Detection  探测</h2><ul>
+<li>–level<ul>
+<li>  1~5级。默认1级。可以在/usr/share/sqlmap/xml/payloads看下里面的payload，以及不同等级发送的payload类型</li>
+</ul>
+</li>
+<li>–risk<ul>
+<li>  1~4 默认1，他无害，当risk升高可造成数据被篡改等风险（update delete等操作），可能导致数据的不可恢复，进而网络安全法了解下</li>
+</ul>
+</li>
+<li>–string=“xxx” –not-string=“xxx”,–regexp=“xxx”,–code=“200”,–text-only=“xxx”,–titles=“xxx”<ul>
+<li>  页面比较，基于布尔的注入检测，sqlmap会依据返回页面内容的变化判断真假逻辑，但有些页面随着时间阀值变化，此时需要人为指定指标标示真假的依据</li>
+</ul>
+</li>
+</ul>
+<h2 id="technique-检测sql注入漏洞存在的类型"><a href="#technique-检测sql注入漏洞存在的类型" class="headerlink" title="technique 检测sql注入漏洞存在的类型"></a>technique 检测sql注入漏洞存在的类型</h2><ul>
+<li>  默认使用全部技术 可以指定–technique=BEU</li>
+<li>  B 布尔  E 错误  U 联合 T时间 S stacked queries（文件系统、操作系统，注册表必须使用S才能注入出来）</li>
+<li>  –time-sec：指定时间注入检测相应延迟时间（默认5秒）</li>
+<li>–union-cols：默认联合查询1-10列，随着level增加最多支持50列 <ul>
+<li>  –union-cols 6-9：联合查询6-9列</li>
+</ul>
+</li>
+<li>–union-char<ul>
+<li>  联合查询默认使用null，极端情况下null可能失败，此时可以手动指定数值</li>
+<li>  认?id=’ ‘union select ，经过比如–union-char 123，则为id=’123’union select</li>
+</ul>
+</li>
+<li>–dns-domain<ul>
+<li>  攻击者控制了某DNS服务器，使用此功能提高数据榨取速度，–dns-domain=”a.com”</li>
+<li>  非常小众，而且仅仅只是提高速度而已</li>
+</ul>
+</li>
+<li>–second-order<ul>
+<li>  注入的结果在另外一个页面体现出来</li>
+<li>  –second-ord http：//1.1.1.1/b.php</li>
+</ul>
+</li>
+</ul>
+<h2 id="fingerprint"><a href="#fingerprint" class="headerlink" title="fingerprint"></a>fingerprint</h2><ul>
+<li>  -f/-b：DBMS，操作系统，架构，补丁</li>
+</ul>
+<h2 id="enumeration-枚举"><a href="#enumeration-枚举" class="headerlink" title="enumeration 枚举"></a>enumeration 枚举</h2><ol>
+<li><p>探测</p>
+<ul>
+<li>–current-user/–user:当前数据库用户。而非操作系统管理员/所有用户账号</li>
+<li>–current-db：当前数据库名称</li>
+<li>–hostname</li>
+<li>–privilege 查所有用户的权限  后面跟-U xxxx/-CU查指定/当前用户权限</li>
+<li>–roles</li>
+</ul>
+</li>
+<li><p>重要数据</p>
+<ul>
+<li>-D xx/-T xxx /-C xxx：指定数据库/表/列</li>
+<li>–dbs/tables/columns：查库/表/列</li>
+<li>–exclude-sysdbs:排除掉系统库</li>
+<li>–schema：查元数据(存在information_schema库且有权访问他)</li>
+<li>–count 看有几条记录</li>
+<li>–batch：批处理，即每次选择的时候 选择默认选项，而不需要手动指定</li>
+<li>dump数据 把数据下载到本地<ul>
+<li>–dump-all dump所有数据 后面可以跟上 –exclude-sysdbs</li>
+<li>–dump -C -T -D –start –stop ：自定义查询</li>
+</ul>
+</li>
+<li>–sql-query=“select * from users”：指定特定的查询</li>
+</ul>
+</li>
+</ol>
+<h2 id="brute-force"><a href="#brute-force" class="headerlink" title="brute force"></a>brute force</h2><p>因为information_schema库只有在mysql5.0以上才有，而5.0以上还需要权限<br>微软的access数据库，默认无权读取msysobjects库</p>
+<ul>
+<li>–common-tables：暴力猜表</li>
+<li>–common-columns：暴力猜列（可以-T 指定特定的表 不然就是破解当前表）</li>
+</ul>
+<h2 id="file-system"><a href="#file-system" class="headerlink" title="file system"></a>file system</h2><ul>
+<li>  –file-read=”/etc/passwd”</li>
+<li>  –file-write=”shell.php” ：shell必须在攻击者当前目录，不然就得注定绝对路径 –file-dest=“/var/www/html/xxx” 指定上传到受害者电脑上的位置</li>
+</ul>
+<h2 id="OS注入"><a href="#OS注入" class="headerlink" title="OS注入"></a>OS注入</h2><ul>
+<li>–udf-inject: 注入用户自定义函数  –shared-lib:共享库的本地路径,从而实现UDFinjection 用户自定义函数注入<ul>
+<li>  就是编译共享库创建并上传之DB server，以此生成自定义函数UDF实现高级注入</li>
+<li>  需要有写入权限</li>
+<li>  [paper](<a target="_blank" rel="noopener" href="http://www.slideshare.net/inquis/advanced-sql-injection-to-operating-system-">http://www.slideshare.net/inquis/advanced-sql-injection-to-operating-system-</a><br>full-control-whitepaper-4633857)</li>
+</ul>
+</li>
+<li>–os-cmd  –os-shell –sql-shell<ul>
+<li>  也是要写权限！</li>
+<li>  在mysql和postgresql上是利用上传共享库并且生成sysy_exec(),sys_eval()两个UDF，在mssql上利用的xp_cmdshell存储过程（有就用，禁就启，没有建）</li>
+</ul>
+</li>
+<li>windows注册表注入<ul>
+<li> 前提要有操作注册表权限</li>
+<li>  –reg-read/–reg-add/–geg-del：读取/增加、删除注册表键值</li>
+<li>  –reg-key/–geg-value/–reg-data/–reg-type=“xxx”：定义键值具体内容</li>
+</ul>
+</li>
+</ul>
+<h2 id="一般参数"><a href="#一般参数" class="headerlink" title="一般参数"></a>一般参数</h2><ul>
+<li>  -s：sqlite会话保存位置</li>
+<li>  -t:记录流量位置保存位置</li>
+<li>  –charset=“GBK”:强制字符编码</li>
+<li>  –crawl=N:从起始位置爬站的深度</li>
+<li>  –csv-del：dump下来的数据默认存于以”,”分割的CSV文件中，可以指定其他的分隔符</li>
+<li>  –dbms-cred=”usr:passwd”：指定数据库账号</li>
+<li>  –flush-session：清空刚刚查询的本地缓存session内容（本地缓存session的机制使得第二次执行的速度更快）</li>
+<li>  –refresh-queries:忽略session查询结果</li>
+<li>  –force-ssl：使得访问https的网站</li>
+<li>  –hex：dump非ascii字符内容时，将其编码为16进制形式之后下载，绕过传输过程中的一定的过滤或其他影响，收到后sqlmap自动解码还原</li>
+<li>  –output-dir=/temp/xxx  指定输出结果保存位置</li>
+<li>  –parse-errors：分析和显示数据库内建报错信息</li>
+<li>  –save：将命令保存为配置文件，需要指定保存位置</li>
+<li>  -z：参数助记符,比如–batch 可以写成 -z=”bat”表示</li>
+<li>  –answer=“extend=N” 适用于某些地方需要你手动填写，batch处理总以默认处理，你又不想默认值，于是遇到比如extend的时候 这个时候回答就是N</li>
+<li>  –check-waf：检测waf/ips/ids</li>
+<li>–hpp：http parameter pollution<ul>
+<li>  绕过WAF、IPS、IDS的有效方法</li>
+<li>  尤其对工作在windows平台的站点ASP/iis和asp.net/iis有用</li>
+</ul>
+</li>
+<li>–identify-waf：彻底的waf/ips/ids检查<ul>
+<li>  支持30多种产品</li>
+</ul>
+</li>
+</ul>
+<h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><ul>
+<li>  –mobile:模拟手机设备</li>
+<li>  –purge：清空output文件夹（同时也就清除了session）</li>
+<li>  –smart：当有大量检测目标时，只选择被怀疑有注入点的地方进行注入，而非每个都尝试</li>
+<li>  –wizard：向导 即提示你一步一步的填写入参数。但是只是填写基础的参数</li>
+</ul>
+<h1 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h1><ul>
+<li>  网页版：freebuf<a target="_blank" rel="noopener" href="https://www.freebuf.com/sectool/164608.html">https://www.freebuf.com/sectool/164608.html</a></li>
+<li>  图片版：原图4.2M，出处见图水印，可以自己用网页打开下载到本地<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708233306.png" srcset="/img/loading.gif" lazyload alt="20190708233306.png"></li>
+</ul>
+
+                            </div>
+                            
+                                <p class="note note-info">
+                                    
+                                                    本文最后更新于：
+                                                        2022年6月7日 晚上
+                                                            
+                                </p>
+                                
+                                    <hr>
+                                    <div>
+                                        <div class="post-metas mb-3">
+                                            
+                                                <div class="post-meta mr-3">
+                                                    <i class="iconfont icon-category"></i>
+                                                    
+                                                        <a class="hover-with-bg" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                                                            渗透测试
+                                                        </a>
+                                                        
+                                                </div>
+                                                
+                                                    
+                                                        <div class="post-meta">
+                                                            <i class="iconfont icon-tags"></i>
+                                                            
+                                                                <a class="hover-with-bg" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+                                                                    学习笔记
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                                                                    渗透测试
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/sqlmap/">
+                                                                    sqlmap
+                                                                </a>
+                                                                
+                                                        </div>
+                                                        
+                                        </div>
+                                        
+                                            <p class="note note-warning">
+                                                
+                                                            本博客所有文章欢迎转载 ，但希望转载时能注明出处！ </br>关于文章，如有疑问，欢迎讨论！Email:corp0ra1@qq.com </br>如果图片无法显示:https://corp0ra1.github.io/common/imageLoad.html
+                                                                
+                                            </p>
+                                            
+                                                
+                                                    <div class="post-prevnext">
+                                                        <article class="post-prev col-6">
+                                                            
+                                                                
+                                                                    <a href="/2019/07/09/%5Bold%5Dphp%E5%BA%95%E5%B1%82%E6%BA%90%E4%BB%A3%E7%A0%81/">
+                                                                        <i class="iconfont icon-arrowleft"></i>
+                                                                        <span class="hidden-mobile">vscode调试php底层代码</span>
+                                                                        <span class="visible-mobile">上一篇</span>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                        <article class="post-next col-6">
+                                                            
+                                                                
+                                                        </article>
+                                                    </div>
+                                                    
+                                    </div>
+
+                                    
+                        </article>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+                    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+                </div>
+                
+        </div>
+    </div>
+
+    <!-- Custom -->
+    
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <div> <div class="copyright">©2020 - 2021 By Corp0ra1</div> </div> <div> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> &nbsp;|&nbsp; <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> &nbsp;|&nbsp; <a href="https://github.com/jsdelivr/jsdelivr" target="_blank" rel="nofollow noopener"><span>jsDelivr</span></a> </div> 
+  </div>
+  <!--添加运行时间-->
+<div id="sitetime"></div>
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* 
+      Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+      year - 作为date对象的年份，为4位年份值
+      month - 0-11之间的整数，做为date对象的月份
+      day - 1-31之间的整数，做为date对象的天数
+      hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+      minutes - 0-59之间的整数，做为date对象的分钟数
+      seconds - 0-59之间的整数，做为date对象的秒数
+      microseconds - 0-999之间的整数，做为date对象的毫秒数
+     */
+        var t1 = Date.UTC(2021, 05, 01, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "很高兴遇到你，我已经在此等候了你 " + /*diffYears+" 年 "+*/ diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }
+    siteTime();
+</script>
+
+    <div class="statistics">
+        
+            
+
+                
+                                                
+                                                    <!-- 不蒜子统计PV -->
+                                                    <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            
+            <span id="busuanzi_value_site_pv"></span>
+                                                     次
+                                                        &nbsp; <span class="iconfont icon-love"></span></span>
+                                                        
+
+                                                            
+
+                                                                <!-- 不蒜子统计UV -->
+                                                                <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            
+            <span id="busuanzi_value_site_uv"></span>
+                                                                 人
+                                                                    </span>
+                                                                    
+                                                                        
+    </div>
+    
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <!-- Baidu Analytics -->
+        <script defer>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?a1a4ccab78dfa522556928ac810fa739";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+        
+
+            
+                <!-- Google Analytics -->
+                <!-- <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-4X9XV0H0D5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script> -->
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+                <script async src="https://www.googletagmanager.com/gtag/js?G-4X9XV0H0D5"></script>
+                <script>
+                    window.dataLayer = window.dataLayer || [];
+
+                    function gtag() {
+                        dataLayer.push(arguments);
+                    }
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-4X9XV0H0D5');
+                </script>
+                
+
+                    
+
+                            
+
+                                    
+
+                                            
+                                                    
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
