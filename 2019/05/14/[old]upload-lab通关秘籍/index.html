@@ -1,0 +1,836 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Avatar.jpg">
+  <link rel="icon" href="/img/Avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="upload-labs关于文件上传漏洞很全很系统，每一道题再发散的话基本上说可以把文件上传漏洞打穿了。自己动手尝试了一次Upload-## labs里面的20关，但是由于个人时间原因，只能说算是每一关自己都打过吧，但是延伸的不太深，等日后再来填坑系列">
+  <meta name="author" content="corp0ra1">
+  <meta name="keywords" content="">
+  
+  <title>upload-lab靶场通关记录 - corp0ra1&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"corp0ra1.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"a1a4ccab78dfa522556928ac810fa739","google":"G-4X9XV0H0D5","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="corp0ra1's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">&nbsp;<strong>Corp0ra1's Blog</strong>&nbsp;</a>
+
+        <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto text-center">
+                
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+                                        </li>
+                                        
+                                            
+                                                
+                                                    <li class="nav-item" id="search-btn">
+                                                        <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+                                                    </li>
+                                                    
+                                                        
+                                                            <li class="nav-item" id="color-toggle-btn">
+                                                                <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+                                                            </li>
+                                                            
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" href="/atom.xml">
+                                                                        <i class="iconfont icon-rss"></i>
+                                                                    </a>
+                                                                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/tesla.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="upload-lab靶场通关记录">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-05-14 18:39" pubdate>
+        2019年5月14日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      70
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+    <div class="container-fluid nopadding-x">
+        <div class="row nomargin-x">
+            <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-x-md">
+                <div class="container nopadding-x-md" id="board-ctn">
+                    <div class="py-5" id="board">
+                        <article class="post-content mx-auto">
+                            <!-- SEO header -->
+                            <h1 style="display: none">
+                                upload-lab靶场通关记录
+                            </h1>
+                            <div class="markdown-body">
+                                <p>upload-labs关于文件上传漏洞很全很系统，每一道题再发散的话基本上说可以把文件上传漏洞打穿了。自己动手尝试了一次Upload-## labs里面的20关，但是由于个人时间原因，只能说算是每一关自己都打过吧，但是延伸的不太深，等日后再来填坑系列</p>
+<h1 id="友情提示！"><a href="#友情提示！" class="headerlink" title="友情提示！"></a>友情提示！</h1><p>环境：<a target="_blank" rel="noopener" href="https://github.com/c0ny1/upload-##">https://github.com/c0ny1/upload-##</a> labs<br>![](<a target="_blank" rel="noopener" href="https://github.com/c0ny1/upload-##">https://github.com/c0ny1/upload-##</a> labs/raw/master/doc/mind-map.png)</p>
+<h1 id="前端绕过"><a href="#前端绕过" class="headerlink" title="前端绕过"></a>前端绕过</h1><p>这种是在本地进行，通过客户端的JS函数进行判别。所以你上传一个文件之后，不用与服务器进行交互，本地客户端可以立刻给你返回你的正确与否</p>
+<blockquote>
+<p>可以根据返回时间来判断</p>
+</blockquote>
+<h2 id="lab1之本地js函数"><a href="#lab1之本地js函数" class="headerlink" title="lab1之本地js函数"></a>lab1之本地js函数</h2><p>禁用函数/f12即可</p>
+<h1 id="黑名单绕过"><a href="#黑名单绕过" class="headerlink" title="黑名单绕过"></a>黑名单绕过</h1><h2 id="lab2之Content-Type"><a href="#lab2之Content-Type" class="headerlink" title="lab2之Content-Type"></a>lab2之Content-Type</h2><p>修改上传包的Content-Type即可</p>
+<h2 id="lab3之上传特殊可解析后缀"><a href="#lab3之上传特殊可解析后缀" class="headerlink" title="lab3之上传特殊可解析后缀"></a>lab3之上传特殊可解析后缀</h2><p><strong>源码</strong></p>
+<blockquote>
+<p>$deny_ext = array(‘.asp’,’.aspx’,’.php’,’.jsp’);</p>
+</blockquote>
+<p><strong>防护之道</strong></p>
+<blockquote>
+<p>$deny_ext = array(“.php”,”.php5”,”.php4”,”.php3”,”.php2”,”php1”,”.html”,”.htm”,”.phtml”,”.pht”,”.pHp”,”.pHp5”,”.pHp4”,”.pHp3”,”.pHp2”,”pHp1”,”.Html”,”.Htm”,”.pHtml”,”.jsp”,”.jspa”,”.jspx”,”.jsw”,”.jsv”,”.jspf”,”.jtml”,”.jSp”,”.jSpx”,”.jSpa”,”.jSw”,”.jSv”,”.jSpf”,”.jHtml”,”.asp”,”.aspx”,”.asa”,”.asax”,”.ascx”,”.ashx”,”.asmx”,”.cer”,”.aSp”,”.aSpx”,”.aSa”,”.aSax”,”.aScx”,”.aShx”,”.aSmx”,”.cEr”,”.sWf”,”.swf”,”.htaccess”);</p>
+</blockquote>
+<h2 id="lab5之文件名大小写绕过"><a href="#lab5之文件名大小写绕过" class="headerlink" title="lab5之文件名大小写绕过"></a>lab5之文件名大小写绕过</h2><p><strong>防护之道</strong></p>
+<blockquote>
+<p><code>$file_ext = strtolower($file_ext);</code> //转换为小写</p>
+</blockquote>
+<h2 id="lab6之空格截断"><a href="#lab6之空格截断" class="headerlink" title="lab6之空格截断"></a>lab6之空格截断</h2><p><strong>原理</strong><br>先绕过黑名单，再利用window特性在保存对应文件时候会去除文件名结尾的空格<br><strong>防护之道</strong><br><code>$file_ext = trim($file_ext);</code> //首尾去空</p>
+<p><strong>实验</strong><br>7.0下可以成功上传,但是7.1下上传失败</p>
+<blockquote>
+<p>无论是否是nts版本,只要是7.0之前都可以利用，nginx也实验成功，而7.1之后则上传失败<br>感觉这个并不是windows特性，而是因为move_uploaded_file函数的原因，只不过在php7.0以后修复了而已<br>怀疑的原因是因为:如果仅仅是和winodw特性有关，那么这种漏洞应该和Php版本没关系，或者说与move_uploaded_file函数不相关。<br><strong>拓展</strong><br>为了实验php版本问题，所以在Ubuntu环境试验了下（我的php7.2版本）</p>
+</blockquote>
+<p>发现保存的时候确实有空格，因此确定不是move_uploaded_file函数的原因，就是windows特性，但是为啥window环境下低版本可以去除，后面的高版本就不行？双因素导致的？<br><strong>总结</strong><br>以下仅仅只是个人猜测（由于涉及到底层代码跟踪审计，能力以及精力暂时放弃）</p>
+<ol>
+<li> 首先明确，他报的错误是：上传错误，而查看代码这个报错取决于 move_upload_file函数的返回值</li>
+<li> move_upload_file函数在处理windows和linux文件路径的时候处理方式不同，所以导致了7.1下linux可以上传，而windows上传错误</li>
+<li> move_upload_file函数在7.1以后的版本改动了函数代码，修复了空格截断的问题，但是仅限于windows下修改了，linux下没有修复</li>
+</ol>
+<p><strong>补充</strong><br>对于上面Ubuntu环境下，访问php+%00以达到访问空格的效果来访问该文件</p>
+<p>为什么没有执行，反而把文件当做注释？有病吧？<br>和P牛交流后</p>
+<blockquote>
+<p>浏览器行为：浏览器把他当做注释，和服务器无关</p>
+<blockquote>
+<p>后面在Apache解析漏洞的时候发现了原因：php%00为不可解析文件，此时就会把该文件当做默认类型进行处理了，一般来说，默认类型是text/plain。.<a target="_blank" rel="noopener" href="https://blog.csdn.net/wn314/article/details/77074477">传送门</a></p>
+</blockquote>
+</blockquote>
+<h2 id="lab7之加-绕过"><a href="#lab7之加-绕过" class="headerlink" title="lab7之加.绕过"></a>lab7之加.绕过</h2><p><strong>原理</strong><br>没有对后缀名进行去”.”处理，利用windows特性，，在保存对应的文件时候会自动去掉后缀名中最后的”.”<br><strong>过程</strong><br><code>$file_ext = strrchr($file_name, &#39;.&#39;);</code>通过这个函数得到尾缀，即为‘.’，从而绕过黑名单<br><strong>防护之道</strong><br><code>$file_name = deldot($file_name);</code>//删除文件名末尾的点（deldot函数要自己实现）<br><strong>注意事项</strong><br>同上，为windows特效，如我在windows下的实验如下：<br>文件保存依然带….</p>
+<h2 id="lab8之-DATA-绕过"><a href="#lab8之-DATA-绕过" class="headerlink" title="lab8之:$DATA 绕过"></a>lab8之:$DATA 绕过</h2><p><strong>原理</strong><br>基于window特性中的NTFS协议,使得绕过黑名单，但是保存的时候又被省略<br><strong>防护之道</strong><br><code>$file_ext = str_ireplace(&#39;::$DATA&#39;, &#39;&#39;, $file_ext);</code>//去除字符串<code>::$DATA</code><br>记得要先去除大小写 在进行判断 不然存在<code>：：$data</code>的绕过<br><strong>拓展①</strong><br>:$data可以吗？（只有一个:）</p>
+<p>文件名去掉尾缀:$data之后</p>
+<p>查看生成的文件</p>
+<p>结论：$data可以生成文件php文件，但是php文件里面没有写入内容TAT（原理别问，问就是不知道）<br><strong>拓展②</strong><br>接上面原理<a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-246118.htm">传送门</a></p>
+<blockquote>
+<p>Test.php:a.jpg 生成Test.php 空<br><code>Test.php::$DATA</code> 生成test.php <code>&lt;?php phpinfo();?&gt;</code><br><code>Test.php::$INDEX_ALLOCATION</code> 生成test.php文件夹<br><code>Test.php::$DATA\0.jpg</code> 生成0.jpg <code>&lt;?php phpinfo();?&gt;</code><br><code>Test.php::$DATA\aaa.jpg</code> 生成aaa.jpg <code>&lt;?php phpinfo();?&gt;</code></p>
+</blockquote>
+<h2 id="lab10之双写绕过"><a href="#lab10之双写绕过" class="headerlink" title="lab10之双写绕过"></a>lab10之双写绕过</h2><p><strong>前言</strong><br>str_ireplace：替换字符串中的一些字符（不区分大小写）<br><strong>防护之道</strong><br>循环替换直到字符串里面没有对应字符</p>
+<h2 id="lab4之htaccess上传"><a href="#lab4之htaccess上传" class="headerlink" title="lab4之htaccess上传"></a>lab4之htaccess上传</h2><p><strong>什么是htaccess文件</strong><br>htaccess文件是Apache服务器中的一个配置文件，它负责相关目录下的网页配置。通过htaccess文件，可以帮我们实现：网页301重定向、自定义404错误页面、改变文件扩展名、允许/阻止特定的用户或者目录的访问、禁止目录列表、配置默认文档等功能。<br><strong>怎么探测</strong><br>比如 xxx.com/htaccess看是否404，403等就算存在，当然也存在一些变体：1.htaccess,dot.htaccess,_.htaccess等等<br><strong>原理</strong></p>
+<ul>
+<li>  htaccess容易被覆盖</li>
+<li>  htaccess可以修改网站配置</li>
+</ul>
+<p><strong>过程</strong></p>
+<ol>
+<li><p>上传htaccess文件（通过BP修改文件名）</p>
+<blockquote>
+<p>SetHandler application/x-httpd-php<br> SetHandler application/x-httpd一php<br> &lt;//FilesMatch&gt;<br> 和上面的区别在于这个只识别文件名含cimer关键字的文件为php<br> AddType application/x-httpd-php .jpg ：将服务器的jpg文件视为php文件</p>
+</blockquote>
+</li>
+<li><p> 上传php文件，修改尾缀为jpg</p>
+</li>
+<li><p> 访问上传之后的jpg文件</p>
+</li>
+</ol>
+<p><strong>注意事项</strong></p>
+<ol>
+<li> 仅针对Apache下才有这个文件，nginx几率太小除非管理员自己配置</li>
+<li> 只有在非nts版本才可生效(php7以后默认nts版本，不过一般推荐windows下的php都是默认非nts版本，linux只有nts的版本)（还是不知道为啥nts不行TAT）</li>
+</ol>
+<p>5.5.38为非NTS最高版本—–可用<br>5.3.29-nts为最低的NTS版本—-不可用<br>5.3.29-nts版本无效<br>5.3.29-nts版本无效<br><strong>防护之道</strong></p>
+<ol>
+<li> 黑名单加上.htaccess</li>
+<li> 文件上传目录权限设置为444，即只可读</li>
+<li> 重命名自己的htaccess文件</li>
+</ol>
+<p><strong>课外拓展</strong><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/3937">https://xz.aliyun.com/t/3937</a><br><strong>对htaccess的解释</strong><br><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/169156.html">https://www.freebuf.com/articles/web/169156.html</a></p>
+<h1 id="move-uploaded-file"><a href="#move-uploaded-file" class="headerlink" title="move_uploaded_file"></a>move_uploaded_file</h1><p>CVE-2015-2348,<a target="_blank" rel="noopener" href="https://nvd.nist.gov/vuln/detail/CVE-2015-2348">传送门</a></p>
+<blockquote>
+<p>这次的漏洞就出现在第二个参数，这个参数代表的是上传文件移动的最终目的地址。如果$ destination变量是从用户$ _GET或$ _POST中获得的并且我们可控，那么我们可以利用空字符\x00来截断后面的拓展名，从而造成任意文件上传。<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cyjaysun/p/4390930.html">https://www.cnblogs.com/cyjaysun/p/4390930.html</a></p>
+</blockquote>
+<p><strong>受影响版本</strong><br>5.4.x&lt;= 5.4.39, 5.5.x&lt;= 5.5.23, 5.6.x &lt;= 5.6.7</p>
+<blockquote>
+<p>对于版本号，个人存疑，因为我的实验环境只有在5.2下可以，5.3及以上则不行。（## lab19那里有截图，其他的就没截图了，占空间没必要）<br>smile师傅则是5.6都可以，其他师傅也是5.3-5.6可以<br>所以玄学？可能是我用的phpstudy?</p>
+</blockquote>
+<p><strong>防护之道</strong><br>move_uploaded_file()函数的第二个参数用户不可控即可</p>
+<h2 id="lab11之-00截断（白名单-GET）"><a href="#lab11之-00截断（白名单-GET）" class="headerlink" title="lab11之% 00截断（白名单+GET）"></a>lab11之% 00截断（白名单+GET）</h2><blockquote>
+<p>先说一下% 00这个字符，这个字符不为空(Null)，也不是空字符(“”)，更不是空格！<br>空格的ascii为32，% 00表示NUL，为空的意思.% 00等效于’\0’，表示了字符串的结束（’\0’的ascii也为0）也就为什么保存文件的时候，文件名发生了截断</p>
+</blockquote>
+<p><strong>前言</strong></p>
+<ol>
+<li>这里的截断和前面## lab6的空格截断是不同的<ul>
+<li>  前面的是利用黑名单绕过+Windows特性绕过（后面跟空格%20绕过黑名单+windows保存文件会忽略后面的空格）</li>
+<li>  此处没有黑名单，他利用的php的move_file_file函数的漏洞，从而导致的保存文件的时候文件名发生了截断。</li>
+</ul>
+</li>
+<li> move_upload_file会检查并确保第一个参数filename指定的文件是否是合法的上传文件（通过php的HTTP POST上传机制所上传的文件即为合法）</li>
+</ol>
+<p><strong>前提</strong></p>
+<ol>
+<li> 参考上面：php版本+move_upload_file参数可控。</li>
+<li> php的magic_quotes_gpc为OFF状态(因为会对% 00进行转义)<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708134810.png" srcset="/img/loading.gif" lazyload alt="20190708134810.png"><br>二者需要同时满足，本人亲自试验过，尤其是php版本</li>
+</ol>
+<p><strong>防护之道</strong><br>消灭任意一个前提即可（注意gpc转义在5.4之后也被废除了貌似）<br><strong>原理(个人实验过程)：</strong></p>
+<blockquote>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708134826.png" srcset="/img/loading.gif" lazyload alt="20190708134826.png"><br>对save_path没有进行检查，只检查了上传文件名，从而可以更改save_path，./upload后面加上a.php% 00。如果后缀合法则拼接路径和文件名，那么攻击者修改了path以后的拼接结果为：uploads/a.php% 00/2.jpg。由于发生截断而形成绕过，但是具体什么时候截断？怎么截断的？</p>
+</blockquote>
+<p><strong>什么时候截断？怎么截断的？</strong></p>
+<blockquote>
+<p>首先为了验证上面的想法，修改源文件，增加了几个输出项<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708134849.png" srcset="/img/loading.gif" lazyload alt="20190708134849.png"><br>然后进行上传，发现php后面啥也没有，难道没有截断？<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708134858.png" srcset="/img/loading.gif" lazyload alt="20190708134858.png"><br>访问文件路径upload/aaa.php�/7720190516181910.jpg的时候，发现aaa.php后面有一个不可见字符，进而访问该链接该文件不存在？？<br>删掉php后面字段之后发现可以成功访问并执行php文件，同时在我的上传目录下发现只成功保存了aaa.php文件，并没有jpg<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708134911.png" srcset="/img/loading.gif" lazyload alt="20190708134911.png"></p>
+</blockquote>
+<p>因此我怀疑是move_upload_file这个函数的问题，导致保存文件的时候，遇到php后面的不可见字符% 00，表示字符串结束而出现了截断.<br>而此处的截断是指，文件名在保存的时候发生的截断！</p>
+<p>具体的原理可以参考这篇文章。<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangzhuangtongxue/article/details/78198191">传送门</a><br><strong>补充</strong><br>借用smile师傅的一张图,可以看到此处的路径是被截断了的，前面我可能是因为echo的原因导致的忽略<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135056.png" srcset="/img/loading.gif" lazyload alt="20190708135056.png"></p>
+<h2 id="lab12之-00截断（白名单-post）"><a href="#lab12之-00截断（白名单-post）" class="headerlink" title="lab12之% 00截断（白名单+post）"></a>lab12之% 00截断（白名单+post）</h2><p>和前面文件上传路径URL参数里不同，此时的save_path在Bode的post里面</p>
+<blockquote>
+<p>前者lab11：在提交数据的时候，浏览器会对数据做一次urldecode的操作（比如汉字），而到服务端，会对数据进行一次urldecode的操作，因此如果path在非enctype=multipart/form-data的表单中或URL or Cookie中的时候，就可以直接写% 00不需要进行URLdecode操作，让服务端对% 00进行URL解码即可。</p>
+</blockquote>
+<blockquote>
+<p>后者lab12：上传的表单中有一个enctype的属性，并且需要enctype=”multipart/form-data” (不对表单中数据进行编码)，<br>因为不进行编码，如果在表单中填写% 00则直接变成实体，25 30 30，而非00。（如果直接空格 则是%20）<br>而此时的path是存放在表单中，要想实现% 00截断的效果，则要修改hex。<br>表单中直接% 00效果如下：<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135210.png" srcset="/img/loading.gif" lazyload alt="20190708135210.png"></p>
+</blockquote>
+<p><strong>利用</strong><br>php后面跟个字符标记个位置，比如空格，然后直接hex找到对应位置修改20为00即可</p>
+<blockquote>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135201.png" srcset="/img/loading.gif" lazyload alt="20190708135201.png"></p>
+</blockquote>
+<p><strong>前提</strong><br>同lab11<br><strong>补充</strong><br>其他的文件上传网页，还有没有save_path，直接给你filename=./upload/xxxx直接给你路径，这个时候就不用（save_path=a.php% 00）+（filename=2.jpg），直接./upload/a.php% 00.jpg即可（当然对于post的表单中则修改hex达到% 00的效果）</p>
+<h2 id="lab19之-00截断（黑名单）"><a href="#lab19之-00截断（黑名单）" class="headerlink" title="lab19之% 00截断（黑名单）"></a>lab19之% 00截断（黑名单）</h2><p><strong>前言</strong><br>pathinfo:以数组的形式返回文件路径的信息</p>
+<blockquote>
+<p>之前：<code>$file_ext = pathinfo( $ file_name,PATHINFO_EXTENSION);</code><br>现在：<code>file_ext = strrchr($file_name, &#39;.&#39;);</code><br>之前是根据“.”的位置来判断后缀,而这里使用的是pathinfo函数</p>
+</blockquote>
+<p><strong>大部分师傅的解法</strong><br>1.php .jpg的方式绕过move函数</p>
+<blockquote>
+<p>我试验的只有5.2成功，5.4，或者5.3的Nts不行<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135300.png" srcset="/img/loading.gif" lazyload alt="19%005.2成功"></p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135313.png" srcset="/img/loading.gif" lazyload alt="19%005.3nts"></p>
+<p><strong>另一种有意思的解法</strong><br>在文件名的结尾加上/.，比如a.php/.<br>move_uploaded_file底层会调用tsrm_realpath函数，该函数会递归删除文件名最后的/.导致php文件的上传，同样类似的函数还有file_put_content()，反正打开文件流都会有类似的操作</p>
+<blockquote>
+<p>当然版本还是5.2可以，5.3以及以上不行<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135432.png" srcset="/img/loading.gif" lazyload alt="19-5.2成功"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135447.png" srcset="/img/loading.gif" lazyload alt="19-5.3失败"></p>
+</blockquote>
+<p><strong>补充</strong><br>前面利用window特性：空格，加”.”，”::$DATA”，或者大小写绕过也是可以的</p>
+<h2 id="lab20之explode的数组绕过"><a href="#lab20之explode的数组绕过" class="headerlink" title="lab20之explode的数组绕过"></a>lab20之explode的数组绕过</h2><p><strong>分析</strong></p>
+<ol>
+<li> 先白名单判断MIME：<code>$allow_type = array(&#39;image/jpeg&#39;,&#39;image/png&#39;,&#39;image/gif&#39;);</code></li>
+<li> 再explode()把字符串按照指定字符打散为数组：<code>$file = explode(&#39;.&#39;, strtolower($file));</code></li>
+<li> 然后白名单后缀<code>$ext = end($file)$allow_suffix = array(&#39;jpg&#39;,&#39;png&#39;,&#39;gif&#39;);</code></li>
+<li> 最后把把刚刚的拆散的字符串进行拼接： <code>$file_name = reset($file) . &#39;.&#39; . $file[count($file) - 1];</code></li>
+</ol>
+<ul>
+<li>  reset() 函数将内部指针指向数组中的第一个元素，并输出。</li>
+</ul>
+<p><strong>原理</strong></p>
+<ul>
+<li>  上传构造save_path为数组，绕过explode函数</li>
+<li>利用索引数组，而非顺序数组，[0],[2]两个索引，因此<code>count($file)=2</code>，从而使得<code>$file[count($file) - 1]</code>为空。<ul>
+<li>本质上save_path[2]这个索引只要是非1的任何字母或者数字都可以<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135741.png" srcset="/img/loading.gif" lazyload alt="20非1即可"></li>
+</ul>
+</li>
+</ul>
+<p><strong>实验</strong><br>空格截断，“/.”，“加.”，“：：$DATA”,包括什么都不加都可以的。<br>也就是只需上传的为数组绕过即可！</p>
+<ol>
+<li><p> <code>：：$DATA 7.0成功，7.1失败</code><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135812.png" srcset="/img/loading.gif" lazyload alt="data70"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135850.png" srcset="/img/loading.gif" lazyload alt="data71失败"></p>
+</li>
+<li><p> /.在7.2下成功<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135923.png" srcset="/img/loading.gif" lazyload alt="7.2成功"></p>
+</li>
+<li><p> %00 5.2成功，5.3失败<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135946.png" srcset="/img/loading.gif" lazyload alt="%0052succ"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708140027.png" srcset="/img/loading.gif" lazyload alt="%005.3失败"></p>
+</li>
+<li><p> 加. 7.2成功<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708140048.png" srcset="/img/loading.gif" lazyload alt="20190708140048.png"></p>
+</li>
+<li><p> 空格 7.2成功<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708140107.png" srcset="/img/loading.gif" lazyload alt="7.2空格成功"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708140114.png" srcset="/img/loading.gif" lazyload alt="7.2有字母的空格截断失败"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708140121.png" srcset="/img/loading.gif" lazyload alt="7.1有字母的空格截断成功"></p>
+</li>
+</ol>
+<p><strong>补充</strong><br>数据包上传格式可能导致的问题<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708140212.png" srcset="/img/loading.gif" lazyload alt="20回车问题"></p>
+<h1 id="检查内容"><a href="#检查内容" class="headerlink" title="检查内容"></a>检查内容</h1><p>13-15都可以直接copy 直接头文字+类型+文件名即可，16二次渲染也可以绕过，但是都要配合文件包含漏洞</p>
+<h2 id="lab13之文件头检查"><a href="#lab13之文件头检查" class="headerlink" title="lab13之文件头检查"></a>lab13之文件头检查</h2><p>读文件前两个字节来判断文件的真实类型<br>保存文件前两个字节关键词即可</p>
+<h2 id="lab14之getimagesize"><a href="#lab14之getimagesize" class="headerlink" title="lab14之getimagesize"></a>lab14之getimagesize</h2><p><strong>file_exist</strong>s：判断文件或者目录是否存在<br><strong>image_type_to_extension</strong>：获取图片后缀<br><strong>getimagesize</strong>：</p>
+<ul>
+<li>  返回一个具有四个单元的数组。索引 0 包含图像宽度的像素值，索引 1 包含图像高度的像素值。索引 2 是图像类型的标记：1 = GIF，2 = JPG，3 = PNG。索引 3 是文本字符串，内容为“height=”yyy” width=”xxx””，可直接用于 IMG 标记。</li>
+<li>  如果不能访问 filename 指定的图像或者其不是有效的图像，getimagesize() 将返回 FALSE 并产生错误。</li>
+<li>  本函数不需要 GD 图像库。</li>
+<li>  只是获取信息而已，并不对图像进行处理，即不进行二次渲染<h2 id="lab15之exif-imagetype"><a href="#lab15之exif-imagetype" class="headerlink" title="lab15之exif_imagetype"></a>lab15之exif_imagetype</h2>exif_imagetype：判断一个图像的类型</li>
+<li>  如果发现了恰当的签名则返回一个对应的常量，否则返回 FALSE。返回值和 getimagesize() 返回的数组中的索引 2 的值是一样的，但本函数快得多。</li>
+<li>  用到php_exif模块来判断文件类型<h2 id="lab16之二次渲染"><a href="#lab16之二次渲染" class="headerlink" title="lab16之二次渲染"></a>lab16之二次渲染</h2></li>
+</ul>
+<p><strong>观察源码</strong><br>综合判断了后缀名、content-type，以及利用imagecreatefromgif判断是否为gif图片，最后再做了一次二次渲染<br><strong>补充</strong><br>imagecreatefromjpeg — 由文件或 URL 创建一个新图象。成功后返回图象资源,失败后返回 FALSE 。对于返回的图像资源，可以进行大小背景色等处理。比如一些网站根据用户上传的头像生成大中小不同尺寸的图像。缩略图。<br>imagejpeg — 输出图象到浏览器或文件。成功时返回 TRUE， 或者在失败时返回 FALSE。<br><strong>分析</strong><br>很明显，从图像本身而言图片上传之后发生了很大的改变（由于imagecreatefromjpeg的API生成的原因导致的）</p>
+<blockquote>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708140347.png" srcset="/img/loading.gif" lazyload alt="20190708140347.png"><br>再用winhex对比之后发现二者差距更大<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708140355.png" srcset="/img/loading.gif" lazyload alt="20190708140355.png"></p>
+</blockquote>
+<p><strong>方法</strong><br>绕过方法基于可以参考这篇文章，原理就是对比二者没有改动的部分然后进行修改。<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2657">传送门</a><br><strong>延伸</strong><br>有的图片上传之后使用GD库函数处理的，这个时候以前的方法不一定管用，可以参考我关于文件上传关于GD的文章</p>
+<h1 id="代码逻辑"><a href="#代码逻辑" class="headerlink" title="代码逻辑"></a>代码逻辑</h1><h2 id="lab9之逻辑错误"><a href="#lab9之逻辑错误" class="headerlink" title="lab9之逻辑错误"></a>lab9之逻辑错误</h2><p><strong>代码层</strong></p>
+<ul>
+<li>  正常的防护代码：<br><code>$img_path = UPLOAD_PATH.&#39;/&#39;.date(&quot;YmdHis&quot;).rand(1000,9999).$file_ext;</code></li>
+<li>  本处错误的配置：<br><code>$img_path = UPLOAD_PATH.&#39;/&#39;.$file_name;</code></li>
+</ul>
+<p><strong>逻辑层</strong><br>上传文件后①文件名先去空格，再去末尾的点②取尾缀③尾缀进行点空格等过滤再判别，如果成功则以一开始的文件名上传<br>也就说一开始的文件名虽然存在问题，但是尾缀可以通过过滤，依然存在漏洞<br>构造文件名为info.php. .，去空格和末尾的点得到info.php.+空格<br>取尾缀.+空格 先去.，再去空格，尾缀只剩下”.“，即绕过，<br>此时保存文件名为info.php.+空格，又由于window特性，保存只保留info.php达到绕过<br><strong>实验</strong><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708140550.png" srcset="/img/loading.gif" lazyload alt="20190708140550.png"></p>
+<p><strong>防护之道</strong><br>如果重名名了文件的话，应该会用$file_ext来进行拼凑文件，这样保存在服务器中的文件将没有后缀（.保存的时候被去除了）<br><strong>补充</strong><br>可以考虑move_uploaded_file的.漏洞绕过</p>
+<h2 id="lab17之条件竞争（白名单）"><a href="#lab17之条件竞争（白名单）" class="headerlink" title="lab17之条件竞争（白名单）"></a>lab17之条件竞争（白名单）</h2><p><strong>原因</strong></p>
+<ul>
+<li>  之前都是先判断是否在白名单中，再进行move_uploaded_file进行移动<br>而在发生条件竞争的这里，先进行文件移动，在判断是否在白名单中，如果不在则销毁文件。<br>而在移动文件 到销毁文件的过程中，存在一定的时间差，如果你发包足够快，就可以访问对应的文件了</li>
+<li>  已知上传路径：<code>$upload_file = UPLOAD_PATH . &#39;/&#39; . $file_name;</code>并没有进行重命名从而可以 访问对应的路径。（他只是在判断是在白名单之内在进行重命名的）</li>
+</ul>
+<p>查看源代码就会发现你需要在缓存文件转移到别的目录的时候，赶紧访问它，这里可以使用burp同时一边上传文件，一边请求对应的文件<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708140645.png" srcset="/img/loading.gif" lazyload alt="20190708140645.png"></p>
+<p>除了BP，还可以采取Python脚本的形式请求！<br>文件内容除了phpinfo（),还可以考虑执行cmd命令<br><strong>防护之道</strong><br>上传文件重命名，即上传的文件名用户不可知<br>先判断是否在白名单，再进行移动</p>
+<h2 id="lab18之条件竞争-apache解析漏洞"><a href="#lab18之条件竞争-apache解析漏洞" class="headerlink" title="lab18之条件竞争+apache解析漏洞"></a>lab18之条件竞争+apache解析漏洞</h2><p><strong>原理</strong></p>
+<ul>
+<li>  由于黑名单机制，才使得未知拓展名能通过</li>
+<li>  先move在改名，因为如果先改名，在move则不存在条件竞争（如果move没移到指定目录，则tem临时目录你也未知而无法利用）</li>
+<li>  条件竞争：你上传的文件为xxx.php.xxx的格式，比如a.php.7z。由于重命名他会改名为2134654.7z</li>
+<li>  Apache解析漏洞：apache发现这个文件的扩展名是未知 的，那么它会先看在扩展名之前是否有其他的可识别的扩展名，也就是7z不可知，php可知，那么他就会以Php形式来识别该文<a target="_blank" rel="noopener" href="https://www.cnblogs.com/milantgh/p/5116955.html">传送门</a></li>
+</ul>
+<p>四者缺一不可</p>
+<p><strong>补充</strong></p>
+<ol>
+<li> 为什么是注释形式？<br>Apache解析到他是Php文件，但是交给php解释器去处理的时候,php解释器的解析规则和Apache不同，他会以结尾是否为php来审核，发现不可识别，没法执行，但也没有报错，而是返回了文件内容本身。</li>
+<li> Apache适用版本？<br>Apache 2.0.x &lt;= 2.0.59<br>Apache 2.2.x &lt;= 2.2.17<br>Apache 2.2.2 &lt;= 2.2.8</li>
+<li> 想要测试，进入php5.conf配置文件修改正则模块即可，可参看此篇文章。<a target="_blank" rel="noopener" href="https://blog.csdn.net/wn314/article/details/77074477">传送门</a><br>个人实验结果如下：成功<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708140822.png" srcset="/img/loading.gif" lazyload alt="20190708140822.png"></li>
+</ol>
+<h1 id="其他中间件"><a href="#其他中间件" class="headerlink" title="其他中间件"></a>其他中间件</h1><h2 id="apache解析漏洞"><a href="#apache解析漏洞" class="headerlink" title="apache解析漏洞"></a>apache解析漏洞</h2><p>一、不可识别解析<br>apache解析文件的规则是从右到左开始判断解析,如果后缀名为不可识别文件解析,就再往左判断。比如 test.php.owf.rar “.owf”和”.rar” 这两种后缀是apache不可识别解析,apache就会把wooyun.php.owf.rar解析成php。</p>
+<p>apache版本在以下范围内<a target="_blank" rel="noopener" href="https://uuzdaisuki.com/2018/05/01/%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/">传送门</a></p>
+<ul>
+<li>  Apache 2.0.x &lt;= 2.0.59<br>Apache 2.2.x &lt;= 2.2.17<br>Apache 2.2.2 &lt;= 2.2.8</li>
+</ul>
+<p>都可以通过上传xxx.php.rar或xxx.php+任意无法解析后缀解析为php。</p>
+<p>经过自己的亲身实验：由于Apache是个服务器，他会调用Apache目录下对应解析php配置文件，去解析php文件。可能就是上述Apache版本下的php解析文件存在问题，也就是正则匹配这一块存在解析漏洞导致了这个问题的发生，而后续的版本可能修复了<br>比如我自己的Apache2.4版本，修改了下对应的正则规则即可复现<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708141000.png" srcset="/img/loading.gif" lazyload alt="20190708141000.png"></p>
+<blockquote>
+<p>大佬的总结：网上说的“低版本的apache存在未知扩展名解析漏洞”的说法是错误的，正确的说法应该是使用module模式与php结合的所有版本 apache存在未知扩展名解析漏洞，使用fastcig模式与php结合的所有版本apache不存在此漏洞。并且，想利用此漏洞必须保证文件扩展名中 至少带有一个“.php”，否则将默认被作为txt/html文档处理。</p>
+</blockquote>
+<p>二、配置问题</p>
+<ol>
+<li> 如果在 Apache 的 conf 里有这样一行配置 AddHandler php5-script .php 这时只要文件名里包含.php 即使文件名是 test2.php.jpg 也会以 php 来执行。</li>
+<li> 如果在 Apache 的 conf 里有这样一行配置 AddType application/x-httpd-php .jpg 即使扩展名是 jpg，一样能以 php 方式执行。<br>这个漏洞与Apache、php版本无关，属于用户配置不当造成的解析漏洞</li>
+</ol>
+<h2 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h2><h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/pureqh/p/10243402.html">https://www.cnblogs.com/pureqh/p/10243402.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.smi1e.top/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/">https://www.smi1e.top/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</a><br>IIS和nginx就这样</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708141052.png" srcset="/img/loading.gif" lazyload alt="20190708141052.png"></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>upload-## labs里面的关卡个人感觉只是针对文件上传这个漏洞去弄的，可以梳理一下，可以根据上面的绕过写一个fuzz字典XD</p>
+<h2 id="bypass"><a href="#bypass" class="headerlink" title="bypass"></a>bypass</h2><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/337">https://xz.aliyun.com/t/337</a></p>
+<h2 id="其他大佬的关于此lab的WP"><a href="#其他大佬的关于此lab的WP" class="headerlink" title="其他大佬的关于此lab的WP"></a>其他大佬的关于此lab的WP</h2><p><a target="_blank" rel="noopener" href="https://github.com/LandGrey/upload-##">https://github.com/LandGrey/upload-##</a> labs-writeup<br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4029">https://xz.aliyun.com/t/4029</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jinqi520/p/9977256.html">https://www.cnblogs.com/jinqi520/p/9977256.html</a></p>
+<h2 id="瞎比比"><a href="#瞎比比" class="headerlink" title="瞎比比"></a>瞎比比</h2><p>我有一个脑洞<br>大多都是In_array来进行黑白名单判断，我可以使用一个无后缀的文件<br>这样file_type=null 那么是否可以利用弱类型 0 来突破这一层限制，来保存一个无后缀的文件？<br>怎么利用？file_get_content?而且linux只要x的权限就可以执行文件，而不需要exe后缀<br>然后测试了下发现无后缀是不可能无后缀的，突破是不可能突破的，这辈子都突破不来的<br>而且利用的话jpg也可以读取里面的内容啊，jpg也不是说不能执行的对吧<br>卒<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708141138.png" srcset="/img/loading.gif" lazyload alt="20190708141138.png"></p>
+<hr>
+<h1 id="以后待完成"><a href="#以后待完成" class="headerlink" title="以后待完成"></a>以后待完成</h1><h2 id="想说的"><a href="#想说的" class="headerlink" title="想说的"></a>想说的</h2><p>目前由于暑假可能要实习，所以我想打xss,sql-## labs这一套，好歹有个宏观的好基础，了解常见的漏洞类型<br>同时还需要考试将近，6级考试<br>因此如果每一个都深入研究，时间可能不够，就这样草草先结案了，等暑假补上吧</p>
+<h2 id="move-upload-file"><a href="#move-upload-file" class="headerlink" title="move_upload_file"></a>move_upload_file</h2><p><strong>前言</strong><br>Apache版本在2.4.0到2.4.29<br>对应CVE-2017-15715，这个算是很简单，也就是move_uplod_file的一个截断方式，利用的换行符号来截断<br>也就是move_uploaded_file除了%00，还有/././.绕过，更有换行符截断的问题<br>由P牛的代码审计星球出品貌似<br><strong>再者</strong><br>三篇文章</p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/a.php%E7%9A%84%E5%BD%A2%E5%BC%8F">https://www.anquanke.com/post/id/103784：通过aaa/../a.php的形式</a> 绕过move_uploaded_file的文件覆盖没有权限，而达到覆盖的效果<br><a target="_blank" rel="noopener" href="http://pupiles.com/%E7%94%B1%E4%B8%80%E9%81%93ctf%E9%A2%98%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83.html">http://pupiles.com/%E7%94%B1%E4%B8%80%E9%81%93ctf%E9%A2%98%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83.html</a> ：同上<br><a target="_blank" rel="noopener" href="https://skysec.top/2018/04/11/0ctf-ezdoor/">https://skysec.top/2018/04/11/0ctf-ezdoor/</a> ：比上面拓展的多，且全面<br><strong>最后</strong><br>深入底层去跟踪分析，同样的漏洞，我复现为什么和别人不同？</p>
+<p>同时研究下空格截断的问题<br>可看## lab20下，我实现的空格截断在7.2环境下成功<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708141224.png" srcset="/img/loading.gif" lazyload alt="20190708141224.png"><br>但是## lab6的空格截断确7.1下失败（7.2也失败了）<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708141233.png" srcset="/img/loading.gif" lazyload alt="20190708141233.png"></p>
+<h2 id="写一个fuzz字典"><a href="#写一个fuzz字典" class="headerlink" title="写一个fuzz字典"></a>写一个fuzz字典</h2><h2 id="看完这个paper"><a href="#看完这个paper" class="headerlink" title="看完这个paper"></a>看完这个paper</h2><p><a target="_blank" rel="noopener" href="https://paper.seebug.org/560/#_18">https://paper.seebug.org/560/#_18</a><br>最后更新时间：2019-05-22 20:58:42 </p>
+<hr>
+<p>由于ubuntu系统要实习就换为了win，这个源文件没有保存，很多图片丢失了。再找时机补吧</p>
+
+                            </div>
+                            
+                                <p class="note note-info">
+                                    
+                                                    本文最后更新于：
+                                                        2022年6月7日 晚上
+                                                            
+                                </p>
+                                
+                                    <hr>
+                                    <div>
+                                        <div class="post-metas mb-3">
+                                            
+                                                <div class="post-meta mr-3">
+                                                    <i class="iconfont icon-category"></i>
+                                                    
+                                                        <a class="hover-with-bg" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                                                            渗透测试
+                                                        </a>
+                                                        
+                                                </div>
+                                                
+                                                    
+                                                        <div class="post-meta">
+                                                            <i class="iconfont icon-tags"></i>
+                                                            
+                                                                <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                                                                    渗透测试
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E9%9D%B6%E5%9C%BA/">
+                                                                    靶场
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">
+                                                                    文件上传
+                                                                </a>
+                                                                
+                                                        </div>
+                                                        
+                                        </div>
+                                        
+                                            <p class="note note-warning">
+                                                
+                                                            本博客所有文章欢迎转载 ，但希望转载时能注明出处！ </br>关于文章，如有疑问，欢迎讨论！Email:corp0ra1@qq.com </br>如果图片无法显示:https://corp0ra1.github.io/common/imageLoad.html
+                                                                
+                                            </p>
+                                            
+                                                
+                                                    <div class="post-prevnext">
+                                                        <article class="post-prev col-6">
+                                                            
+                                                                
+                                                                    <a href="/2019/05/15/%5Bold%5DCTF%E5%BC%95%E5%8F%91%E7%9A%84%E5%AF%B9%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E7%9A%84%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0/">
+                                                                        <i class="iconfont icon-arrowleft"></i>
+                                                                        <span class="hidden-mobile">CTF引发的对报错注入的深入学习</span>
+                                                                        <span class="visible-mobile">上一篇</span>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                        <article class="post-next col-6">
+                                                            
+                                                                
+                                                                    <a href="/2019/05/14/%5Bold%5Dhexo%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
+                                                                        <span class="hidden-mobile">hexo环境的搭建</span>
+                                                                        <span class="visible-mobile">下一篇</span>
+                                                                        <i class="iconfont icon-arrowright"></i>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                    </div>
+                                                    
+                                    </div>
+
+                                    
+                        </article>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+                    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+                </div>
+                
+        </div>
+    </div>
+
+    <!-- Custom -->
+    
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <div> <div class="copyright">©2020 - 2021 By Corp0ra1</div> </div> <div> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> &nbsp;|&nbsp; <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> &nbsp;|&nbsp; <a href="https://github.com/jsdelivr/jsdelivr" target="_blank" rel="nofollow noopener"><span>jsDelivr</span></a> </div> 
+  </div>
+  <!--添加运行时间-->
+<div id="sitetime"></div>
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* 
+      Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+      year - 作为date对象的年份，为4位年份值
+      month - 0-11之间的整数，做为date对象的月份
+      day - 1-31之间的整数，做为date对象的天数
+      hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+      minutes - 0-59之间的整数，做为date对象的分钟数
+      seconds - 0-59之间的整数，做为date对象的秒数
+      microseconds - 0-999之间的整数，做为date对象的毫秒数
+     */
+        var t1 = Date.UTC(2021, 05, 01, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "很高兴遇到你，我已经在此等候了你 " + /*diffYears+" 年 "+*/ diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }
+    siteTime();
+</script>
+
+    <div class="statistics">
+        
+            
+
+                
+                                                
+                                                    <!-- 不蒜子统计PV -->
+                                                    <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            
+            <span id="busuanzi_value_site_pv"></span>
+                                                     次
+                                                        &nbsp; <span class="iconfont icon-love"></span></span>
+                                                        
+
+                                                            
+
+                                                                <!-- 不蒜子统计UV -->
+                                                                <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            
+            <span id="busuanzi_value_site_uv"></span>
+                                                                 人
+                                                                    </span>
+                                                                    
+                                                                        
+    </div>
+    
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <!-- Baidu Analytics -->
+        <script defer>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?a1a4ccab78dfa522556928ac810fa739";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+        
+
+            
+                <!-- Google Analytics -->
+                <!-- <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-4X9XV0H0D5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script> -->
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+                <script async src="https://www.googletagmanager.com/gtag/js?G-4X9XV0H0D5"></script>
+                <script>
+                    window.dataLayer = window.dataLayer || [];
+
+                    function gtag() {
+                        dataLayer.push(arguments);
+                    }
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-4X9XV0H0D5');
+                </script>
+                
+
+                    
+
+                            
+
+                                    
+
+                                            
+                                                    
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

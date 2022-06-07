@@ -1,0 +1,655 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Avatar.jpg">
+  <link rel="icon" href="/img/Avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="2019年DDCTF的一道文件上传题目，里面涉及到了GD库对上传的图片进行特殊渲染处理，导致payload上传文件的失效。多方查找资料之后，找到了两个方法绕过GD库的渲染处理的方法，并对原理进行了简单的剖析">
+  <meta name="author" content="corp0ra1">
+  <meta name="keywords" content="">
+  
+  <title>文件上传之二次渲染 - corp0ra1&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"corp0ra1.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"a1a4ccab78dfa522556928ac810fa739","google":"G-4X9XV0H0D5","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="corp0ra1's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">&nbsp;<strong>Corp0ra1's Blog</strong>&nbsp;</a>
+
+        <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto text-center">
+                
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+                                        </li>
+                                        
+                                            
+                                                
+                                                    <li class="nav-item" id="search-btn">
+                                                        <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+                                                    </li>
+                                                    
+                                                        
+                                                            <li class="nav-item" id="color-toggle-btn">
+                                                                <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+                                                            </li>
+                                                            
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" href="/atom.xml">
+                                                                        <i class="iconfont icon-rss"></i>
+                                                                    </a>
+                                                                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/tesla.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="文件上传之二次渲染">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-05-14 00:39" pubdate>
+        2019年5月14日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+    <div class="container-fluid nopadding-x">
+        <div class="row nomargin-x">
+            <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-x-md">
+                <div class="container nopadding-x-md" id="board-ctn">
+                    <div class="py-5" id="board">
+                        <article class="post-content mx-auto">
+                            <!-- SEO header -->
+                            <h1 style="display: none">
+                                文件上传之二次渲染
+                            </h1>
+                            <div class="markdown-body">
+                                <h1 id="题目思路"><a href="#题目思路" class="headerlink" title="题目思路"></a>题目思路</h1><p>图片A上传之后，会提示保存在某个路径，访问该路径并下载该图片B，用记事本打开图片B，发现一串特殊字符<br><code>CREATOR: gd-jpeg v1.0 (using IJG JPEG v80)</code><br>百度后发现A上传之后是<strong>经过GD处理</strong>得到B，以下就是绕过GD库处理之后的方法</p>
+<h1 id="方法使用前提"><a href="#方法使用前提" class="headerlink" title="方法使用前提"></a>方法使用前提</h1><p>这个POC仅限于使用JPEG V8.0的库，同时图片需要是和jpeg版本相同，才能去执行php代码（匹配下述特征字符串即可）</p>
+<blockquote>
+<p>CREATOR: gd-jpeg v1.0 (using IJG JPEG v80)</p>
+</blockquote>
+<h1 id="方法一之半自动化jio本"><a href="#方法一之半自动化jio本" class="headerlink" title="方法一之半自动化jio本"></a>方法一之半自动化jio本</h1><p>出此<a target="_blank" rel="noopener" href="https://github.com/fakhrizulkifli/Defeating-PHP-GD-imagecreatefromjpeg#warning-this-poc-was-tested-using-libjpeg-v80-only-the-image-requires-the-same-libjpeg-version-in-order-to-be-able-to-execute-the-php-code">某大牛github</a></p>
+<h2 id="方法描述"><a href="#方法描述" class="headerlink" title="方法描述"></a>方法描述</h2><ol>
+<li> 找到一张普通的图片,用winhex打开如下，就一些简单的代码块和元数据（EXIF data）<br><img src="https://camo.githubusercontent.com/40e0cf7fa383433aab8cbef722d0ca7ba88b2403/687474703a2f2f692e696d6775722e636f6d2f785063794f366c2e706e67" srcset="/img/loading.gif" lazyload></li>
+<li> 使用脚本跑一遍之后，重新生成一张图片，此时元数据都被移除了而且几乎没有空位置给我们添加php后门<br><img src="https://camo.githubusercontent.com/5ce742099a8e55f3d767a7a694f99cc001b67308/687474703a2f2f692e696d6775722e636f6d2f415369593664382e706e67" srcset="/img/loading.gif" lazyload></li>
+<li> 但是有一些特殊的图片存在特定的特征是可以被利用的（用GD库重建之后存在以下特征的）<br><img src="https://camo.githubusercontent.com/0caae5a119b1d4c0bb4aed9504ce5086301cd100/687474703a2f2f692e696d6775722e636f6d2f696c35666841612e6a7067" srcset="/img/loading.gif" lazyload></li>
+<li> 存在SOS模块（FF DA），紧随其后的是scan header length 和scam header(00 0C 03 01 00 02 11 03 11 00 3F 00),在此之后的话你可以放置你的后门文件<br><img src="https://camo.githubusercontent.com/b73412761bc8bf6ce90d823ffc8ccf2ce676e6ed/687474703a2f2f692e696d6775722e636f6d2f586a646e695a352e706e67" srcset="/img/loading.gif" lazyload></li>
+<li> 想添加payload，再次跑一次这个脚本即可</li>
+</ol>
+<p>脚本如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">#第一步产生poc图片</span><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$jpg</span> = imagecreatefromjpeg(<span class="hljs-string">&#x27;image.jpg&#x27;</span>);<br>imagejpeg(<span class="hljs-variable">$jpg</span>, <span class="hljs-string">&#x27;poc.jpg&#x27;</span>);<br>imagedestroy(<span class="hljs-variable">$jpg</span>);<br><span class="hljs-meta">?&gt;</span><br><span class="hljs-comment">#第二步产生exploit图片</span><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$jpg</span> = imagecreatefromjpeg(<span class="hljs-string">&#x27;poc.jpg&#x27;</span>);<br>imagejpeg(<span class="hljs-variable">$jpg</span>, <span class="hljs-string">&#x27;exploit.jpg&#x27;</span>);<br>imagedestroy(<span class="hljs-variable">$jpg</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="方法二之全自动脚本"><a href="#方法二之全自动脚本" class="headerlink" title="方法二之全自动脚本"></a>方法二之全自动脚本</h1><h2 id="出处来源"><a href="#出处来源" class="headerlink" title="出处来源"></a>出处来源</h2><ul>
+<li>  Ahmed自己探索出来的，算是瞎猫碰上死耗子<a target="_blank" rel="noopener" href="https://secgeek.net/bookfresh-vulnerability/">传送门</a></li>
+<li>  phil大牛真原文，讲清楚了过程<a target="_blank" rel="noopener" href="https://rdot.org/forum/showthread.php?t=2780">传送门</a></li>
+<li>  脚本源代码，需要自己存文件<a target="_blank" rel="noopener" href="https://pastebin.com/3cznqi8P">传送门</a></li>
+<li>  下载即可用的jio本<a target="_blank" rel="noopener" href="https://rdot.org/forum/attachment.php?attachmentid=400&d=1372827179">传送门</a></li>
+</ul>
+<h2 id="使用方法："><a href="#使用方法：" class="headerlink" title="使用方法："></a>使用方法：</h2><ol>
+<li> php安装GD库</li>
+<li>命令方法 php jpg_payload.php 1.jgp<ul>
+<li>  会在子目录下生成一个payload.jgp直接利用即可</li>
+<li>  采取命令行的形式，执行命令</li>
+<li>  phpstudy自带GD库，以命令行打开也可以</li>
+</ul>
+</li>
+<li> 更改源文件中的$miniPayload变量，即可插入任何代码</li>
+<li> 整个流程：对于存在GD过滤的，你只需上传图片a，将图片下载下来b，用该脚本处理下载下来的b图片，为payload图片，再上传即可<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2></li>
+</ol>
+<ul>
+<li>  必须在图片和脚本在同一目录下，文件名中不能带路径/</li>
+<li>  你给脚本处理的图片必须是已经经过GD处理过得，不然会发生错误。</li>
+<li>前提是你的图片可插入payload的空白范围够。因此记得多尝试几张图片，这张不行也许下张就可以<ul>
+<li>  画图做一个1000*1000的白色图片，处理即可（处理后为灰色）</li>
+</ul>
+</li>
+</ul>
+<h1 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h1><ol>
+<li><p>为什么要利用GD处理过后的图片做二次处理，第一次不行吗？</p>
+<blockquote>
+<p>因为这个原理是看你被GD处理之后还存在哪些地方可以插入payload。如果你都没经过GD处理，脚本插入的payload可能被GD处理掉</p>
+</blockquote>
+</li>
+<li><p>为什么我处理后的图片无效？</p>
+<blockquote>
+<p>多尝试几张图片去处理即可</p>
+</blockquote>
+</li>
+</ol>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>论脚本是怎么写出来的，还是那个phil大牛的文章</p>
+<blockquote>
+<p>核心：需要找到渲染前后没有变化的位置,然后将php代码写进去,就可以成功上传带有php代码的图片了</p>
+</blockquote>
+<h2 id="图片基础压缩知识"><a href="#图片基础压缩知识" class="headerlink" title="图片基础压缩知识"></a>图片基础压缩知识</h2><p>图片的处理过程如下<br><img src="https://www.idontplaydarts.com/images/flow1.png" srcset="/img/loading.gif" lazyload></p>
+<p>首先每一行按照字节过滤，并且该行的前缀描述的是采取的过滤器类型（0x01~0x05）不同的行可以使用不同的过滤器。这背后的基本原理是提高压缩比<br>一旦过滤所有行之后，就会使用DEFLATE算法对其进行压缩，以形成IDAT块</p>
+<h2 id="打法思路过程"><a href="#打法思路过程" class="headerlink" title="打法思路过程"></a>打法思路过程</h2><p>迎着风上啊之逆风而行：先打败DEFLATE，再战png的行过滤器。这样GD解析的时候，也就顺风而行，从而大功告成</p>
+<h2 id="实施步骤"><a href="#实施步骤" class="headerlink" title="实施步骤"></a>实施步骤</h2><ol>
+<li>将字符串压缩为shell<br> 我们payload字符串不能包含重复的代码，因为他会被压缩—-&gt;设计一个没有长度超过两个字符的重复子字符串的shell</li>
+<li>绕过PNG线路滤波器<br> 有五种不同类型的滤波器，PNG编码器决定每条线路要使用哪一种。我们现在的问题是，我们需构造一个字符串，当传递给过滤器时候会产生步骤一的字符串</li>
+<li>构造原始图像<br> 生成一个PNG的原始图像</li>
+<li>绕过图像变换<br> 将步骤2构造的payload加入步骤3的原始图像即可<blockquote>
+<p>好吧 老实说，看原文吧！技术文档，尤其是英文的太难啃了，反正大概是这个意思！23333</p>
+</blockquote>
+</li>
+</ol>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="如果非JPG文件怎么办？-GIF-PNG"><a href="#如果非JPG文件怎么办？-GIF-PNG" class="headerlink" title="如果非JPG文件怎么办？ GIF?PNG?"></a>如果非JPG文件怎么办？ GIF?PNG?</h2><p>JPG是最难的，GIF和png小case啦，参考先知上的这篇文章 <a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2657">传送门</a></p>
+
+                            </div>
+                            
+                                <p class="note note-info">
+                                    
+                                                    本文最后更新于：
+                                                        2022年6月7日 晚上
+                                                            
+                                </p>
+                                
+                                    <hr>
+                                    <div>
+                                        <div class="post-metas mb-3">
+                                            
+                                                <div class="post-meta mr-3">
+                                                    <i class="iconfont icon-category"></i>
+                                                    
+                                                        <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF%E7%82%B9/">
+                                                            技术点
+                                                        </a>
+                                                        
+                                                </div>
+                                                
+                                                    
+                                                        <div class="post-meta">
+                                                            <i class="iconfont icon-tags"></i>
+                                                            
+                                                                <a class="hover-with-bg" href="/tags/CTF/">
+                                                                    CTF
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">
+                                                                    文件上传
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93/">
+                                                                    二次渲染
+                                                                </a>
+                                                                
+                                                        </div>
+                                                        
+                                        </div>
+                                        
+                                            <p class="note note-warning">
+                                                
+                                                            本博客所有文章欢迎转载 ，但希望转载时能注明出处！ </br>关于文章，如有疑问，欢迎讨论！Email:corp0ra1@qq.com </br>如果图片无法显示:https://corp0ra1.github.io/common/imageLoad.html
+                                                                
+                                            </p>
+                                            
+                                                
+                                                    <div class="post-prevnext">
+                                                        <article class="post-prev col-6">
+                                                            
+                                                                
+                                                                    <a href="/2019/05/14/%5Bold%5Dhexo%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
+                                                                        <i class="iconfont icon-arrowleft"></i>
+                                                                        <span class="hidden-mobile">hexo环境的搭建</span>
+                                                                        <span class="visible-mobile">上一篇</span>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                        <article class="post-next col-6">
+                                                            
+                                                                
+                                                        </article>
+                                                    </div>
+                                                    
+                                    </div>
+
+                                    
+                        </article>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+                    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+                </div>
+                
+        </div>
+    </div>
+
+    <!-- Custom -->
+    
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <div> <div class="copyright">©2020 - 2021 By Corp0ra1</div> </div> <div> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> &nbsp;|&nbsp; <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> &nbsp;|&nbsp; <a href="https://github.com/jsdelivr/jsdelivr" target="_blank" rel="nofollow noopener"><span>jsDelivr</span></a> </div> 
+  </div>
+  <!--添加运行时间-->
+<div id="sitetime"></div>
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* 
+      Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+      year - 作为date对象的年份，为4位年份值
+      month - 0-11之间的整数，做为date对象的月份
+      day - 1-31之间的整数，做为date对象的天数
+      hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+      minutes - 0-59之间的整数，做为date对象的分钟数
+      seconds - 0-59之间的整数，做为date对象的秒数
+      microseconds - 0-999之间的整数，做为date对象的毫秒数
+     */
+        var t1 = Date.UTC(2021, 05, 01, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "很高兴遇到你，我已经在此等候了你 " + /*diffYears+" 年 "+*/ diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }
+    siteTime();
+</script>
+
+    <div class="statistics">
+        
+            
+
+                
+                                                
+                                                    <!-- 不蒜子统计PV -->
+                                                    <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            
+            <span id="busuanzi_value_site_pv"></span>
+                                                     次
+                                                        &nbsp; <span class="iconfont icon-love"></span></span>
+                                                        
+
+                                                            
+
+                                                                <!-- 不蒜子统计UV -->
+                                                                <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            
+            <span id="busuanzi_value_site_uv"></span>
+                                                                 人
+                                                                    </span>
+                                                                    
+                                                                        
+    </div>
+    
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <!-- Baidu Analytics -->
+        <script defer>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?a1a4ccab78dfa522556928ac810fa739";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+        
+
+            
+                <!-- Google Analytics -->
+                <!-- <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-4X9XV0H0D5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script> -->
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+                <script async src="https://www.googletagmanager.com/gtag/js?G-4X9XV0H0D5"></script>
+                <script>
+                    window.dataLayer = window.dataLayer || [];
+
+                    function gtag() {
+                        dataLayer.push(arguments);
+                    }
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-4X9XV0H0D5');
+                </script>
+                
+
+                    
+
+                            
+
+                                    
+
+                                            
+                                                    
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

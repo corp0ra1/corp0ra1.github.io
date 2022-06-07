@@ -1,0 +1,876 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Avatar.jpg">
+  <link rel="icon" href="/img/Avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="将linux系统当做了一年的主系统，各种bug以及解决的备忘">
+  <meta name="author" content="corp0ra1">
+  <meta name="keywords" content="">
+  
+  <title>一年的ubuntu使用之旅 - corp0ra1&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"corp0ra1.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"a1a4ccab78dfa522556928ac810fa739","google":"G-4X9XV0H0D5","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="corp0ra1's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">&nbsp;<strong>Corp0ra1's Blog</strong>&nbsp;</a>
+
+        <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto text-center">
+                
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+                                        </li>
+                                        
+                                            
+                                                
+                                                    <li class="nav-item" id="search-btn">
+                                                        <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+                                                    </li>
+                                                    
+                                                        
+                                                            <li class="nav-item" id="color-toggle-btn">
+                                                                <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+                                                            </li>
+                                                            
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" href="/atom.xml">
+                                                                        <i class="iconfont icon-rss"></i>
+                                                                    </a>
+                                                                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/tesla.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="一年的ubuntu使用之旅">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-06-29 14:26" pubdate>
+        2019年6月29日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      62
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+    <div class="container-fluid nopadding-x">
+        <div class="row nomargin-x">
+            <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-x-md">
+                <div class="container nopadding-x-md" id="board-ctn">
+                    <div class="py-5" id="board">
+                        <article class="post-content mx-auto">
+                            <!-- SEO header -->
+                            <h1 style="display: none">
+                                一年的ubuntu使用之旅
+                            </h1>
+                            <div class="markdown-body">
+                                <h1 id="Ubuntu之路"><a href="#Ubuntu之路" class="headerlink" title="Ubuntu之路"></a><center>Ubuntu之路</center></h1><blockquote>
+<p>4月底win10睡个午觉之后起来就突然死机，尝试各种办法但是电脑文件始终存在问题，一怒之下换了ubuntu，开始了为期两个月的虐恋。终究由于实习所以又回到了window的怀抱</p>
+</blockquote>
+<hr>
+<h1 id="软件"><a href="#软件" class="headerlink" title="软件"></a><center>软件</center></h1><h2 id="直接商店"><a href="#直接商店" class="headerlink" title="直接商店"></a>直接商店</h2><p>微信，VSCODE，vlc，网易云音乐,netspeed<br>截图软件：深度截图（shuttle没有截图编辑，hotshots没试过但是太难安装了我安装失败，且深度够用了）</p>
+<h2 id="apt一把梭"><a href="#apt一把梭" class="headerlink" title="apt一把梭"></a>apt一把梭</h2><p><del>terminator  因为怀疑导致死机的原因</del><br><a target="_blank" rel="noopener" href="https://linux.cn/article-9349-1.html">tlp</a><br>天气：sudo apt install gnome-shell-extension-weather<br>workrave(<a target="_blank" rel="noopener" href="https://tieba.baidu.com/p/1391149484?red_tag=2579349889">使用方法</a></p>
+<h2 id="deepinwine"><a href="#deepinwine" class="headerlink" title="deepinwine"></a>deepinwine</h2><ol>
+<li> 仓库<a target="_blank" rel="noopener" href="https://github.com/wszqkzqk/deepin-wine-ubuntu">https://github.com/wszqkzqk/deepin-wine-ubuntu</a></li>
+<li> QQ无法输入中文 <a target="_blank" rel="noopener" href="https://blog.csdn.net/bnjwjc/article/details/88623428">传送门</a>:只需要改run.sh即可</li>
+</ol>
+<h2 id="安装shadowsock（搭配baacloud）"><a href="#安装shadowsock（搭配baacloud）" class="headerlink" title="安装shadowsock（搭配baacloud）"></a>安装shadowsock（搭配baacloud）</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/baacloud/url">baacloud网站</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014257615/article/details/70184567">如何安装shadow的这个客户端</a></li>
+</ol>
+<p>中间出现的问题</p>
+<blockquote>
+<p>仓库 “<a target="_blank" rel="noopener" href="http://ppa.launchpad.net/hzwhuang/ss-qt5/ubuntu">http://ppa.launchpad.net/hzwhuang/ss-qt5/ubuntu</a> bionic Release” 没有 Release 文件。</p>
+<blockquote>
+<p>在你的/etc/apt/sources.list.d目录下，看 这个文件(hzwhuang-ubuntu-ss-qt5-bionic.list )将里面的bionic 改成xenial ,保存再运行 sudo apt-get update ,最后再运行一次 sudo apt-get install shadowsocks-qt5 就好了。<br><a target="_blank" rel="noopener" href="https://bbs.csdn.net/topics/392381640">https://bbs.csdn.net/topics/392381640</a></p>
+</blockquote>
+</blockquote>
+<h2 id="vmware"><a href="#vmware" class="headerlink" title="vmware"></a>vmware</h2><p>尝试了wget，但是速度太慢了，下了两天 老有问题 就下的bundle版本,貌似是这两天改的<br><a target="_blank" rel="noopener" href="https://www.vmware.com/go/getWorkstation-linux">直接网页打开这个链接，直接先下载再说</a> 你可以在官网找地址，不过貌似要注册账号？<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/travellife/p/4077217.html">如何按照这里的方法改文件地点，安装即可</a><br>安装时可能会遇到一定的问题，比如gcc版本和build  environment等<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40894428/article/details/82911186">解决方案</a></p>
+<h2 id="gif录制"><a href="#gif录制" class="headerlink" title="gif录制"></a>gif录制</h2><p><a target="_blank" rel="noopener" href="https://github.com/phw/peek">peek</a></p>
+<h2 id="输入法"><a href="#输入法" class="headerlink" title="输入法"></a>输入法</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/fx_yzjy101/article/details/80243710">如何安装搜狗拼音</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/youpeng/p/10276133.html">记得关闭搜狗的云联想功能，因为占内存大大的</a></p>
+<h2 id="chrome"><a href="#chrome" class="headerlink" title="chrome"></a>chrome</h2><p><a target="_blank" rel="noopener" href="https://www.google.cn/chrome/">官方下载</a><br><a target="_blank" rel="noopener" href="https://jingyan.baidu.com/article/fdbd4277b96a14b89e3f48e5.html">chrome如何开启自带的翻译</a><br><a target="_blank" rel="noopener" href="https://github.com/FelisCatus/SwitchyOmega/releases">switchOMega</a>不要用最新的crx，用上个版本的拖进去安装即可（5.19那个，5.2当时是最新）<br>我的插件：lastpass，onetab,vimxxx,infinite,ADB,<a target="_blank" rel="noopener" href="https://blog.csdn.net/jyg123/article/details/86690073">charset</a>(解决chrome乱码问题)<br><del><a target="_blank" rel="noopener" href="https://github.com/Semibold/Weibo-Picture-Store">sina图床</a></del></p>
+<h2 id="信安小工具"><a href="#信安小工具" class="headerlink" title="信安小工具"></a>信安小工具</h2><p><a target="_blank" rel="noopener" href="https://github.com/AntSwordProject/antSword">antsword</a><br><a target="_blank" rel="noopener" href="https://github.com/maurosoria/dirsearch">dirsearch</a><br><a target="_blank" rel="noopener" href="https://github.com/TheKingOfDuck/MySQLMonitor">mysqlmonitor</a></p>
+<h2 id="UltraEdit"><a href="#UltraEdit" class="headerlink" title="UltraEdit"></a>UltraEdit</h2><p>download:<a target="_blank" rel="noopener" href="https://www.ultraedit.com/downloads/uex.html">https://www.ultraedit.com/downloads/uex.html</a><br>compare:<a target="_blank" rel="noopener" href="https://www.ultraedit.com/downloads/ucx.html">https://www.ultraedit.com/downloads/ucx.html</a><br>破解：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xiaoxiao133/article/details/82846429">https://blog.csdn.net/xiaoxiao133/article/details/82846429</a></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>护眼软件：safe eyes:<a target="_blank" rel="noopener" href="http://slgobinath.github.io/SafeEyes/(workrave%E8%A2%AB%E6%88%91password%E6%8E%89%E4%BA%86)">http://slgobinath.github.io/SafeEyes/(workrave被我password掉了)</a></p>
+<blockquote>
+<p>sudo add-apt-repository ppa:umang/indicator-stickynotes<br>sudo apt-get update<br>sudo apt-get install indicator-stickynotes </p>
+</blockquote>
+<hr>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><h2 id="java安装"><a href="#java安装" class="headerlink" title="java安装"></a>java安装</h2><blockquote>
+<ol>
+<li>虽然可以添加仓库之后，<a target="_blank" rel="noopener" href="https://tecadmin.net/install-oracle-java-11-ubuntu-18-04-bionic/">apt一键安装oracle 11版本</a>，但是BP不支持，所以必须手动下载包去安装jdk-8</li>
+<li> 虽然可以不用添加仓库直接openjdk，但是BP对11版本还是不支持，当时有8的版本弄了半天还是无法运行，就放弃了（因为启动BP是用Java -xxxxx的命令行启动，而不是11版本可以所谓的右键文件直接启动）</li>
+<li>其他网上的Java8 搞个仓库然后apt install的安装过期了。。。</li>
+</ol>
+</blockquote>
+<p>wode 安装步骤</p>
+<ol>
+<li> <a target="_blank" rel="noopener" href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">在官网下载包</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3e7bb41a1464">然后按照这个网址的来一步步执行</a>虽然是他是16.04，但是包没变基本环境也没变化，所以问题不大</li>
+</ol>
+<p>关于burp的快捷方式</p>
+<blockquote>
+<p>基于上面的创建所得到的快捷方式比较麻烦，必须先加载注册器，但是我想直接一键命令行然后直接启动程序<br>找到的脚本来自<a target="_blank" rel="noopener" href="http://ximcx.cn/post-110.html">西门吹雪大大</a>:<br>java -Xbootclasspath/p:burp-loader-keygen-jas502n.jar -jar burpsuite_pro_v2.0.04beta.jar</p>
+<blockquote>
+<p>最终我的脚本:<br>记得路径！路径！我就是掉了/opt/burp啥来着！<br>同时命令不能有空格！我复制粘贴进去因为格式原因的空格就报错了<br><code>#!/bin/bash</code><br><code>java -Xbootclasspath/p:/opt/burp/burp-loader-keygen.jar -jar /opt/burp/``burpsuite_pro_v2.0beta.jar</code></p>
+</blockquote>
+</blockquote>
+<p>因为中途走了些歪路，就是11那个事情，就要卸载，但是普通的Remove卸载不干净。于是找来了这些方法</p>
+<blockquote>
+<p>卸载openjdk</p>
+<ol>
+<li> sudo apt-get purge openjdk*</li>
+<li> sudo apt-get purge icedtea-* openjdk-*</li>
+<li> dpkg –list | grep -i jdk  查看还有没有包即可<br>卸载oraclejdk</li>
+<li> apt-cache search java | awk ‘{print($1)}’ | grep -E -e ‘^(ia32-)?(sun|oracle)-java’ -e ‘^openjdk-‘ -e ‘^icedtea’ -e ‘^(default|gcj)-j(re|dk)’ -e ‘^gcj-(.*)-j(re|dk)’ -e ‘java-common’ | xargs sudo apt-get -y remove</li>
+<li> sudo apt-get -y autoremove</li>
+<li> bash -c ‘ls -d /home/*/.java’ | xargs sudo rm -rf</li>
+<li> rm -rf /usr/lib/jvm/*</li>
+<li> dpkg –list | grep -i jdk 查看还有没有包即可</li>
+</ol>
+</blockquote>
+<h3 id="安装idea"><a href="#安装idea" class="headerlink" title="安装idea"></a>安装idea</h3><ol>
+<li> 到jetbrains官网，选择Ultimate版本的tar.gz包下载<a target="_blank" rel="noopener" href="https://www.jetbrains.com/idea/download/#section=linux">传送门</a><br>由于是学生，所以我用的教育账号。我的账号<a href="mailto:&#50;&#x30;&#49;&#55;&#x78;&#x78;&#x78;&#120;&#120;&#51;&#48;&#64;&#115;&#116;&#x75;&#46;&#120;&#120;&#120;&#46;&#101;&#x64;&#x75;&#46;&#x63;&#x6e;">&#50;&#x30;&#49;&#55;&#x78;&#x78;&#x78;&#120;&#120;&#51;&#48;&#64;&#115;&#116;&#x75;&#46;&#120;&#120;&#120;&#46;&#101;&#x64;&#x75;&#46;&#x63;&#x6e;</a></li>
+<li>idea无法输入中文<br>解决方案<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d9a1f2e1e7a7">传送门</a></li>
+<li>创建第一个项目<ol>
+<li>初次创建项目显示没有SDK <a target="_blank" rel="noopener" href="https://blog.csdn.net/li_894389175/article/details/80338955">传送门</a><br>我的路径：/opt/jdk1.8.0_211/jre</li>
+<li> 怎么输出hello world<a target="_blank" rel="noopener" href="https://blog.csdn.net/oschina_41790905/article/details/79475187">传送门</a></li>
+</ol>
+</li>
+<li>链接数据库<ol>
+<li> <a target="_blank" rel="noopener" href="https://jingyan.baidu.com/article/ce09321bbcaddf2bfe858f56.html">传送门</a>,按照这个能链接到mysql数据库，但是无法执行网上给的jdbc测试demo，无法执行其中sql语句</li>
+<li> 能执行sql语句的程序demo：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3c2453125542">传送门</a>，这个的话，需要找到刚刚download  jdbc驱动的的路径：/home/corp0ra1/.IntelliJIdea2019.1/config/jdbc-drivers/MySQL Connector/J 8/8.0.15/xx</li>
+<li> 此时可以查询出来数据，但是会报错<code>Loading classcom.mysql.jdbc.Driver. This is deprecated.</code><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jayworld/p/9706763.html">解决方案</a><h3 id="tomcat-创建web项目"><a href="#tomcat-创建web项目" class="headerlink" title="tomcat+创建web项目"></a>tomcat+创建web项目</h3>配置<a target="_blank" rel="noopener" href="https://www.cnblogs.com/yellowgg/p/9656030.html#tiaozhuan2">传送门</a><br>中间处理的问题</li>
+</ol>
+</li>
+<li> 下载安装包<a target="_blank" rel="noopener" href="https://tomcat.apache.org/download-80.cgi">传送门</a></li>
+<li> 查看java home：<code>echo $JAVA_HOME</code></li>
+<li> 最好按照他的配置class 和lib文件目录，不然访问的url路径有一定问题</li>
+</ol>
+<h2 id="安装php环境"><a href="#安装php环境" class="headerlink" title="安装php环境"></a>安装php环境</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/opsprobe/p/9126411.html">php基本环境安装步骤</a>:唯一的区别在于 最后一项他是7.0XXXX  最新版本是7.2XXX 改个版本号即可</p>
+<ul>
+<li>后面为了实验方便，同时安装了5.6版本的php<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42876636/article/details/85176701">参考网站</a>。此版本名字包含deb.sury.org/，说明这个php库由<a target="_blank" rel="noopener" href="https://deb.sury.org/%E6%9D%A5%E7%BB%B4%E6%8A%A4%E7%9A%84">https://deb.sury.org/来维护的</a><blockquote>
+<p>① sudo add-apt-repository ppa:ondrej/php<br>②sudo apt install php5.6 php5.6-gd php5.6-cgi php5.6-mysql php5.6-xml php5.6-json php5.6-mcrypt php5.6-common php5.6-dev</p>
+</blockquote>
+</li>
+<li>  通过①sudo a2dismod php7.2关闭②sudo a2enmod php5.6开启 ③/etc/init.d/apache2 restart重启。来切换版本</li>
+<li>  <img src="https://ws2.sinaimg.cn/large/006MpoZqgy1g391n2frfqj30ro07pt99.jpg" srcset="/img/loading.gif" lazyload></li>
+</ul>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/its_my_dream/article/details/78549619">php  With VScode</a>：用来debug和写代码</p>
+<ol>
+<li>安装xdebug:apt-get install php-xdebug以及VS code的phpDebug拓展</li>
+<li>重启服务。并非非Php-fmp而是sudo /etc/init.d/apache2 restart即可。因为fmp貌似是lnmp的ngnix的，但是我是lamp，为Apache</li>
+<li>修改配置文件 sudo gedit /etc/php/7.2/apache2/php.ini，同上因为我是LAMP，所以是Apache，而不是cli下的php.ini<blockquote>
+<p>[XDebug]<br> xdebug.remote_enable=1<br> xdebug.remote_autostart=1<br> xdebug.remote_port=9001<br> 9001同时也改vscode的xdebug的配置文件，貌似9000被其他服务占据？反正我win10上面改过9001，Linux也就。。。改了吧<br> 其中php7.2-dev为了安装xdebug所以必须安装。</p>
+</blockquote>
+</li>
+<li>记得设置断点才能debug!!!我是说怎么半天不能debugT.T</li>
+<li>上面配置的php5.6的php.ini文件，这个时候应该配置5.6，比较装了5.6版本，我是说…</li>
+</ol>
+</li>
+<li><p>phpstorm</p>
+<ul>
+<li>  软件中心下载的，接合<a target="_blank" rel="noopener" href="http://idea.lanyus.com/">这个网站</a>激活到2020年,修改了下host，屏蔽了几个网站</li>
+<li>  php默认是7.2  在usr/bin下还有php5.6 php7.2 可以通过这两个命令来各自执行版本，进而解决</li>
+</ul>
+</li>
+</ul>
+<h2 id="python"><a href="#python" class="headerlink" title="python"></a>python</h2><ul>
+<li>貌似自带python：Python 2.7.15rc1（默认）和Python 3.6.7<br>  我自己安装两个pip库：sudo apt install python3-pip/sudo apt install python-pip</li>
+</ul>
+<h2 id="go"><a href="#go" class="headerlink" title="go"></a>go</h2><p>官方文档:<a target="_blank" rel="noopener" href="https://golang.google.cn/dl/h">https://golang.google.cn/dl/h</a><br>按照弹出的页面提示进行相关配置即可 </p>
+<h2 id="信安练习靶场"><a href="#信安练习靶场" class="headerlink" title="信安练习靶场"></a>信安练习靶场</h2><ul>
+<li>  <a target="_blank" rel="noopener" href="https://github.com/c0ny1/upload-labs">uploadlabs</a></li>
+<li>  <a target="_blank" rel="noopener" href="https://github.com/zhuifengshaonianhanlu/pikachu">pikachu</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/firesunCN/BlueLotus_XSSReceiver">xss平台</a>:密码常用的 加密默认RC4<br>  记得sudo chmod  -R 777 /var/www/html/xxx<br>  先安装完成在改名（不知道啥，反正我一开始改名在安装就出问题了，可能偶然现象？）</li>
+</ul>
+<p>为了实现 <code>xss.com</code>,<code>upload.com</code>这样类似window下phpstudy实现的效果，可以参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/nookl/article/details/87909780">多目录文件的建立</a>（lamp）<br>    1.  修改host文件：/etc/hosts 加上127.0.0.1 pikachu.com<br>    2.   cd /etc/apache2/sites-available/<br>    3.  sudo cp 000-default.conf pikachu.conf<br>    4.  sudo vim pikachu.conf<br>    5.  sudo a2ensite pikachu.conf<br>    6.  sudo service  apache2 restart//我的Ubuntu命令是/etc/init.d/apache2 restart </p>
+<h2 id="美化"><a href="#美化" class="headerlink" title="美化"></a>美化</h2><blockquote>
+<p>别入坑！适可而止。因为Ubuntu很容易就让你陷入总想着把他美化的怪圈而耗费过多时间</p>
+</blockquote>
+<ul>
+<li><p>  <a target="_blank" rel="noopener" href="https://blog.csdn.net/abutoto/article/details/85308476">字体</a>:也可以全套一起梭哈的命令(sudo apt install fonts-wqy-microhei)<br>不推荐微软雅黑，第一win的版权，第二我尝试过，有个库老连接不上去导致安装有问题</p>
+</li>
+<li><p>  <a target="_blank" rel="noopener" href="https://blog.csdn.net/xkwy100/article/details/80456168">隐藏顶部栏</a>:其实就是个插件：hide-top-bar（商店就有）</p>
+</li>
+<li><p>  <a target="_blank" rel="noopener" href="https://www.pxwall.com/wp-content/uploads/2018/04/Colors%20Huawei%20Honor%207X%20Stock5084817680-1920x1080.jpg">壁纸</a>:google搜图真香，华为牛逼！</p>
+</li>
+<li><p>  <a target="_blank" rel="noopener" href="https://blog.csdn.net/aishuju1/article/details/85064432">dock之mac主题安装</a>：mac就够了吧，选多了，浪费时间，反正不久又要再装一次23333</p>
+</li>
+<li><p>  <a target="_blank" rel="noopener" href="https://blog.csdn.net/litble/article/details/82865658">conky安装</a></p>
+<blockquote>
+<p>conky安装方式很简单:sudo apt-get install conky-all<br>但是你发现这个的conky非常丑，我们就需要用conky manager 来美化一下。<br>但是接着你又发现ubuntu18.04是没有conky manager的，所以运行以下命令：<br>wget –no-check-certificate <a target="_blank" rel="noopener" href="https://github.com/teejee2008/conky-manager/releases/download/v2.4/conky-manager-v2.4-amd64.run">https://github.com/teejee2008/conky-manager/releases/download/v2.4/conky-manager-v2.4-amd64.run</a><br>chmod +x conky-manager-v2.4-amd64.run<br>sudo ./conky-manager-v2.4-amd64.run<br>接着运行以下conky-manager，你的文件夹里就会出现一个.conky目录，将你的配置文件丢进去即可配置。<br>(别下作者的gayhub下deb包，我下的貌似运行半天都没用，重启过也是)</p>
+</blockquote>
+</li>
+<li><p>  conky主题：</p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://www.deviantart.com/xexpanderx/art/3D-conky-434361229">主题1</a>:苑老师同款，但是存在问题,可以考虑加点其他的主题一起使用，简单的改下坐标即可</p>
+<blockquote>
+<p>纵坐标+350 横坐标变不动 不晓得为啥，而且他的框框 有点违和</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.deviantart.com/dobbie03/art/Elegance-Rainmeter-Conky-526588187">主题2</a>:为了加个时间</p>
+<blockquote>
+<p>own_window_hints undecorated,below,skip_taskbar,skip_pager<br>然后改坐标</p>
+</blockquote>
+<ul>
+<li>  <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5c8d4a1f4c91">另外一个conky（含天气等但是难配置）</a>:放弃了，太难对齐了貌似是因为要下个字体？</li>
+</ul>
+<hr>
+<h1 id="各种问题"><a href="#各种问题" class="headerlink" title="各种问题"></a>各种问题</h1><h2 id="设置vscode快捷方式"><a href="#设置vscode快捷方式" class="headerlink" title="设置vscode快捷方式"></a>设置vscode快捷方式</h2><p>部分文件，尤其是var下的www文件会显示vs权限不足，执行下面的命令：</p>
+<blockquote>
+<p>sudo code –user-data-dir=”<del>/.vscode-root”<br>这个只是临时的 该程序具有超级用户权限而已<br>可以设置快捷方式  名字为vscode，默认的普通权限的就是code<br>sudo gedit  /usr/bin/vscode<br>#!/bin/bash<br>sudo code –user-data-dir=”</del>/.vscode-root”</p>
+</blockquote>
+<p>sudo chmod  +x /usr/bin/vscode</p>
+<h2 id="桌面文件快捷方式"><a href="#桌面文件快捷方式" class="headerlink" title="桌面文件快捷方式"></a>桌面文件快捷方式</h2><p>sudo ln -s /var/www/html/  /home/corp0ra1/桌面/</p>
+<h2 id="github-with-vscode"><a href="#github-with-vscode" class="headerlink" title="github with vscode"></a>github with vscode</h2><p>win转Linux，没有了OneNote，想着找个替代品：为知笔记？付费！蚂蚁笔记？也付费虽然带blog。等等等很多吧，但是感觉都没有onenote的那种自由，想在那写就在那里写的感jio。网易云笔记,evenote也不支持Linux。<br>找到了p3xnote，本质上也通过浏览器访问，只不过用的不是你的浏览器，是他自己的写的那种，我用的时候由于墙的原因，卡的一动不动的（evenote，网易云笔记也可以这种），那我为啥不直接网页版的。但是OneNote？网页版受限于网速蛋疼，而且最关键启动速度，离线笔记，自动保存等。。。<br>我还不如就用vscode编写markdown，然后通过github（免费，永久的，而且体量大，不存在小网站跑路，笔记消失的情况）于是找到了以下的方法</p>
+<ul>
+<li>  <a target="_blank" rel="noopener" href="https://blog.csdn.net/lhb_11/article/details/77837078">方法</a>：一定要在你要push的目录下执行这些命令</li>
+<li>  <a target="_blank" rel="noopener" href="https://blog.csdn.net/cbkting/article/details/728567901">推送的markdown格式乱码</a>:只是因为markdown格式标准<br>不同而已<blockquote>
+<p>好吧，第二天由于php安装问题重装系统，然后找到了坚果云这种方法，其实也挺不错的，比github方便不少。当然前者你可以更多的练习git命令，但是新手的我而言，当务之急是保存下我的这些安装笔记！</p>
+<blockquote>
+<p>坚果云有linux版本，类似于onedrive，自动同步文件，借此可以同步我的笔记</p>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+<h2 id="Ubuntu的备份与恢复"><a href="#Ubuntu的备份与恢复" class="headerlink" title="Ubuntu的备份与恢复"></a>Ubuntu的备份与恢复</h2><p>tar一个文件进了study盘就没了，怎么用就不知道了，反正只是常用方法<br>好吧，我承认，我真的不会，还是遇到一次重装一次吧，也是我写下这个MD的目的<br>##驱动<br>取消默认 换为nvdia的390即可。一遇到关机重启卡死的情况，就是这个了。如果你先前设置过，还出这个问题，下次重启的时候在检查一次。因为我就是没检查还以为是其他情况。。。</p>
+<h2 id="没有netstat"><a href="#没有netstat" class="headerlink" title="没有netstat"></a>没有netstat</h2><p> sudo apt install gnometool</p>
+<h2 id="firefox窗口问题"><a href="#firefox窗口问题" class="headerlink" title="firefox窗口问题"></a>firefox窗口问题</h2><p><a target="_blank" rel="noopener" href="https://support.mozilla.org/en-US/kb/firefox-already-running-not-responding">https://support.mozilla.org/en-US/kb/firefox-already-running-not-responding</a></p>
+<ul>
+<li>  kill掉</li>
+<li>  修改权限（原本是700 我改成777了 不知道是否还会出现问题）</li>
+</ul>
+<h2 id="Ubuntu“下载额外数据文件失败-ttf-mscorefonts-installer”"><a href="#Ubuntu“下载额外数据文件失败-ttf-mscorefonts-installer”" class="headerlink" title="Ubuntu“下载额外数据文件失败 ttf-mscorefonts-installer”"></a>Ubuntu“下载额外数据文件失败 ttf-mscorefonts-installer”</h2><p><a target="_blank" rel="noopener" href="https://www.zeyes.org/blog/2017/09/solve-ubuntu-download-ttf-mscorefonts-installer-failed.html">https://www.zeyes.org/blog/2017/09/solve-ubuntu-download-ttf-mscorefonts-installer-failed.html</a><br><a target="_blank" rel="noopener" href="https://askubuntu.com/questions/463754/how-to-make-ttf-mscorefonts-installer-package-download-fonts-after-it-says-it-i">https://askubuntu.com/questions/463754/how-to-make-ttf-mscorefonts-installer-package-download-fonts-after-it-says-it-i</a></p>
+<h2 id="切换mysql-或者www用户显示This-account-is-currently-not-available"><a href="#切换mysql-或者www用户显示This-account-is-currently-not-available" class="headerlink" title="切换mysql 或者www用户显示This account is currently not available"></a>切换mysql 或者www用户显示<code>This account is currently not available</code></h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/alex-blog/articles/2914361.html">https://www.cnblogs.com/alex-blog/articles/2914361.html</a><br>查看用户的shell<br>grep “用户名” /etc/passwd<br>如果用户默认的shell是/sbin/nologin 修改为/bin/bash</p>
+<h2 id="桌面只能新建文件，不能新建文档"><a href="#桌面只能新建文件，不能新建文档" class="headerlink" title="桌面只能新建文件，不能新建文档"></a>桌面只能新建文件，不能新建文档</h2><p><a target="_blank" rel="noopener" href="https://jingyan.baidu.com/article/6079ad0ecbc85428ff86dbdc.html">解决方案</a></p>
+<h2 id="ubuntu-蓝牙自动启动"><a href="#ubuntu-蓝牙自动启动" class="headerlink" title="ubuntu 蓝牙自动启动"></a>ubuntu 蓝牙自动启动</h2><p><a target="_blank" rel="noopener" href="https://askubuntu.com/questions/67758/how-can-i-deactivate-bluetooth-on-system-startup">https://askubuntu.com/questions/67758/how-can-i-deactivate-bluetooth-on-system-startup</a></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs awk">sudo install -b -m <span class="hljs-number">755</span> <span class="hljs-regexp">/dev/</span>stdin <span class="hljs-regexp">/etc/</span>rc.local &lt;&lt; EOF<br><span class="hljs-comment">#!/bin/sh</span><br>rfkill block bluetooth<br><span class="hljs-keyword">exit</span> <span class="hljs-number">0</span><br>EOF<br></code></pre></td></tr></table></figure>
+<p>即可</p>
+<h2 id="vscode无法使用Ctrl-C-X等"><a href="#vscode无法使用Ctrl-C-X等" class="headerlink" title="vscode无法使用Ctrl C  X等"></a>vscode无法使用Ctrl C  X等</h2><p><a target="_blank" rel="noopener" href="http://cache.baiducontent.com/c?m=9f65cb4a8c8507ed4fece76310508c31490797634b87834e29938448e435061e5a24febc2222130ed2c4766d00bb0c01aaa639366c5c37b7ea99ce1983ac92597e&p=ce66d45d86cc42ae59a6c7710f5692&newp=882a9644d79f19fc57efd326470091231610db2151d7d4156b82c825d7331b001c3bbfb423261a07d3c1786007ad485eebf435733c0421a3dda5c91d9fb4c57479d47f&user=baidu&fm=sc&query=vim++ctal+c&qid=b8ec0cef0003ae1a&p1=5">当然可以挽救啦</a>：首选项，然后搜索vim，你会找到ctrl禁止的地方，lucky我也找到了vscode不能共有系统剪切板的原因，就在禁止ctrl那个按钮下面</p>
+<h2 id="find的时候-gvfs文件权限不足"><a href="#find的时候-gvfs文件权限不足" class="headerlink" title="find的时候 gvfs文件权限不足"></a>find的时候 gvfs文件权限不足</h2><p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/chenmingjun/p/10311983.html">http://www.cnblogs.com/chenmingjun/p/10311983.html</a></p>
+<h2 id="开机提示应用检测异常"><a href="#开机提示应用检测异常" class="headerlink" title="开机提示应用检测异常"></a>开机提示应用检测异常</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/smhbqc/article/details/43559947">https://blog.csdn.net/smhbqc/article/details/43559947</a></p>
+<h2 id="触控板"><a href="#触控板" class="headerlink" title="触控板"></a>触控板</h2><p>貌似就是不能用，我尝试过 网上的普通方法<br><a target="_blank" rel="noopener" href="https://sangams.com.np/fix-ubuntu-18-4-touchpad-not-working-properly/">甚至尝试过安装触控板的驱动</a>:</p>
+<ol>
+<li> sudo apt-get install xserver-xorg-input-synaptics</li>
+<li> 发现报错xserver-xorg-input-synaptics : 依赖: xserver-xorg-core</li>
+<li> 先安装依赖在安装这个</li>
+<li> reboot<br>最后结果就是重启之后 键盘鼠标全部失灵，就卡在桌面那里了<br>解决方法：</li>
+<li> esc进去grub界面，然后选择root promt命令行格式敲</li>
+<li>重新安装:<br> 也就类似于把input全部重新安装一次</li>
+<li> 不放心，然后记得刚刚好像有个core的字样，不管三七二十一apt-get install –reinstall xserver-xorg-core  回车  貌似命令没错</li>
+<li> 去你妈的 reboot试试 ！</li>
+<li> 成了！然后我再也不敢碰xorg相关命令了。。。。。</li>
+</ol>
+<p><strong>2019年05月16日11:09:26  再次尝试 成功</strong><br>就是F9  fn开锁之后 按下F9即可 好傻逼的问题….233333</p>
+<h2 id="关机无效-显示protocol-error"><a href="#关机无效-显示protocol-error" class="headerlink" title="关机无效 显示protocol error"></a>关机无效 显示protocol error</h2><p><a target="_blank" rel="noopener" href="https://github.com/systemd/systemd/issues/8155">官方文档</a>：无效，因为我的Ubuntu没有/etc/mkinitcpio.conf的问题<br><a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1029068/ubuntu-18-04-stuck-at-shutdown">我使用的方案</a>：怀疑是自动挂起功能的影响</p>
+<blockquote>
+<p>我的笔记本电脑上有同样的问题 经过一番观察，我发现它与节电模式有关，特别是自动暂停。<br>转到Settings &gt; Power然后关闭所有Automatic Suspend选项。也可选择Blank screen到Never。<br>直到Ubuntu团队将弄清楚为什么挂起模式干扰关机过程，这解决了我的问题。</p>
+</blockquote>
+<h2 id="php下使用mysql-connect连接mysql出错（在Ubuntu18-04的环境下）"><a href="#php下使用mysql-connect连接mysql出错（在Ubuntu18-04的环境下）" class="headerlink" title="php下使用mysql_connect连接mysql出错（在Ubuntu18.04的环境下）"></a>php下使用mysql_connect连接mysql出错（在Ubuntu18.04的环境下）</h2><ol>
+<li><p> 首先出错<code>Call to undefined function mysql_connect()</code></p>
+<blockquote>
+<p>百度说要我改php.ini配置文件，或者安装php5.0-mysql<br>操作：</p>
+<blockquote>
+<p>①php.ini里面没有找到对应的文字，也就无法更改<br>②我Ubuntu自带7.2版本，他是7.0应该不合适，在apt search发现 我已经安装了Php7.2-mysql 且未发现5.0的版本，此方法肯定过时<br>后面继续<a target="_blank" rel="noopener" href="https://blog.csdn.net/zzf1510711060/article/details/82631254">百度</a>：从PHP5.0开始mysql_connect()就不推荐使用了，到PHP7.0就直接被废弃了，如果PHP为7.0及以上版本的话用mysqli_connect()代替即可。</p>
+</blockquote>
+</blockquote>
+</li>
+<li><p>使用mysqli_connect()出错：<code>(HY000/1045): Access denied for user &#39;root&#39;@&#39;localhost&#39; (using password: YES</code>[方案]（<a target="_blank" rel="noopener" href="http://www.cnblogs.com/leolztang/p/5094930.html%EF%BC%89">http://www.cnblogs.com/leolztang/p/5094930.html）</a></p>
+<blockquote>
+<p>首先<code>：select user, plugin from mysql.user;</code>发现root|auth_socket 。百度说要改掉auth_socket，代码如下</p>
+<blockquote>
+<p>update mysql.user set authentication_string=PASSWORD(‘newPwd’), plugin=’mysql_native_password’ where user=’root’;<br>成功修改，但是注意一个问题：他给你的代码设置的密码为newPwd！！！！你得改改！</p>
+</blockquote>
+</blockquote>
+</li>
+<li><p>进行上一步之后，在当前命令行输入其他命令，会出现下面的错误</p>
+<blockquote>
+<p>mysql&gt; select user, plugin from mysql.user;</p>
+<blockquote>
+<p>ERROR 2006 (HY000): MySQL server has gone away<br>No connection. Trying to reconnect…<br>ERROR 1045 (28000): Access denied for user ‘root’@’localhost’ (using password: NO)<br>ERROR: </p>
+</blockquote>
+</blockquote>
+</li>
+<li><p> 退出当前命令行再重新登录，发现了新的错误：ERROR 1045 (28000): Access denied for user ‘root’@’localhost’ (using password: YES)</p>
+<blockquote>
+<p>因为修改了默认密码，此时用新密码登录即可</p>
+<blockquote>
+<p>我尝试过很多格式 sudo mysql -u root -p newPwn (-p ‘newPwd’  -password newPwd 都还是出现上面的错误)<br>最后发现只有一种格式才能登录进去：sudo mysql -u root –password=newPwd</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+<p>之所以怀疑是因为命令行格式的原因，因为此时使用php脚本<code>$con=mysqli_connect(&#39;localhost&#39;,&#39;root&#39;,&#39;newPwd&#39;);</code>可以链接成功，但是命令行却不想<br>5.  赶紧修改密码<br><code>用之前第二步的updata然后把newPwd更改 貌似无效</code></p>
+<blockquote>
+<p>由于考虑到每次都是要sudo mysql -u root –password=newPwd,我就想把密码置空，sudo mysql的格式即可</p>
+<blockquote>
+<p>set password for root@localhost = password(‘’);<br>此时php文件写成<code>$con=mysqli_connect(&#39;localhost&#39;,&#39;root&#39;,&#39;&#39;);</code>即可连接成功</p>
+</blockquote>
+</blockquote>
+<h2 id="死机"><a href="#死机" class="headerlink" title="死机"></a>死机</h2><ol>
+<li><p><code>echo 0 &gt; /proc/sys/kernel/hung_task_timeout_secs&quot; disables this message.  </code> </p>
+<blockquote>
+<p>修改/etc/sysctl.conf文件<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wshenjin/p/7093505.html">https://www.cnblogs.com/wshenjin/p/7093505.html</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/yanggd1987/article/details/42388421">https://blog.csdn.net/yanggd1987/article/details/42388421</a></p>
+</blockquote>
+</li>
+<li><p><code> ubuntu org.gnome.Shell.desktop[2461]: Window manager warning: Trying to re-add keybinding &quot;app-hotkey-1&quot;.</code></p>
+<blockquote>
+<p><del>sudo apt-get remove gnome-shell-extension-ubuntu-dock</del>影响到dash正常使用，而且还是依然死机 没有改变<br> <a target="_blank" rel="noopener" href="https://github.com/micheleg/dash-to-dock/issues/641">https://github.com/micheleg/dash-to-dock/issues/641</a><br> <a target="_blank" rel="noopener" href="https://github.com/micheleg/dash-to-dock/issues/643">https://github.com/micheleg/dash-to-dock/issues/643</a></p>
+</blockquote>
+</li>
+<li><p><code>ubuntu /usr/lib/gdm3/gdm-x-session[1982]: open file /usr/share/fcitx-sogoupinyin/SogouInput/sgim_tip.bin failed.</code></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://askubuntu.com/questions/1143009/gnome-crashed-and-return-to-login-interface">https://askubuntu.com/questions/1143009/gnome-crashed-and-return-to-login-interface</a> 类似问题，但是没有解决</p>
+</blockquote>
+</li>
+<li><p> 从显卡入手 390换成430（默认推荐430） <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4366ed27add9">传送门</a>，因为<code>sudo ubuntu-drivers autoinstall</code>之后就是默认勾选430了</p>
+</li>
+<li><p>从swap入手，默认2G，因为内存8G就升级为8G</p>
+<ol>
+<li> <a target="_blank" rel="noopener" href="https://my.oschina.net/icebergxty/blog/1858336">传送门</a> ：设置文件大小时候2048改成8192</li>
+</ol>
+</li>
+<li><p>上面的都不行，最后还是换了内核</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://forum.ubuntu.org.cn/viewtopic.php?f=187&t=488711">传送门</a><blockquote>
+<p>部分Intel顯示晶片的Ubuntu 18.04用戶可能會遭遇一種情況，畫面不定時地「凍結→崩潰→復原」，原因或許在於4.15.0核心對部份Intel顯示晶片的支援有問題，雖然至今（2018.12.24）這個臭蟲仍然未被修正，但是使用4.18.0-13核心可以避開上述問題：</p>
+</blockquote>
+</li>
+<li> 按照这个切换的内核：<a target="_blank" rel="noopener" href="https://zhengdao.github.io/2018/10/09/switch-ubuntu-linux-kernel/">传送门</a></li>
+<li>上述会报错，因为GRUB_DEFAULT后面跟的内容过时了，换成<code>GRUB_DEFAULT=&#39;gnulinux-advanced-afef35de-622a-4ee5-80b0-c23e1e664072&gt;gnulinux-4.18.0-13-generic-advanced-afef35de-622a-4ee5-80b0-c23e1e664072&#39;</code>即可（仅对我的0-13有效）<blockquote>
+<p>Please don’t use old title <code>Ubuntu，Linux 4.18.0-13-generic&#39; for GRUB_DEFAULT, use </code>Advanced options for Ubuntu&gt;Ubuntu，Linux 4.18.0-13-generic’ (for versions before 2.00) or `gnulinux-advanced-afef35de-622a-4ee5-80b0-c23e1e664072&gt;gnulinux-4.18.0-13-generic-advanced-afef35de-622a-4ee5-80b0-c23e1e664072’ (for 2.00 or later)<br><del>貌似大结局了 6就帮我搞定了233333</del></p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li><p>6的方法一直没错是因为再用chrome一直（因为Firefox下面的hackbar收费），最近xss需要用Firefox，然后又是日常死机，于是基本定位了问题了！</p>
+<ol>
+<li> 采取官网安装<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c85ede46351d">传送门</a>的方式先试一试！</li>
+<li> 同时怀疑是插件原因，先不安装插件使用一段时间！    </li>
+</ol>
+</li>
+<li><p> 修改了系统版本之后貌似还是出现了死机的问题，因为之前一直在sql后面转xss，由于chrome不支持，所以就用firefox，然后就死机，综上觉得就是firefox的问题，但是由于要实习，就换为了win,问题搁置</p>
+</li>
+</ol>
+<hr>
+<h1 id="ENDING"><a href="#ENDING" class="headerlink" title="ENDING"></a>ENDING</h1><p>2019-6-30 09:30:21<br>因为7.1号要就职了，考虑到公司上班这玩意那玩意基本都是win上面的，就暂停了我的ubuntu之旅了。<br>最可惜的就是firefox和死机的问题只是处于怀疑阶段，没有得到实际的确定和解决</p>
+
+                            </div>
+                            
+                                <p class="note note-info">
+                                    
+                                                    本文最后更新于：
+                                                        2022年6月7日 晚上
+                                                            
+                                </p>
+                                
+                                    <hr>
+                                    <div>
+                                        <div class="post-metas mb-3">
+                                            
+                                                <div class="post-meta mr-3">
+                                                    <i class="iconfont icon-category"></i>
+                                                    
+                                                        <a class="hover-with-bg" href="/categories/%E6%9D%82/">
+                                                            杂
+                                                        </a>
+                                                        
+                                                </div>
+                                                
+                                                    
+                                                        <div class="post-meta">
+                                                            <i class="iconfont icon-tags"></i>
+                                                            
+                                                                <a class="hover-with-bg" href="/tags/%E6%9D%82/">
+                                                                    杂
+                                                                </a>
+                                                                
+                                                        </div>
+                                                        
+                                        </div>
+                                        
+                                            <p class="note note-warning">
+                                                
+                                                            本博客所有文章欢迎转载 ，但希望转载时能注明出处！ </br>关于文章，如有疑问，欢迎讨论！Email:corp0ra1@qq.com </br>如果图片无法显示:https://corp0ra1.github.io/common/imageLoad.html
+                                                                
+                                            </p>
+                                            
+                                                
+                                                    <div class="post-prevnext">
+                                                        <article class="post-prev col-6">
+                                                            
+                                                                
+                                                                    <a href="/2019/07/08/%5Bold%5Dsqlmap%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95/">
+                                                                        <i class="iconfont icon-arrowleft"></i>
+                                                                        <span class="hidden-mobile">sqlmap命令备忘录</span>
+                                                                        <span class="visible-mobile">上一篇</span>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                        <article class="post-next col-6">
+                                                            
+                                                                
+                                                                    <a href="/2019/06/18/%5Bold%5Dsqli-labs%E9%9D%B6%E5%9C%BA-%E6%8A%80%E8%83%BD%E7%82%B9%E8%A1%A5%E5%85%85/">
+                                                                        <span class="hidden-mobile">sqli-labs靶场通关记录</span>
+                                                                        <span class="visible-mobile">下一篇</span>
+                                                                        <i class="iconfont icon-arrowright"></i>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                    </div>
+                                                    
+                                    </div>
+
+                                    
+                        </article>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+                    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+                </div>
+                
+        </div>
+    </div>
+
+    <!-- Custom -->
+    
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <div> <div class="copyright">©2020 - 2021 By Corp0ra1</div> </div> <div> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> &nbsp;|&nbsp; <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> &nbsp;|&nbsp; <a href="https://github.com/jsdelivr/jsdelivr" target="_blank" rel="nofollow noopener"><span>jsDelivr</span></a> </div> 
+  </div>
+  <!--添加运行时间-->
+<div id="sitetime"></div>
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* 
+      Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+      year - 作为date对象的年份，为4位年份值
+      month - 0-11之间的整数，做为date对象的月份
+      day - 1-31之间的整数，做为date对象的天数
+      hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+      minutes - 0-59之间的整数，做为date对象的分钟数
+      seconds - 0-59之间的整数，做为date对象的秒数
+      microseconds - 0-999之间的整数，做为date对象的毫秒数
+     */
+        var t1 = Date.UTC(2021, 05, 01, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "很高兴遇到你，我已经在此等候了你 " + /*diffYears+" 年 "+*/ diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }
+    siteTime();
+</script>
+
+    <div class="statistics">
+        
+            
+
+                
+                                                
+                                                    <!-- 不蒜子统计PV -->
+                                                    <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            
+            <span id="busuanzi_value_site_pv"></span>
+                                                     次
+                                                        &nbsp; <span class="iconfont icon-love"></span></span>
+                                                        
+
+                                                            
+
+                                                                <!-- 不蒜子统计UV -->
+                                                                <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            
+            <span id="busuanzi_value_site_uv"></span>
+                                                                 人
+                                                                    </span>
+                                                                    
+                                                                        
+    </div>
+    
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <!-- Baidu Analytics -->
+        <script defer>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?a1a4ccab78dfa522556928ac810fa739";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+        
+
+            
+                <!-- Google Analytics -->
+                <!-- <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-4X9XV0H0D5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script> -->
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+                <script async src="https://www.googletagmanager.com/gtag/js?G-4X9XV0H0D5"></script>
+                <script>
+                    window.dataLayer = window.dataLayer || [];
+
+                    function gtag() {
+                        dataLayer.push(arguments);
+                    }
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-4X9XV0H0D5');
+                </script>
+                
+
+                    
+
+                            
+
+                                    
+
+                                            
+                                                    
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

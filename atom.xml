@@ -6,7 +6,7 @@
   <link href="https://corp0ra1.github.io/atom.xml" rel="self"/>
   
   <link href="https://corp0ra1.github.io/"/>
-  <updated>2022-04-10T04:36:26.706Z</updated>
+  <updated>2022-06-07T12:13:36.646Z</updated>
   <id>https://corp0ra1.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://corp0ra1.github.io/2022/04/10/The%20Dirty%20Pipe%20Vulnerability_%E5%A4%8D%E7%8E%B0/"/>
     <id>https://corp0ra1.github.io/2022/04/10/The%20Dirty%20Pipe%20Vulnerability_%E5%A4%8D%E7%8E%B0/</id>
     <published>2022-04-10T03:39:39.105Z</published>
-    <updated>2022-04-10T04:36:26.706Z</updated>
+    <updated>2022-06-07T12:13:36.646Z</updated>
     
     
     <summary type="html">断断续续慢慢跟完了整个漏洞，基本都是拾人牙慧缝合他人记录而形成自己的笔记，内容有点啰嗦和繁琐，但也想记录下自己跟的整个历程，并尝试以自己的逻辑表达出来</summary>
@@ -65,34 +65,11 @@
   </entry>
   
   <entry>
-    <title>禅道zentaopms-9.1.2-sql SQL注入</title>
-    <link href="https://corp0ra1.github.io/2022/03/12/zentaopms_9.1.2_sql_SQL%E6%B3%A8%E5%85%A5/"/>
-    <id>https://corp0ra1.github.io/2022/03/12/zentaopms_9.1.2_sql_SQL%E6%B3%A8%E5%85%A5/</id>
-    <published>2022-03-12T02:24:24.964Z</published>
-    <updated>2022-03-12T02:59:56.754Z</updated>
-    
-    
-    <summary type="html">本来以为只是个拿到POC一把梭的枯燥漏洞复现，实际操作发现不少坑，也学到了不少新的东西。</summary>
-    
-    
-    
-    <category term="漏洞复现" scheme="https://corp0ra1.github.io/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-    
-    <category term="漏洞复现" scheme="https://corp0ra1.github.io/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-    <category term="SQL注入" scheme="https://corp0ra1.github.io/tags/SQL%E6%B3%A8%E5%85%A5/"/>
-    
-    <category term="mysql写日志" scheme="https://corp0ra1.github.io/tags/mysql%E5%86%99%E6%97%A5%E5%BF%97/"/>
-    
-  </entry>
-  
-  <entry>
     <title>记一次不停自我追问式的学习</title>
     <link href="https://corp0ra1.github.io/2021/06/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/"/>
     <id>https://corp0ra1.github.io/2021/06/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/</id>
     <published>2021-06-24T16:30:47.168Z</published>
-    <updated>2021-06-24T17:33:39.389Z</updated>
+    <updated>2022-06-07T12:13:36.646Z</updated>
     
     
     <summary type="html">最初只是简单的搭建环境，拿着公开的POC复现漏洞。然后想着学学Goby如何编写POC&amp;EXP，先拿GUI的形式编写，但是逐渐发现很多想法都满足不了，于是尝试Go语言编写。但也不满足于此，想去探究漏洞成因遂代码审计，最后追溯漏洞的源头得出结论！</summary>
@@ -107,6 +84,27 @@
     <category term="POC编写" scheme="https://corp0ra1.github.io/tags/POC%E7%BC%96%E5%86%99/"/>
     
     <category term="代码审计" scheme="https://corp0ra1.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CORS漏洞学习及实战应用</title>
+    <link href="https://corp0ra1.github.io/2019/07/21/[old]CORS%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/"/>
+    <id>https://corp0ra1.github.io/2019/07/21/[old]CORS%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/</id>
+    <published>2019-07-21T07:41:00.000Z</published>
+    <updated>2022-06-07T12:32:55.520Z</updated>
+    
+    
+    <summary type="html">对CORS漏洞的学习，并且绕过sop限制，弄出危害演示demo。</summary>
+    
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="CORS" scheme="https://corp0ra1.github.io/tags/CORS/"/>
     
   </entry>
   
@@ -128,6 +126,29 @@
     <category term="渗透测试" scheme="https://corp0ra1.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
     
     <category term="值得纪念" scheme="https://corp0ra1.github.io/tags/%E5%80%BC%E5%BE%97%E7%BA%AA%E5%BF%B5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>XSS挑战之旅</title>
+    <link href="https://corp0ra1.github.io/2019/07/09/[old]XSS%E6%8C%91%E6%88%98%E4%B9%8B%E6%97%85/"/>
+    <id>https://corp0ra1.github.io/2019/07/09/[old]XSS%E6%8C%91%E6%88%98%E4%B9%8B%E6%97%85/</id>
+    <published>2019-07-09T06:26:00.000Z</published>
+    <updated>2022-06-07T12:25:52.849Z</updated>
+    
+    
+    <summary type="html">参看先知的XSS挑战之旅，做的复现</summary>
+    
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="靶场" scheme="https://corp0ra1.github.io/tags/%E9%9D%B6%E5%9C%BA/"/>
+    
+    <category term="XSS" scheme="https://corp0ra1.github.io/tags/XSS/"/>
     
   </entry>
   
@@ -172,6 +193,159 @@
     <category term="渗透测试" scheme="https://corp0ra1.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
     
     <category term="sqlmap" scheme="https://corp0ra1.github.io/tags/sqlmap/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一年的ubuntu使用之旅</title>
+    <link href="https://corp0ra1.github.io/2019/06/29/[old]%E7%9F%AD%E6%9A%82%E7%9A%84ubuntu%E4%B9%8B%E6%97%85/"/>
+    <id>https://corp0ra1.github.io/2019/06/29/[old]%E7%9F%AD%E6%9A%82%E7%9A%84ubuntu%E4%B9%8B%E6%97%85/</id>
+    <published>2019-06-29T06:26:00.000Z</published>
+    <updated>2022-06-07T12:27:28.383Z</updated>
+    
+    
+    <summary type="html">将linux系统当做了一年的主系统，各种bug以及解决的备忘</summary>
+    
+    
+    
+    <category term="杂" scheme="https://corp0ra1.github.io/categories/%E6%9D%82/"/>
+    
+    
+    <category term="杂" scheme="https://corp0ra1.github.io/tags/%E6%9D%82/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sqli-labs靶场通关记录</title>
+    <link href="https://corp0ra1.github.io/2019/06/18/[old]sqli-labs%E9%9D%B6%E5%9C%BA-%E6%8A%80%E8%83%BD%E7%82%B9%E8%A1%A5%E5%85%85/"/>
+    <id>https://corp0ra1.github.io/2019/06/18/[old]sqli-labs%E9%9D%B6%E5%9C%BA-%E6%8A%80%E8%83%BD%E7%82%B9%E8%A1%A5%E5%85%85/</id>
+    <published>2019-06-17T16:45:00.000Z</published>
+    <updated>2022-06-07T12:38:44.110Z</updated>
+    
+    
+    <summary type="html">sqli-labs靶场通关过程中，一些小的知识点以及其他知识点的学习</summary>
+    
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="靶场" scheme="https://corp0ra1.github.io/tags/%E9%9D%B6%E5%9C%BA/"/>
+    
+    <category term="sqli" scheme="https://corp0ra1.github.io/tags/sqli/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sqli-labs靶场通关记录</title>
+    <link href="https://corp0ra1.github.io/2019/06/12/[old]sqli-labs%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/"/>
+    <id>https://corp0ra1.github.io/2019/06/12/[old]sqli-labs%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/</id>
+    <published>2019-06-12T14:41:00.000Z</published>
+    <updated>2022-06-07T12:36:39.297Z</updated>
+    
+    
+    <summary type="html">sqli-labs靶场通关过程记录</summary>
+    
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="靶场" scheme="https://corp0ra1.github.io/tags/%E9%9D%B6%E5%9C%BA/"/>
+    
+    <category term="sqli" scheme="https://corp0ra1.github.io/tags/sqli/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CTF引发的对报错注入的深入学习</title>
+    <link href="https://corp0ra1.github.io/2019/05/15/[old]CTF%E5%BC%95%E5%8F%91%E7%9A%84%E5%AF%B9%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E7%9A%84%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://corp0ra1.github.io/2019/05/15/[old]CTF%E5%BC%95%E5%8F%91%E7%9A%84%E5%AF%B9%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E7%9A%84%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0/</id>
+    <published>2019-05-15T09:43:00.000Z</published>
+    <updated>2022-06-07T12:44:15.962Z</updated>
+    
+    
+    <summary type="html">因为2019全国信安大赛的“全宇宙最简单的SQL”这道题的注入，所以引发对报错注入的深入学习</summary>
+    
+    
+    
+    <category term="技术点" scheme="https://corp0ra1.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9/"/>
+    
+    
+    <category term="CTF" scheme="https://corp0ra1.github.io/tags/CTF/"/>
+    
+    <category term="靶场" scheme="https://corp0ra1.github.io/tags/%E9%9D%B6%E5%9C%BA/"/>
+    
+    <category term="XSS" scheme="https://corp0ra1.github.io/tags/XSS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>upload-lab靶场通关记录</title>
+    <link href="https://corp0ra1.github.io/2019/05/14/[old]upload-lab%E9%80%9A%E5%85%B3%E7%A7%98%E7%B1%8D/"/>
+    <id>https://corp0ra1.github.io/2019/05/14/[old]upload-lab%E9%80%9A%E5%85%B3%E7%A7%98%E7%B1%8D/</id>
+    <published>2019-05-14T10:39:00.000Z</published>
+    <updated>2022-06-07T12:15:23.022Z</updated>
+    
+    
+    <summary type="html">upload-labs关于文件上传漏洞很全很系统，每一道题再发散的话基本上说可以把文件上传漏洞打穿了。自己动手尝试了一次Upload-## labs里面的20关，但是由于个人时间原因，只能说算是每一关自己都打过吧，但是延伸的不太深，等日后再来填坑系列</summary>
+    
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="靶场" scheme="https://corp0ra1.github.io/tags/%E9%9D%B6%E5%9C%BA/"/>
+    
+    <category term="文件上传" scheme="https://corp0ra1.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hexo环境的搭建</title>
+    <link href="https://corp0ra1.github.io/2019/05/14/[old]hexo%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+    <id>https://corp0ra1.github.io/2019/05/14/[old]hexo%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</id>
+    <published>2019-05-14T10:38:00.000Z</published>
+    <updated>2022-06-07T12:33:59.209Z</updated>
+    
+    
+    <summary type="html">hexo环境的搭建的备忘录</summary>
+    
+    
+    
+    <category term="杂" scheme="https://corp0ra1.github.io/categories/%E6%9D%82/"/>
+    
+    
+    <category term="杂" scheme="https://corp0ra1.github.io/tags/%E6%9D%82/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>文件上传之二次渲染</title>
+    <link href="https://corp0ra1.github.io/2019/05/14/[old]%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B9%8BGD/"/>
+    <id>https://corp0ra1.github.io/2019/05/14/[old]%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B9%8BGD/</id>
+    <published>2019-05-13T16:39:00.000Z</published>
+    <updated>2022-06-07T12:29:17.313Z</updated>
+    
+    
+    <summary type="html">2019年DDCTF的一道文件上传题目，里面涉及到了GD库对上传的图片进行特殊渲染处理，导致payload上传文件的失效。多方查找资料之后，找到了两个方法绕过GD库的渲染处理的方法，并对原理进行了简单的剖析</summary>
+    
+    
+    
+    <category term="技术点" scheme="https://corp0ra1.github.io/categories/%E6%8A%80%E6%9C%AF%E7%82%B9/"/>
+    
+    
+    <category term="CTF" scheme="https://corp0ra1.github.io/tags/CTF/"/>
+    
+    <category term="文件上传" scheme="https://corp0ra1.github.io/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
+    
+    <category term="二次渲染" scheme="https://corp0ra1.github.io/tags/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93/"/>
     
   </entry>
   

