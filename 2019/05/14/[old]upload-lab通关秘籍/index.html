@@ -14,7 +14,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="upload-labs关于文件上传漏洞很全很系统，每一道题再发散的话基本上说可以把文件上传漏洞打穿了。自己动手尝试了一次Upload-## labs里面的20关，但是由于个人时间原因，只能说算是每一关自己都打过吧，但是延伸的不太深，等日后再来填坑系列">
+  <meta name="description" content="upload-labs关于文件上传漏洞很全很系统，每一道题再发散的话基本上说可以把文件上传漏洞打穿了。自己动手尝试了一次Upload">
   <meta name="author" content="corp0ra1">
   <meta name="keywords" content="">
   
@@ -187,7 +187,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.1k 字
+      6k 字
     </span>
   
 
@@ -197,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      70
+      69
        分钟
     </span>
   
@@ -239,8 +239,8 @@
                                 upload-lab靶场通关记录
                             </h1>
                             <div class="markdown-body">
-                                <p>upload-labs关于文件上传漏洞很全很系统，每一道题再发散的话基本上说可以把文件上传漏洞打穿了。自己动手尝试了一次Upload-## labs里面的20关，但是由于个人时间原因，只能说算是每一关自己都打过吧，但是延伸的不太深，等日后再来填坑系列</p>
-<h1 id="友情提示！"><a href="#友情提示！" class="headerlink" title="友情提示！"></a>友情提示！</h1><p>环境：<a target="_blank" rel="noopener" href="https://github.com/c0ny1/upload-##">https://github.com/c0ny1/upload-##</a> labs<br>![](<a target="_blank" rel="noopener" href="https://github.com/c0ny1/upload-##">https://github.com/c0ny1/upload-##</a> labs/raw/master/doc/mind-map.png)</p>
+                                <p>由于个人时间原因，只能说算是每一关自己都打过吧，但是延伸的不太深，等日后再来填坑系列</p>
+<h1 id="友情提示！"><a href="#友情提示！" class="headerlink" title="友情提示！"></a>友情提示！</h1><p>环境：<a target="_blank" rel="noopener" href="https://github.com/c0ny1/upload-labs">https://github.com/c0ny1/upload-labs</a><br><img src="https://github.com/c0ny1/upload-labs/raw/master/doc/mind-map.png" srcset="/img/loading.gif" lazyload></p>
 <h1 id="前端绕过"><a href="#前端绕过" class="headerlink" title="前端绕过"></a>前端绕过</h1><p>这种是在本地进行，通过客户端的JS函数进行判别。所以你上传一个文件之后，不用与服务器进行交互，本地客户端可以立刻给你返回你的正确与否</p>
 <blockquote>
 <p>可以根据返回时间来判断</p>
@@ -279,7 +279,7 @@
 </blockquote>
 </blockquote>
 <h2 id="lab7之加-绕过"><a href="#lab7之加-绕过" class="headerlink" title="lab7之加.绕过"></a>lab7之加.绕过</h2><p><strong>原理</strong><br>没有对后缀名进行去”.”处理，利用windows特性，，在保存对应的文件时候会自动去掉后缀名中最后的”.”<br><strong>过程</strong><br><code>$file_ext = strrchr($file_name, &#39;.&#39;);</code>通过这个函数得到尾缀，即为‘.’，从而绕过黑名单<br><strong>防护之道</strong><br><code>$file_name = deldot($file_name);</code>//删除文件名末尾的点（deldot函数要自己实现）<br><strong>注意事项</strong><br>同上，为windows特效，如我在windows下的实验如下：<br>文件保存依然带….</p>
-<h2 id="lab8之-DATA-绕过"><a href="#lab8之-DATA-绕过" class="headerlink" title="lab8之:$DATA 绕过"></a>lab8之:$DATA 绕过</h2><p><strong>原理</strong><br>基于window特性中的NTFS协议,使得绕过黑名单，但是保存的时候又被省略<br><strong>防护之道</strong><br><code>$file_ext = str_ireplace(&#39;::$DATA&#39;, &#39;&#39;, $file_ext);</code>//去除字符串<code>::$DATA</code><br>记得要先去除大小写 在进行判断 不然存在<code>：：$data</code>的绕过<br><strong>拓展①</strong><br>:$data可以吗？（只有一个:）</p>
+<h2 id="lab8之-DATA绕过"><a href="#lab8之-DATA绕过" class="headerlink" title="lab8之:$DATA绕过"></a>lab8之:$DATA绕过</h2><p><strong>原理</strong><br>基于window特性中的NTFS协议,使得绕过黑名单，但是保存的时候又被省略<br><strong>防护之道</strong><br><code>$file_ext = str_ireplace(&#39;::$DATA&#39;, &#39;&#39;, $file_ext);</code>//去除字符串<code>::$DATA</code><br>记得要先去除大小写 在进行判断 不然存在<code>：：$data</code>的绕过<br><strong>拓展①</strong><br>:$data可以吗？（只有一个:）</p>
 <p>文件名去掉尾缀:$data之后</p>
 <p>查看生成的文件</p>
 <p>结论：$data可以生成文件php文件，但是php文件里面没有写入内容TAT（原理别问，问就是不知道）<br><strong>拓展②</strong><br>接上面原理<a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-246118.htm">传送门</a></p>
@@ -296,7 +296,7 @@
 <ol>
 <li><p>上传htaccess文件（通过BP修改文件名）</p>
 <blockquote>
-<p>SetHandler application/x-httpd-php<br> SetHandler application/x-httpd一php<br> &lt;//FilesMatch&gt;<br> 和上面的区别在于这个只识别文件名含cimer关键字的文件为php<br> AddType application/x-httpd-php .jpg ：将服务器的jpg文件视为php文件</p>
+<p>SetHandler application/x-httpd-php<br> SetHandler application/x-httpd一php<br> &lt;//FilesMatch&gt;<br> 和上面的区别在于这个只识别文件名含cimer关键字的文件为php<br> AddType application/x-httpd-php.jpg：将服务器的jpg文件视为php文件</p>
 </blockquote>
 </li>
 <li><p> 上传php文件，修改尾缀为jpg</p>
@@ -325,12 +325,12 @@
 <p>对于版本号，个人存疑，因为我的实验环境只有在5.2下可以，5.3及以上则不行。（## lab19那里有截图，其他的就没截图了，占空间没必要）<br>smile师傅则是5.6都可以，其他师傅也是5.3-5.6可以<br>所以玄学？可能是我用的phpstudy?</p>
 </blockquote>
 <p><strong>防护之道</strong><br>move_uploaded_file()函数的第二个参数用户不可控即可</p>
-<h2 id="lab11之-00截断（白名单-GET）"><a href="#lab11之-00截断（白名单-GET）" class="headerlink" title="lab11之% 00截断（白名单+GET）"></a>lab11之% 00截断（白名单+GET）</h2><blockquote>
-<p>先说一下% 00这个字符，这个字符不为空(Null)，也不是空字符(“”)，更不是空格！<br>空格的ascii为32，% 00表示NUL，为空的意思.% 00等效于’\0’，表示了字符串的结束（’\0’的ascii也为0）也就为什么保存文件的时候，文件名发生了截断</p>
+<h2 id="lab11之-00截断（白名单-GET）"><a href="#lab11之-00截断（白名单-GET）" class="headerlink" title="lab11之%00截断（白名单+GET）"></a>lab11之%00截断（白名单+GET）</h2><blockquote>
+<p>先说一下%00这个字符，这个字符不为空(Null)，也不是空字符(“”)，更不是空格！<br>空格的ascii为32，%00表示NUL，为空的意思.%00等效于’\0’，表示了字符串的结束（’\0’的ascii也为0）也就为什么保存文件的时候，文件名发生了截断</p>
 </blockquote>
 <p><strong>前言</strong></p>
 <ol>
-<li>这里的截断和前面## lab6的空格截断是不同的<ul>
+<li>这里的截断和前面lab6的空格截断是不同的<ul>
 <li>  前面的是利用黑名单绕过+Windows特性绕过（后面跟空格%20绕过黑名单+windows保存文件会忽略后面的空格）</li>
 <li>  此处没有黑名单，他利用的php的move_file_file函数的漏洞，从而导致的保存文件的时候文件名发生了截断。</li>
 </ul>
@@ -340,31 +340,31 @@
 <p><strong>前提</strong></p>
 <ol>
 <li> 参考上面：php版本+move_upload_file参数可控。</li>
-<li> php的magic_quotes_gpc为OFF状态(因为会对% 00进行转义)<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708134810.png" srcset="/img/loading.gif" lazyload alt="20190708134810.png"><br>二者需要同时满足，本人亲自试验过，尤其是php版本</li>
+<li> php的magic_quotes_gpc为OFF状态(因为会对%00进行转义)<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708134810.png" srcset="/img/loading.gif" lazyload alt="20190708134810.png"><br>二者需要同时满足，本人亲自试验过，尤其是php版本</li>
 </ol>
 <p><strong>防护之道</strong><br>消灭任意一个前提即可（注意gpc转义在5.4之后也被废除了貌似）<br><strong>原理(个人实验过程)：</strong></p>
 <blockquote>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708134826.png" srcset="/img/loading.gif" lazyload alt="20190708134826.png"><br>对save_path没有进行检查，只检查了上传文件名，从而可以更改save_path，./upload后面加上a.php% 00。如果后缀合法则拼接路径和文件名，那么攻击者修改了path以后的拼接结果为：uploads/a.php% 00/2.jpg。由于发生截断而形成绕过，但是具体什么时候截断？怎么截断的？</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708134826.png" srcset="/img/loading.gif" lazyload alt="20190708134826.png"><br>对save_path没有进行检查，只检查了上传文件名，从而可以更改save_path，./upload后面加上a.php%00。如果后缀合法则拼接路径和文件名，那么攻击者修改了path以后的拼接结果为：uploads/a.php%00/2.jpg。由于发生截断而形成绕过，但是具体什么时候截断？怎么截断的？</p>
 </blockquote>
 <p><strong>什么时候截断？怎么截断的？</strong></p>
 <blockquote>
 <p>首先为了验证上面的想法，修改源文件，增加了几个输出项<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708134849.png" srcset="/img/loading.gif" lazyload alt="20190708134849.png"><br>然后进行上传，发现php后面啥也没有，难道没有截断？<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708134858.png" srcset="/img/loading.gif" lazyload alt="20190708134858.png"><br>访问文件路径upload/aaa.php�/7720190516181910.jpg的时候，发现aaa.php后面有一个不可见字符，进而访问该链接该文件不存在？？<br>删掉php后面字段之后发现可以成功访问并执行php文件，同时在我的上传目录下发现只成功保存了aaa.php文件，并没有jpg<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708134911.png" srcset="/img/loading.gif" lazyload alt="20190708134911.png"></p>
 </blockquote>
-<p>因此我怀疑是move_upload_file这个函数的问题，导致保存文件的时候，遇到php后面的不可见字符% 00，表示字符串结束而出现了截断.<br>而此处的截断是指，文件名在保存的时候发生的截断！</p>
+<p>因此我怀疑是move_upload_file这个函数的问题，导致保存文件的时候，遇到php后面的不可见字符%00，表示字符串结束而出现了截断.<br>而此处的截断是指，文件名在保存的时候发生的截断！</p>
 <p>具体的原理可以参考这篇文章。<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangzhuangtongxue/article/details/78198191">传送门</a><br><strong>补充</strong><br>借用smile师傅的一张图,可以看到此处的路径是被截断了的，前面我可能是因为echo的原因导致的忽略<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135056.png" srcset="/img/loading.gif" lazyload alt="20190708135056.png"></p>
-<h2 id="lab12之-00截断（白名单-post）"><a href="#lab12之-00截断（白名单-post）" class="headerlink" title="lab12之% 00截断（白名单+post）"></a>lab12之% 00截断（白名单+post）</h2><p>和前面文件上传路径URL参数里不同，此时的save_path在Bode的post里面</p>
+<h2 id="lab12之-00截断（白名单-post）"><a href="#lab12之-00截断（白名单-post）" class="headerlink" title="lab12之%00截断（白名单+post）"></a>lab12之%00截断（白名单+post）</h2><p>和前面文件上传路径URL参数里不同，此时的save_path在Bode的post里面</p>
 <blockquote>
-<p>前者lab11：在提交数据的时候，浏览器会对数据做一次urldecode的操作（比如汉字），而到服务端，会对数据进行一次urldecode的操作，因此如果path在非enctype=multipart/form-data的表单中或URL or Cookie中的时候，就可以直接写% 00不需要进行URLdecode操作，让服务端对% 00进行URL解码即可。</p>
+<p>前者lab11：在提交数据的时候，浏览器会对数据做一次urldecode的操作（比如汉字），而到服务端，会对数据进行一次urldecode的操作，因此如果path在非enctype=multipart/form-data的表单中或URL or Cookie中的时候，就可以直接写%00不需要进行URLdecode操作，让服务端对%00进行URL解码即可。</p>
 </blockquote>
 <blockquote>
-<p>后者lab12：上传的表单中有一个enctype的属性，并且需要enctype=”multipart/form-data” (不对表单中数据进行编码)，<br>因为不进行编码，如果在表单中填写% 00则直接变成实体，25 30 30，而非00。（如果直接空格 则是%20）<br>而此时的path是存放在表单中，要想实现% 00截断的效果，则要修改hex。<br>表单中直接% 00效果如下：<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135210.png" srcset="/img/loading.gif" lazyload alt="20190708135210.png"></p>
+<p>后者lab12：上传的表单中有一个enctype的属性，并且需要enctype=”multipart/form-data” (不对表单中数据进行编码)，<br>因为不进行编码，如果在表单中填写%00则直接变成实体，25 30 30，而非00。（如果直接空格 则是%20）<br>而此时的path是存放在表单中，要想实现%00截断的效果，则要修改hex。<br>表单中直接%00效果如下：<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135210.png" srcset="/img/loading.gif" lazyload alt="20190708135210.png"></p>
 </blockquote>
 <p><strong>利用</strong><br>php后面跟个字符标记个位置，比如空格，然后直接hex找到对应位置修改20为00即可</p>
 <blockquote>
 <p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708135201.png" srcset="/img/loading.gif" lazyload alt="20190708135201.png"></p>
 </blockquote>
-<p><strong>前提</strong><br>同lab11<br><strong>补充</strong><br>其他的文件上传网页，还有没有save_path，直接给你filename=./upload/xxxx直接给你路径，这个时候就不用（save_path=a.php% 00）+（filename=2.jpg），直接./upload/a.php% 00.jpg即可（当然对于post的表单中则修改hex达到% 00的效果）</p>
-<h2 id="lab19之-00截断（黑名单）"><a href="#lab19之-00截断（黑名单）" class="headerlink" title="lab19之% 00截断（黑名单）"></a>lab19之% 00截断（黑名单）</h2><p><strong>前言</strong><br>pathinfo:以数组的形式返回文件路径的信息</p>
+<p><strong>前提</strong><br>同lab11<br><strong>补充</strong><br>其他的文件上传网页，还有没有save_path，直接给你filename=./upload/xxxx直接给你路径，这个时候就不用（save_path=a.php%00）+（filename=2.jpg），直接./upload/a.php%00.jpg即可（当然对于post的表单中则修改hex达到%00的效果）</p>
+<h2 id="lab19之-00截断（黑名单）"><a href="#lab19之-00截断（黑名单）" class="headerlink" title="lab19之%00截断（黑名单）"></a>lab19之%00截断（黑名单）</h2><p><strong>前言</strong><br>pathinfo:以数组的形式返回文件路径的信息</p>
 <blockquote>
 <p>之前：<code>$file_ext = pathinfo( $ file_name,PATHINFO_EXTENSION);</code><br>现在：<code>file_ext = strrchr($file_name, &#39;.&#39;);</code><br>之前是根据“.”的位置来判断后缀,而这里使用的是pathinfo函数</p>
 </blockquote>
@@ -472,18 +472,16 @@
 <h2 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h2><h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/pureqh/p/10243402.html">https://www.cnblogs.com/pureqh/p/10243402.html</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.smi1e.top/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/">https://www.smi1e.top/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</a><br>IIS和nginx就这样</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708141052.png" srcset="/img/loading.gif" lazyload alt="20190708141052.png"></p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>upload-## labs里面的关卡个人感觉只是针对文件上传这个漏洞去弄的，可以梳理一下，可以根据上面的绕过写一个fuzz字典XD</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>upload-labs里面的关卡个人感觉只是针对文件上传这个漏洞去弄的，可以梳理一下，可以根据上面的绕过写一个fuzz字典XD</p>
 <h2 id="bypass"><a href="#bypass" class="headerlink" title="bypass"></a>bypass</h2><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/337">https://xz.aliyun.com/t/337</a></p>
-<h2 id="其他大佬的关于此lab的WP"><a href="#其他大佬的关于此lab的WP" class="headerlink" title="其他大佬的关于此lab的WP"></a>其他大佬的关于此lab的WP</h2><p><a target="_blank" rel="noopener" href="https://github.com/LandGrey/upload-##">https://github.com/LandGrey/upload-##</a> labs-writeup<br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4029">https://xz.aliyun.com/t/4029</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jinqi520/p/9977256.html">https://www.cnblogs.com/jinqi520/p/9977256.html</a></p>
+<h2 id="其他大佬的关于此lab的WP"><a href="#其他大佬的关于此lab的WP" class="headerlink" title="其他大佬的关于此lab的WP"></a>其他大佬的关于此lab的WP</h2><p><a target="_blank" rel="noopener" href="https://github.com/LandGrey/upload-labs-writeup">https://github.com/LandGrey/upload-labs-writeup</a><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4029">https://xz.aliyun.com/t/4029</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/jinqi520/p/9977256.html">https://www.cnblogs.com/jinqi520/p/9977256.html</a></p>
 <h2 id="瞎比比"><a href="#瞎比比" class="headerlink" title="瞎比比"></a>瞎比比</h2><p>我有一个脑洞<br>大多都是In_array来进行黑白名单判断，我可以使用一个无后缀的文件<br>这样file_type=null 那么是否可以利用弱类型 0 来突破这一层限制，来保存一个无后缀的文件？<br>怎么利用？file_get_content?而且linux只要x的权限就可以执行文件，而不需要exe后缀<br>然后测试了下发现无后缀是不可能无后缀的，突破是不可能突破的，这辈子都突破不来的<br>而且利用的话jpg也可以读取里面的内容啊，jpg也不是说不能执行的对吧<br>卒<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708141138.png" srcset="/img/loading.gif" lazyload alt="20190708141138.png"></p>
 <hr>
-<h1 id="以后待完成"><a href="#以后待完成" class="headerlink" title="以后待完成"></a>以后待完成</h1><h2 id="想说的"><a href="#想说的" class="headerlink" title="想说的"></a>想说的</h2><p>目前由于暑假可能要实习，所以我想打xss,sql-## labs这一套，好歹有个宏观的好基础，了解常见的漏洞类型<br>同时还需要考试将近，6级考试<br>因此如果每一个都深入研究，时间可能不够，就这样草草先结案了，等暑假补上吧</p>
+<h1 id="以后待完成"><a href="#以后待完成" class="headerlink" title="以后待完成"></a>以后待完成</h1><h2 id="想说的"><a href="#想说的" class="headerlink" title="想说的"></a>想说的</h2><p>目前由于暑假可能要实习，所以我想打xss,sql-labs这一套，好歹有个宏观的好基础，了解常见的漏洞类型<br>同时还需要考试将近，6级考试<br>因此如果每一个都深入研究，时间可能不够，就这样草草先结案了，等暑假补上吧</p>
 <h2 id="move-upload-file"><a href="#move-upload-file" class="headerlink" title="move_upload_file"></a>move_upload_file</h2><p><strong>前言</strong><br>Apache版本在2.4.0到2.4.29<br>对应CVE-2017-15715，这个算是很简单，也就是move_uplod_file的一个截断方式，利用的换行符号来截断<br>也就是move_uploaded_file除了%00，还有/././.绕过，更有换行符截断的问题<br>由P牛的代码审计星球出品貌似<br><strong>再者</strong><br>三篇文章</p>
 <p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/a.php%E7%9A%84%E5%BD%A2%E5%BC%8F">https://www.anquanke.com/post/id/103784：通过aaa/../a.php的形式</a> 绕过move_uploaded_file的文件覆盖没有权限，而达到覆盖的效果<br><a target="_blank" rel="noopener" href="http://pupiles.com/%E7%94%B1%E4%B8%80%E9%81%93ctf%E9%A2%98%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83.html">http://pupiles.com/%E7%94%B1%E4%B8%80%E9%81%93ctf%E9%A2%98%E5%BC%95%E5%8F%91%E7%9A%84%E6%80%9D%E8%80%83.html</a> ：同上<br><a target="_blank" rel="noopener" href="https://skysec.top/2018/04/11/0ctf-ezdoor/">https://skysec.top/2018/04/11/0ctf-ezdoor/</a> ：比上面拓展的多，且全面<br><strong>最后</strong><br>深入底层去跟踪分析，同样的漏洞，我复现为什么和别人不同？</p>
-<p>同时研究下空格截断的问题<br>可看## lab20下，我实现的空格截断在7.2环境下成功<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708141224.png" srcset="/img/loading.gif" lazyload alt="20190708141224.png"><br>但是## lab6的空格截断确7.1下失败（7.2也失败了）<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708141233.png" srcset="/img/loading.gif" lazyload alt="20190708141233.png"></p>
-<h2 id="写一个fuzz字典"><a href="#写一个fuzz字典" class="headerlink" title="写一个fuzz字典"></a>写一个fuzz字典</h2><h2 id="看完这个paper"><a href="#看完这个paper" class="headerlink" title="看完这个paper"></a>看完这个paper</h2><p><a target="_blank" rel="noopener" href="https://paper.seebug.org/560/#_18">https://paper.seebug.org/560/#_18</a><br>最后更新时间：2019-05-22 20:58:42 </p>
-<hr>
-<p>由于ubuntu系统要实习就换为了win，这个源文件没有保存，很多图片丢失了。再找时机补吧</p>
+<p>同时研究下空格截断的问题<br>可看##lab20下，我实现的空格截断在7.2环境下成功<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708141224.png" srcset="/img/loading.gif" lazyload alt="20190708141224.png"><br>但是##lab6的空格截断确7.1下失败（7.2也失败了）<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190708141233.png" srcset="/img/loading.gif" lazyload alt="20190708141233.png"></p>
+<h2 id="看完这个paper"><a href="#看完这个paper" class="headerlink" title="看完这个paper"></a>看完这个paper</h2><p><a target="_blank" rel="noopener" href="https://paper.seebug.org/560/#_18">https://paper.seebug.org/560/#_18</a></p>
 
                             </div>
                             

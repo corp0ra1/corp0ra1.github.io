@@ -243,7 +243,7 @@
     <link href="https://corp0ra1.github.io/2019/06/12/[old]sqli-labs%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/"/>
     <id>https://corp0ra1.github.io/2019/06/12/[old]sqli-labs%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/</id>
     <published>2019-06-12T14:41:00.000Z</published>
-    <updated>2022-06-07T12:36:39.297Z</updated>
+    <updated>2022-06-07T12:54:43.522Z</updated>
     
     
     <summary type="html">sqli-labs靶场通关过程记录</summary>
@@ -266,7 +266,7 @@
     <link href="https://corp0ra1.github.io/2019/05/15/[old]CTF%E5%BC%95%E5%8F%91%E7%9A%84%E5%AF%B9%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E7%9A%84%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0/"/>
     <id>https://corp0ra1.github.io/2019/05/15/[old]CTF%E5%BC%95%E5%8F%91%E7%9A%84%E5%AF%B9%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E7%9A%84%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0/</id>
     <published>2019-05-15T09:43:00.000Z</published>
-    <updated>2022-06-07T12:44:15.962Z</updated>
+    <updated>2022-06-07T12:57:13.622Z</updated>
     
     
     <summary type="html">因为2019全国信安大赛的“全宇宙最简单的SQL”这道题的注入，所以引发对报错注入的深入学习</summary>
@@ -289,10 +289,10 @@
     <link href="https://corp0ra1.github.io/2019/05/14/[old]upload-lab%E9%80%9A%E5%85%B3%E7%A7%98%E7%B1%8D/"/>
     <id>https://corp0ra1.github.io/2019/05/14/[old]upload-lab%E9%80%9A%E5%85%B3%E7%A7%98%E7%B1%8D/</id>
     <published>2019-05-14T10:39:00.000Z</published>
-    <updated>2022-06-07T12:15:23.022Z</updated>
+    <updated>2022-06-07T12:58:02.540Z</updated>
     
     
-    <summary type="html">upload-labs关于文件上传漏洞很全很系统，每一道题再发散的话基本上说可以把文件上传漏洞打穿了。自己动手尝试了一次Upload-## labs里面的20关，但是由于个人时间原因，只能说算是每一关自己都打过吧，但是延伸的不太深，等日后再来填坑系列</summary>
+    <summary type="html">upload-labs关于文件上传漏洞很全很系统，每一道题再发散的话基本上说可以把文件上传漏洞打穿了。自己动手尝试了一次Upload</summary>
     
     
     

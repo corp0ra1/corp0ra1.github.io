@@ -197,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      55
+      54
        分钟
     </span>
   
@@ -239,8 +239,7 @@
                                 CTF引发的对报错注入的深入学习
                             </h1>
                             <div class="markdown-body">
-                                <h1 id="友情提示！"><a href="#友情提示！" class="headerlink" title="友情提示！"></a>友情提示！</h1><p>盲注：师傅整理的好全的哇！而且精！膜拜！！！！！<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/170626?from=timeline">传送门</a></p>
-<p>因为2019全国信安大赛的“全宇宙最简单的SQL”这道题的注入，所以会偏向于报错注入，针对这道题比较多，没耐心的可以直接看置顶的那篇文章，师傅整理的很全</p>
+                                <p>因为2019全国信安大赛的“全宇宙最简单的SQL”这道题的注入，所以会偏向于报错注入，针对这道题比较多，没耐心的可以直接看置顶的那篇文章，师傅整理的很全<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/170626?from=timeline">传送门</a></p>
 <h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>对于版本小于5.0的MySQL数据库，以及部分有WAF干扰的版本大于5.0的MySQL数据库，你就无法轻易获得表名、列名。<br>在这种情况下，也许你会放弃，仅仅注入出数据库名字，证明漏洞存在就结束。<br>那么如何在不知道MySQL列名的情况下注入出数据？<a target="_blank" rel="noopener" href="https://nosec.org/home/detail/2245.html">传送门</a><br><strong>payload：</strong><br><del>-1’ union select 1,(select4from (select 1,2,3,4,5,6 union select * from users)a limit 1,1)–</del><br>1‘ union select 1,(select a.4 from (select 1,2,3,4,5,6 union select * from users)a limit 1,1)–<br><strong>解释</strong><br>一、 select 1,2,3,4,5,6 union select * from users 的意思大概是前面的123456形成表列的列名，后面select的结果集为表格中的内容</p>
 <blockquote>
 <ul>
@@ -306,7 +305,7 @@
 </blockquote>
 </li>
 </ol>
-<h1 id="加餐"><a href="#加餐" class="headerlink" title="加餐"></a>加餐</h1><p><strong>floor报错注入也可以的</strong><br>核心在于：rand()，group by。这个组合在一起会发生化学反应<br>即产生ERROR 1062 (23000): Duplicate entry ” for key ‘name’的<a target="_blank" rel="noopener" href="https://www.fujieace.com/mysql/error-1062-23000-duplicate-entry.html">错误</a></p>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p><strong>floor报错注入也可以的</strong><br>核心在于：rand()，group by。这个组合在一起会发生化学反应<br>即产生ERROR 1062 (23000): Duplicate entry ” for key ‘name’的<a target="_blank" rel="noopener" href="https://www.fujieace.com/mysql/error-1062-23000-duplicate-entry.html">错误</a></p>
 <blockquote>
 <p>出现这个问题的原因就是“唯一索引”引起的！<br>而导致主键的键值重复的原因就是上面的两个函数的组合。</p>
 </blockquote>
@@ -320,11 +319,7 @@
 <li> rand(0)*2以及floor()函数组合只是成功的几率更高（你也可以自己好找到更好的，比如乘以3，rand(996)？）</li>
 </ol>
 <p><strong>payload的总结：</strong><br>by the way：concat的作用是 使得插入表中的内容是”xxxxx1“和“xxxxxx0”，这样报错显示主键重复的也是”xxxxx1”，从而达到一般的sql注入效果（xxx为你想要得到的内容）<br>在此处你可以考虑比如在floor(rand(0)*2)后面乘以你想要判断的结果（0和1）进而实现逐字母的爆破</p>
-<h1 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h1><p>感谢Mads师傅的文章进而引发了我这一系列的爆炸性研究！<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4914">传送门</a></p>
-<hr>
-<hr>
-<p>后续对上述内容学习的补充</p>
-<h1 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h1><p>十多个:floor,updatexml(),extractvalue(),还有一个大综合<a target="_blank" rel="noopener" href="https://blog.csdn.net/whatday/article/details/63683187">传送门</a><br>大多数人习惯用floor,updatexml(),extractvalue(),其实还有很多函数会导致mysql报错并显示出数据<br>前面已经介绍过floor，这里会在拓展一些</p>
+<h1 id="报错注入深入学习"><a href="#报错注入深入学习" class="headerlink" title="报错注入深入学习"></a>报错注入深入学习</h1><p>十多个:floor,updatexml(),extractvalue(),还有一个大综合<a target="_blank" rel="noopener" href="https://blog.csdn.net/whatday/article/details/63683187">传送门</a><br>大多数人习惯用floor,updatexml(),extractvalue(),其实还有很多函数会导致mysql报错并显示出数据<br>前面已经介绍过floor，这里会在拓展一些</p>
 <blockquote>
 <p>这些方法并不是所有版本通用，比较老的版本并没有这些函数</p>
 </blockquote>
@@ -389,7 +384,7 @@
 </li>
 </ol>
 <p>貌似被修复了！！！至少在我的Ubuntu的5.7版本和虚拟机phpstudy的5.5版本无效，但是&lt;代码审计&gt;的书上，以及上面网页中实验有效。具体那个版本不得而知！<br>除了1.的exp函数，2~6函数都是几何类型的函数，原理和<strong>UpdateXml()和extractValue()差不多：都是基于类型的不匹配从而导致的出错。除了exp，剩下的能不能用看命TAT</strong></p>
-<h1 id="时间延迟"><a href="#时间延迟" class="headerlink" title="时间延迟"></a>时间延迟</h1><p>五种方法<a target="_blank" rel="noopener" href="https://www.cdxy.me/?p=789">传送门</a></p>
+<h1 id="时间延迟探索"><a href="#时间延迟探索" class="headerlink" title="时间延迟探索"></a>时间延迟探索</h1><p>五种方法<a target="_blank" rel="noopener" href="https://www.cdxy.me/?p=789">传送门</a></p>
 <h2 id="sleep函数"><a href="#sleep函数" class="headerlink" title="sleep函数"></a>sleep函数</h2><p>sleep函数说的很多了,大多都是 select * from user where id=1’and if(0,sleep(5),1);<br>但是我想补充一点，通过这种方法也可以间接猜解结果集的行数</p>
 <blockquote>
 <p>select sleep(1),name from animals</p>
@@ -442,6 +437,7 @@
 <p><a target="_blank" rel="noopener" href="http://www.sqlinjection.net/time-based/">http://www.sqlinjection.net/time-based/</a></p>
 </blockquote>
 </blockquote>
+<h1 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h1><p>感谢Mads师傅的文章进而引发了我这一系列的爆炸性学习！<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4914">传送门</a></p>
 
                             </div>
                             

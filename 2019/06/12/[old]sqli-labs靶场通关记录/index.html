@@ -187,7 +187,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      10.8k 字
+      10.7k 字
     </span>
   
 
@@ -197,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      144
+      142
        分钟
     </span>
   
@@ -800,13 +800,14 @@
 <h3 id="less65-75"><a href="#less65-75" class="headerlink" title="less65~75"></a>less65~75</h3><p>然而源代码里面并没有</p>
 </li>
 </ul>
-<h1 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h1><p>能明注最好，但是基本很少<br>盲注能报错注入，肯定优先报错注入<br>在考虑布尔爆破，布尔又分普通直接爆，配合报错爆，配合时间爆。肯定优先第一中，因为最直接<br>但是很多情况是属于，你结果集是否为空，都返回相同的内容，比如CISCN的全宇宙最简单sql那道题。所以就需要配合报错或者配合时间报错，由于时间的费时以及不确定性，因此优先配合报错爆</p>
-<p>明注&gt;盲注<br>    &gt;报错注入&gt;布尔注入<br>            &gt;直接注入&gt;配合报错注入&gt;配合时间注入</p>
-<p>联合注入 即union注入，要么能注入出结果，要么基于报错明主</p>
-<p>核心在于猜解他背后的sql语句的结构，以及waf措施，从而进行闭合绕过bypass，然后进行注入<br>不拘泥于一个参数username，可能还是password<br>不拘泥于–+ # 还有/***/<br>不拘泥于select 还有updata insert delete，而这个则需要掌握他的结构，灵活利用union and等是否合法<br>思维不要有局限性</p>
-<h1 id="代办"><a href="#代办" class="headerlink" title="代办"></a>代办</h1><p>写个暴库的jio本试一试 尤其是盲住开始</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs"><br></code></pre></td></tr></table></figure>
-<p>基于advanced 学习sqlmap的tamper使用<br>limit的注入<br>lines terminated<br>内联注释<br>less 26 27的 <code>\/\*</code> <code>\[ +]\</code>深入php底层探索</p>
+<h1 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h1><ol>
+<li>能明注最好，但是基本很少</li>
+<li>盲注能报错注入，肯定优先报错注入</li>
+<li>在考虑布尔爆破，布尔又分普通直接爆，配合报错爆，配合时间爆。肯定优先第一中，因为最直接。但是很多情况是属于，你结果集是否为空，都返回相同的内容，比如CISCN的全宇宙最简单sql那道题。所以就需要配合报错或者配合时间报错，由于时间的费时以及不确定性，因此优先配合报错爆</li>
+<li>核心在于猜解他背后的sql语句的结构，以及waf措施，从而进行闭合绕过bypass，然后进行注入</li>
+<li>不拘泥于一个参数username，可能还是password；不拘泥于–+ # 还有/***/；不拘泥于select 还有updata insert delete，而这个则需要掌握他的结构，灵活利用union and等是否合法</li>
+<li>思维不要有局限性</li>
+</ol>
 
                             </div>
                             
