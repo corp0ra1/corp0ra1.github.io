@@ -14,7 +14,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="对CORS漏洞的学习，并且绕过sop限制，弄出危害演示demo。">
+  <meta name="description" content="对CORS漏洞的学习，并且绕过sop限制，弄出演示demo。">
   <meta name="author" content="corp0ra1">
   <meta name="keywords" content="">
   
@@ -258,11 +258,11 @@
 <li>JSONP主要被老的浏览器支持，它们往往不支持CORS，而绝大多数现代浏览器都已经支持了CORS<blockquote>
 <p>CROS是现在主流解决跨域问题的方案，未来估计也是趋势。</p>
 </blockquote>
-<h1 id="什么是cors"><a href="#什么是cors" class="headerlink" title="什么是cors"></a>什么是cors</h1>CORS 是一个 W3C 标准，全称是“跨域资源共享”（Cross-origin resource sharing）。它允许浏览器向跨域的服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。<br>CORS定义了两种跨域请求：简单请求 和 非简单请求。简单跨域请求就是使用设定的请求方式请求数据，而非简单跨域请求则是在使用设定的请求方式请求数据之前，先发送一个OPTIONS预检请求，验证请求源是否为服务端允许源。只有”预检”通过后才会再发送一次请求用于数据传输。<a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/bom/cors.html">详情点此传送门</a></li>
+<h1 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h1><h2 id="什么是cors"><a href="#什么是cors" class="headerlink" title="什么是cors"></a>什么是cors</h2>CORS 是一个 W3C 标准，全称是“跨域资源共享”（Cross-origin resource sharing）。它允许浏览器向跨域的服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。<br>CORS定义了两种跨域请求：简单请求 和 非简单请求。简单跨域请求就是使用设定的请求方式请求数据，而非简单跨域请求则是在使用设定的请求方式请求数据之前，先发送一个OPTIONS预检请求，验证请求源是否为服务端允许源。只有”预检”通过后才会再发送一次请求用于数据传输。<a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/bom/cors.html">详情点此传送门</a></li>
 </ol>
 </li>
 </ol>
-<h1 id="cors漏洞成因"><a href="#cors漏洞成因" class="headerlink" title="cors漏洞成因"></a>cors漏洞成因</h1><p>就是对cors的配置错误，导致攻击者可以伪装为受害者服务器所允许站点去获取受害者服务器上的资源<br>具体利用，我觉得几篇paper讲的比较清楚的，推荐下</p>
+<h2 id="cors漏洞成因"><a href="#cors漏洞成因" class="headerlink" title="cors漏洞成因"></a>cors漏洞成因</h2><p>就是对cors的配置错误，导致攻击者可以伪装为受害者服务器所允许站点去获取受害者服务器上的资源<br>具体利用，我觉得几篇paper讲的比较清楚的，推荐下</p>
 <ol>
 <li> 18年DefConChina的陈建军的议题《从外部入侵内网，跨域资源共享（CORS）的安全问题》<a target="_blank" rel="noopener" href="https://www.jianjunchen.com/post/cors%E5%AE%89%E5%85%A8%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/#1-1-%E4%BB%8E-sop-%E5%88%B0-cors">传送门</a></li>
 <li> 百度挺多的，直接搜就行了,多看几篇文章即可。但是本源还是上面的陈建军师傅的paper</li>
@@ -270,8 +270,8 @@
 <li> 国外大牛的paper<a target="_blank" rel="noopener" href="https://www.geekboy.ninja/blog/exploiting-misconfigured-cors-cross-origin-resource-sharing/">传送门</a>（其实我觉得很稀烂，可能因为语言原因）</li>
 <li> 发现一片13年的文章，说明漏洞研究挺久的<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/18493.html">传送门</a></li>
 </ol>
-<h1 id="利用工具"><a href="#利用工具" class="headerlink" title="利用工具"></a>利用工具</h1><p>陈建军师傅开发的工具CORScanner<a target="_blank" rel="noopener" href="https://github.com/chenjj/CORScanner">传送门</a></p>
-<h1 id="文章概述"><a href="#文章概述" class="headerlink" title="文章概述"></a>文章概述</h1><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827182215.png" srcset="/img/loading.gif" lazyload alt="20190827182215.png"><br>由上图可以看出特征点Access-Control-Allow-Origin和Access-Control-Allow-Credentials。疑似存在cors漏洞</p>
+<h2 id="利用工具"><a href="#利用工具" class="headerlink" title="利用工具"></a>利用工具</h2><p>陈建军师傅开发的工具CORScanner<a target="_blank" rel="noopener" href="https://github.com/chenjj/CORScanner">传送门</a></p>
+<h1 id="一个案例"><a href="#一个案例" class="headerlink" title="一个案例"></a>一个案例</h1><h2 id="文章概述"><a href="#文章概述" class="headerlink" title="文章概述"></a>文章概述</h2><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827182215.png" srcset="/img/loading.gif" lazyload alt="20190827182215.png"><br>由上图可以看出特征点Access-Control-Allow-Origin和Access-Control-Allow-Credentials。疑似存在cors漏洞</p>
 <ul>
 <li>  这是个cors漏洞，但因为利用场景极其苛刻，可以说正常情况下基本利用不了。仅供出具渗透测试报告给厂商，作一个风险证明。</li>
 <li>  为什么场景苛刻，只能做个证明？因为浏览器sop的限制，导致跨域访问很难进行。参考陈建军师傅<a target="_blank" rel="noopener" href="https://www.jianjunchen.com/post/cors%E5%AE%89%E5%85%A8%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/#2-6-origin-%E4%B8%8E-credentials-true-%E5%85%B1%E7%94%A8">《文章的2.6章节》</a>和CSDN文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/haoren_xhf/article/details/80050311">《Access-control-allow-origin:*并没有实际危害（更新）》</a></li>
@@ -282,25 +282,25 @@
 </ul>
 </li>
 </ul>
-<p><strong>因为正常来说是不会disable掉这些选项的，所以难利用</strong><br>当然我也只是尝试了一部分方法然后得出上面的结论，可能有点草率，主要是网上没搜到相关文章。抛砖引玉吧！<br>如果还有其他方法，欢迎大佬们一起交流如何绕过这个限制，</p>
-<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><ol>
+<p><strong>因为正常来说是不会disable掉这些选项的，所以难利用</strong><br>当然我也只是尝试了一部分方法然后得出上面的结论，可能有点草率，主要是网上没搜到相关文章。抛砖引玉吧！<br>如果还有其他方法，欢迎大佬们一起交流如何绕过这个限制</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><ol>
 <li>发现被限制了<br> <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/%E8%A2%AB%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E9%99%90%E5%88%B6.png" srcset="/img/loading.gif" lazyload alt="被同源策略限制.png"><br> 原因很简单：原文cors策略的限制，导致如果Access-Control-Allow-Origin为*，则Access-Control-Allow-Credentials不可以为true</li>
 <li>在Stack Overflow上找到解决方法，即采取disable掉一些安全选项。<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/20947359/how-to-disable-same-origin-policy-internet-explorer/20947828#20947828">传送门</a><br> <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827172718.png" srcset="/img/loading.gif" lazyload alt="20190827172718.png"><br> 我的disable过程截图，见文末，就不占正文空间了。</li>
 <li>构建cors站点的poc很多，推荐两个GitHub上的<a target="_blank" rel="noopener" href="https://github.com/chenjj/CORScanner">陈建军师傅的版本</a>以及<a target="_blank" rel="noopener" href="https://github.com/topavankumarj/CORS-Exploit-Script/blob/master/cors.html">我使用的版本</a><br> 由于前端代码功力太弱，建军师傅的poc我只能打印console log，然后报错，尝试半天，就换了其他的。emmm前端很菜勿喷</li>
-<li>最后的利用截图（别问，政企客户打码得死死的！)<br> <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/cors%E6%89%93%E7%A0%81.gif" srcset="/img/loading.gif" lazyload alt="cors打码.gif"></li>
 </ol>
-<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><h2 id="白帽汇的一篇cors文章"><a href="#白帽汇的一篇cors文章" class="headerlink" title="白帽汇的一篇cors文章"></a>白帽汇的一篇cors文章</h2><p>白帽汇的<a target="_blank" rel="noopener" href="https://nosec.org/home/detail/2440.html">翻译文章</a> 以及英文的<a target="_blank" rel="noopener" href="https://www.we45.com/blog/3-ways-to-exploit-misconfigured-cross-origin-resource-sharing-cors">原文</a> </p>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>最后的利用截图（别问，政企客户打码得死死的！)<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/cors%E6%89%93%E7%A0%81.gif" srcset="/img/loading.gif" lazyload alt="cors打码.gif"></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><h3 id="白帽汇的一篇cors文章"><a href="#白帽汇的一篇cors文章" class="headerlink" title="白帽汇的一篇cors文章"></a>白帽汇的一篇cors文章</h3><p>白帽汇的<a target="_blank" rel="noopener" href="https://nosec.org/home/detail/2440.html">翻译文章</a> 以及英文的<a target="_blank" rel="noopener" href="https://www.we45.com/blog/3-ways-to-exploit-misconfigured-cross-origin-resource-sharing-cors">原文</a> </p>
 <p>白帽汇的这篇cors的翻译文章的第一攻击场景，说<strong>Access-Control-Allow-Origin=*</strong> 和 <strong>Access-Control-Allow-Credentials=true</strong>同时出现就可以利用，其实是错误的。主要是没有注意英文原文下面的评论部分</p>
 <p>这个更加警醒我自己，纸上得来终觉浅，还是要自己亲自尝试才是！</p>
-<h2 id="其他失败的尝试过程"><a href="#其他失败的尝试过程" class="headerlink" title="其他失败的尝试过程"></a>其他失败的尝试过程</h2><p>chrome的尝试跨域的解决方法</p>
+<h3 id="其他失败的尝试过程"><a href="#其他失败的尝试过程" class="headerlink" title="其他失败的尝试过程"></a>其他失败的尝试过程</h3><p>chrome的尝试跨域的解决方法</p>
 <ul>
 <li>  插件法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/a1333888/article/details/52575325">https://blog.csdn.net/a1333888/article/details/52575325</a></li>
 <li>  命令法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39704803/article/details/82760363">https://blog.csdn.net/qq_39704803/article/details/82760363</a></li>
 <li>  命令法②：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Umbrella_Um/article/details/98222981">https://blog.csdn.net/Umbrella_Um/article/details/98222981</a><br>我个人尝试过chrome多个命令，但是最后还是无果</li>
 </ul>
 <p><a target="_blank" rel="noopener" href="https://www.webdavsystem.com/ajax/programming/cross_origin_requests/">传送门</a>，查看该文章发现chrome和firefox如果想利用，则需要服务器端设置相关参数，而ie9貌似可以通过disable一些选项操作，但是我这个涉及到ajax异步的过程，ie9支持不够好，无法好好利用就没有深究。</p>
-<h2 id="我的disable过程截图"><a href="#我的disable过程截图" class="headerlink" title="我的disable过程截图"></a>我的disable过程截图</h2><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173022.png" srcset="/img/loading.gif" lazyload alt="20190827173022.png"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173101.png" srcset="/img/loading.gif" lazyload alt="20190827173101.png"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173133.png" srcset="/img/loading.gif" lazyload alt="20190827173133.png"></p>
-<h2 id="利用过程中ie11出现的小问题"><a href="#利用过程中ie11出现的小问题" class="headerlink" title="利用过程中ie11出现的小问题"></a>利用过程中ie11出现的小问题</h2><p>本来可以正常使用，但是中途用着用着，点击按钮就没反应<br>F12查看控制台报错“SCRIPT5007: 属性“$”的值为 null、未定义或不是 Function 对象”<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173220.png" srcset="/img/loading.gif" lazyload alt="20190827173220.png"><br>解决方法：<strong>重置ie浏览器设置即可，重置过程</strong><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173308.png" srcset="/img/loading.gif" lazyload alt="20190827173308.png"></p>
+<h3 id="我的disable过程截图"><a href="#我的disable过程截图" class="headerlink" title="我的disable过程截图"></a>我的disable过程截图</h3><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173022.png" srcset="/img/loading.gif" lazyload alt="20190827173022.png"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173101.png" srcset="/img/loading.gif" lazyload alt="20190827173101.png"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173133.png" srcset="/img/loading.gif" lazyload alt="20190827173133.png"></p>
+<h3 id="利用过程中ie11出现的小问题"><a href="#利用过程中ie11出现的小问题" class="headerlink" title="利用过程中ie11出现的小问题"></a>利用过程中ie11出现的小问题</h3><p>本来可以正常使用，但是中途用着用着，点击按钮就没反应<br>F12查看控制台报错“SCRIPT5007: 属性“$”的值为 null、未定义或不是 Function 对象”<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173220.png" srcset="/img/loading.gif" lazyload alt="20190827173220.png"><br>解决方法：<strong>重置ie浏览器设置即可，重置过程</strong><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173308.png" srcset="/img/loading.gif" lazyload alt="20190827173308.png"></p>
 
                             </div>
                             

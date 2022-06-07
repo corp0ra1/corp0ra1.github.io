@@ -296,11 +296,12 @@
 </li>
 <li><p>sql新思路<code>select case when xxx  then sleep(2) else 0 end</code></p>
 <ul>
-<li>  强网<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/179598">传送门</a><h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2></li>
+<li>  强网<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/179598">传送门</a></li>
 </ul>
 </li>
-<li><p>基于服务器接收到的响应</p>
-<ul>
+</ul>
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul>
+<li>基于服务器接收到的响应<ul>
 <li>  报错</li>
 <li>  联合查询</li>
 <li>  堆查询</li>
@@ -312,20 +313,17 @@
 </li>
 </ul>
 </li>
-<li><p>基于如何处理输入的sql查询（数据类型）</p>
-<ul>
+<li>基于如何处理输入的sql查询（数据类型）<ul>
 <li>  字符串：<code>where name=xxx</code>（更常见）</li>
 <li>  整形注入：<code>where id=xxx</code></li>
 </ul>
 </li>
-<li><p>基于程度和顺序的注入（哪里发生了影响）</p>
-<ul>
+<li>基于程度和顺序的注入（哪里发生了影响）<ul>
 <li>  一阶注入:输入的注入语句直接对web产生影响，显示了结果</li>
 <li>  二阶注入：类似存储性xss,是指输入的注入语句，无法直接对web应用程序产生影响，需要其他手段辅助来间接对web产生危害</li>
 </ul>
 </li>
-<li><p>基于注入点位置</p>
-<ul>
+<li>基于注入点位置<ul>
 <li>  表单：get/post</li>
 <li>  cookie</li>
 <li>  header</li>
@@ -367,7 +365,9 @@
 <li>  –%20（post表单中的填写方式）</li>
 <li>  %23（get表单中的填写方式）</li>
 <li>  #（post表单中的填写方式）</li>
-<li>  – corporal 用来宣誓主权的写法<h2 id="常用试探语句"><a href="#常用试探语句" class="headerlink" title="常用试探语句"></a>常用试探语句</h2><table>
+<li>  – corporal 用来宣誓主权的写法</li>
+</ul>
+<h2 id="常用试探语句"><a href="#常用试探语句" class="headerlink" title="常用试探语句"></a>常用试探语句</h2><table>
 <thead>
 <tr>
 <th>语句</th>
@@ -403,8 +403,6 @@
 <td>双引号+双括号</td>
 </tr>
 </tbody></table>
-</li>
-</ul>
 <blockquote>
 <p>and (select count(*) from mysql.user)&gt;0 来判断用户是否有权限dump into file</p>
 <blockquote>
@@ -452,9 +450,14 @@
 <li>   <code>select * from users where id=1 and 1=(user() like &#39;ro%&#39;);</code><blockquote>
 <p>只有%和_，没有^和$。这里不是php里面的正则写法！<br>只能是’’，而非‘’。注意中英文的引号区别</p>
 </blockquote>
-<h3 id="in"><a href="#in" class="headerlink" title="in"></a>in</h3><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190612195425.png" srcset="/img/loading.gif" lazyload alt="20190612195425.png"><br>而且可以不需要等号 不需要空格 毕竟两边都是括号！<strong>不需要空格间隔</strong>！！！<h3 id="between-and"><a href="#between-and" class="headerlink" title="between and"></a>between and</h3>c  beween a and b满足a≤c＜b的关系<br>因为一边是小于等于，一边是小于，所以可以基于 chr(x) chr(x+1)的形式来匹配字符<br>当匹配到第一个字符的时候 j的时候，在进行下一个字符比较，可以达到爆破的效果<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190612201436.png" srcset="/img/loading.gif" lazyload alt="20190612201436.png"><br>因为两边都是单引号包围的，则可以通过十六进制的形式来绕过，<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190612201910.png" srcset="/img/loading.gif" lazyload alt="20190612201910.png"><br>当然可以通过括号的形式，来绕过对空格的过滤。<br>但是因为and都可以使用了，其他的爆破方式基本应该可以使用，就显得比较鸡肋，但是我相信总有一天他会有用的！！！！<h3 id="order-by"><a href="#order-by" class="headerlink" title="order by"></a>order by</h3>没想到吧！其实我也没想到！<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190612202628.png" srcset="/img/loading.gif" lazyload alt="20190612202628.png"><br>感觉也比较鸡肋，比较都可以联合查询了！<br>但是如果所有函数都禁止使用了呢，regexp,in,like，and也被过滤了呢，是金子总会发光！<h3 id="大于小于等于号"><a href="#大于小于等于号" class="headerlink" title="大于小于等于号"></a>大于小于等于号</h3>当你意识到between and的时候，就应该意识到大于小于的问题了<br>但是必须搭配and<br>不搭配and无法准确爆破，只能如下图一样得到最大，最小两端的两个极值<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190612203542.png" srcset="/img/loading.gif" lazyload alt="20190612203542.png"><h2 id="盲注方法"><a href="#盲注方法" class="headerlink" title="盲注方法"></a>盲注方法</h2>报错注入&gt;bool直接盲注&gt;bool构造报错盲注&gt;bool构造时间盲注<h3 id="报错之构造payload让信息通过错误提示回显出来"><a href="#报错之构造payload让信息通过错误提示回显出来" class="headerlink" title="报错之构造payload让信息通过错误提示回显出来"></a>报错之构造payload让信息通过错误提示回显出来</h3></li>
+</li>
 </ul>
-<table>
+<h3 id="in"><a href="#in" class="headerlink" title="in"></a>in</h3><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190612195425.png" srcset="/img/loading.gif" lazyload alt="20190612195425.png"><br>而且可以不需要等号 不需要空格 毕竟两边都是括号！<strong>不需要空格间隔</strong>！！！</p>
+<h3 id="between-and"><a href="#between-and" class="headerlink" title="between and"></a>between and</h3><p>c  beween a and b满足a≤c＜b的关系<br>因为一边是小于等于，一边是小于，所以可以基于 chr(x) chr(x+1)的形式来匹配字符<br>当匹配到第一个字符的时候 j的时候，在进行下一个字符比较，可以达到爆破的效果<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190612201436.png" srcset="/img/loading.gif" lazyload alt="20190612201436.png"><br>因为两边都是单引号包围的，则可以通过十六进制的形式来绕过，<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190612201910.png" srcset="/img/loading.gif" lazyload alt="20190612201910.png"><br>当然可以通过括号的形式，来绕过对空格的过滤。<br>但是因为and都可以使用了，其他的爆破方式基本应该可以使用，就显得比较鸡肋，但是我相信总有一天他会有用的！！！！</p>
+<h3 id="order-by"><a href="#order-by" class="headerlink" title="order by"></a>order by</h3><p>没想到吧！其实我也没想到！<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190612202628.png" srcset="/img/loading.gif" lazyload alt="20190612202628.png"><br>感觉也比较鸡肋，比较都可以联合查询了！<br>但是如果所有函数都禁止使用了呢，regexp,in,like，and也被过滤了呢，是金子总会发光！</p>
+<h3 id="大于小于等于号"><a href="#大于小于等于号" class="headerlink" title="大于小于等于号"></a>大于小于等于号</h3><p>当你意识到between and的时候，就应该意识到大于小于的问题了<br>但是必须搭配and<br>不搭配and无法准确爆破，只能如下图一样得到最大，最小两端的两个极值<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190612203542.png" srcset="/img/loading.gif" lazyload alt="20190612203542.png"></p>
+<h2 id="盲注方法"><a href="#盲注方法" class="headerlink" title="盲注方法"></a>盲注方法</h2><p>报错注入&gt;bool直接盲注&gt;bool构造报错盲注&gt;bool构造时间盲注</p>
+<h3 id="报错之构造payload让信息通过错误提示回显出来"><a href="#报错之构造payload让信息通过错误提示回显出来" class="headerlink" title="报错之构造payload让信息通过错误提示回显出来"></a>报错之构造payload让信息通过错误提示回显出来</h3><table>
 <thead>
 <tr>
 <th>函数</th>

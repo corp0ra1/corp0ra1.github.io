@@ -92,10 +92,10 @@
     <link href="https://corp0ra1.github.io/2019/07/21/[old]CORS%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/"/>
     <id>https://corp0ra1.github.io/2019/07/21/[old]CORS%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/</id>
     <published>2019-07-21T07:41:00.000Z</published>
-    <updated>2022-06-07T12:32:55.520Z</updated>
+    <updated>2022-06-07T13:09:32.722Z</updated>
     
     
-    <summary type="html">对CORS漏洞的学习，并且绕过sop限制，弄出危害演示demo。</summary>
+    <summary type="html">对CORS漏洞的学习，并且绕过sop限制，弄出演示demo。</summary>
     
     
     
@@ -113,7 +113,7 @@
     <link href="https://corp0ra1.github.io/2019/07/18/[old]%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B4%9E/"/>
     <id>https://corp0ra1.github.io/2019/07/18/[old]%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B4%9E/</id>
     <published>2019-07-18T13:53:00.000Z</published>
-    <updated>2022-06-07T12:06:07.591Z</updated>
+    <updated>2022-06-07T13:10:39.367Z</updated>
     
     
     <summary type="html">渗透从DVWA、sqlmaplabs、uploadlabs等靶场走向实战的第一步</summary>
@@ -220,7 +220,7 @@
     <link href="https://corp0ra1.github.io/2019/06/18/[old]sqli-labs%E9%9D%B6%E5%9C%BA-%E6%8A%80%E8%83%BD%E7%82%B9%E8%A1%A5%E5%85%85/"/>
     <id>https://corp0ra1.github.io/2019/06/18/[old]sqli-labs%E9%9D%B6%E5%9C%BA-%E6%8A%80%E8%83%BD%E7%82%B9%E8%A1%A5%E5%85%85/</id>
     <published>2019-06-17T16:45:00.000Z</published>
-    <updated>2022-06-07T12:38:44.110Z</updated>
+    <updated>2022-06-07T13:19:06.334Z</updated>
     
     
     <summary type="html">sqli-labs靶场通关过程中，一些小的知识点以及其他知识点的学习</summary>
