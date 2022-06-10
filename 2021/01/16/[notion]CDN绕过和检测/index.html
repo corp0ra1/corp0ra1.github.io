@@ -14,11 +14,11 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="对CORS漏洞的学习，并且绕过sop限制，弄出演示demo。">
+  <meta name="description" content="对CDN的判断以及寻找背后IP的方法进行研究">
   <meta name="author" content="corp0ra1">
   <meta name="keywords" content="">
   
-  <title>CORS漏洞学习及实战应用 - corp0ra1&#39;s Blog</title>
+  <title>CDN绕过和检测 - corp0ra1&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -165,7 +165,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="CORS漏洞学习及实战应用">
+            <span class="h2" id="subtitle" title="CDN绕过和检测">
               
             </span>
 
@@ -175,8 +175,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2019-07-21 15:41" pubdate>
-        2019年7月21日 下午
+      <time datetime="2021-01-16 00:00" pubdate>
+        2021年1月16日 凌晨
       </time>
     </span>
   
@@ -197,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      16
+      18
        分钟
     </span>
   
@@ -236,78 +236,99 @@
                         <article class="post-content mx-auto">
                             <!-- SEO header -->
                             <h1 style="display: none">
-                                CORS漏洞学习及实战应用
+                                CDN绕过和检测
                             </h1>
                             <div class="markdown-body">
-                                <h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><p>同事搞了个cors的漏洞，什么是cors?我怎么没有听说过？啥玩意啊？我干</p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>谈及cors,需要先了解同源策略，跨域请求方案等。<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36119192/article/details/82931250">传送门</a></p>
-<ol>
-<li>同源策略<ol>
-<li> 是指域名，协议，端口相同</li>
-<li> 目的是为了自己的数据只能自己，其他人无法访问</li>
-</ol>
-</li>
-<li>跨域请求方案<ol>
-<li> 目的为了突破同源策略的限制，使得自己的数据自己的朋友也可以访问</li>
-<li> 两种方案jsonP和cors</li>
-</ol>
-</li>
-<li>jsonP和cors区别 <a target="_blank" rel="noopener" href="https://blog.csdn.net/saytime/article/details/51549888">传送门</a><ol>
-<li> SONP只能实现GET请求，而CORS支持所有类型的HTTP请求。</li>
-<li> 使用CORS，开发者可以使用普通的XMLHttpRequest发起请求和获得数据，比起JSONP有更好的错误处理。</li>
-<li>JSONP主要被老的浏览器支持，它们往往不支持CORS，而绝大多数现代浏览器都已经支持了CORS<blockquote>
-<p>CROS是现在主流解决跨域问题的方案，未来估计也是趋势。</p>
+                                <h1 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h1><p>原本打算对20年末这篇文章进行翻译：<a target="_blank" rel="noopener" href="https://zdresearch.com/finding-the-origin-ip-behind-cdns/">Finding The Origin IP Behind CDNs - ZDResearch</a></p>
+<p>但是检索国内文章，发现这个人在21年初写的更好:《CDN 2021 完全攻击指南 （一）》</p>
+<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/227818"></a></p>
+<blockquote>
+<p>记得关注下他的github，期待（二）的更新<a target="_blank" rel="noopener" href="https://github.com/bin-maker/2021CDN/">https://github.com/bin-maker/2021CDN/</a></p>
 </blockquote>
-<h1 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h1><h2 id="什么是cors"><a href="#什么是cors" class="headerlink" title="什么是cors"></a>什么是cors</h2>CORS 是一个 W3C 标准，全称是“跨域资源共享”（Cross-origin resource sharing）。它允许浏览器向跨域的服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制。<br>CORS定义了两种跨域请求：简单请求 和 非简单请求。简单跨域请求就是使用设定的请求方式请求数据，而非简单跨域请求则是在使用设定的请求方式请求数据之前，先发送一个OPTIONS预检请求，验证请求源是否为服务端允许源。只有”预检”通过后才会再发送一次请求用于数据传输。<a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/bom/cors.html">详情点此传送门</a></li>
-</ol>
+<p>前者的英文文章对CDN的原理，以及从蓝方如何防御的视角来看红方如何攻击部分比较好</p>
+<p>关于如何绕过找到CDN的方法，后者中文的文章更多的介绍方法</p>
+<h2 id="如何判断CDN与否"><a href="#如何判断CDN与否" class="headerlink" title="如何判断CDN与否"></a>如何判断CDN与否</h2><h3 id="想法一：对CDN的ip进行整理"><a href="#想法一：对CDN的ip进行整理" class="headerlink" title="想法一：对CDN的ip进行整理"></a>想法一：对CDN的ip进行整理</h3><p>本来想法是：找到所有CDN厂商IP，设置黑名单进行过滤即可</p>
+<p>CDN厂商本身有义务公布IP（客户设置waf的IP白名单），但是<strong>找到所有CDN出口IP这一点是不现实的</strong></p>
+<p>因为CDN IP是不断变动的：①根据用户需求动态调整出口IP的多少②时效性，CDN厂商本身的IP范围本身就动态变化</p>
+<p>厂商公开的CDN地址：</p>
+<ul>
+<li><p>cloudflare：<a target="_blank" rel="noopener" href="https://www.cloudflare.com/ips-v4">https://www.cloudflare.com/ips-v4</a></p>
 </li>
-</ol>
-<h2 id="cors漏洞成因"><a href="#cors漏洞成因" class="headerlink" title="cors漏洞成因"></a>cors漏洞成因</h2><p>就是对cors的配置错误，导致攻击者可以伪装为受害者服务器所允许站点去获取受害者服务器上的资源<br>具体利用，我觉得几篇paper讲的比较清楚的，推荐下</p>
+<li><p>百度云：<a target="_blank" rel="noopener" href="https://su.baidu.com/help/index.html#/10_changjianwenti/0_HIDE_FAQ/20_baiduyunjiasujiedianIPdizhiduan.md">https://su.baidu.com/help/index.html#/10_changjianwenti/0_HIDE_FAQ/20_baiduyunjiasujiedianIPdizhiduan.md</a></p>
+</li>
+<li><p>他人整理的</p>
 <ol>
-<li> 18年DefConChina的陈建军的议题《从外部入侵内网，跨域资源共享（CORS）的安全问题》<a target="_blank" rel="noopener" href="https://www.jianjunchen.com/post/cors%E5%AE%89%E5%85%A8%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/#1-1-%E4%BB%8E-sop-%E5%88%B0-cors">传送门</a></li>
-<li> 百度挺多的，直接搜就行了,多看几篇文章即可。但是本源还是上面的陈建军师傅的paper</li>
-<li> portswigger的文章<a target="_blank" rel="noopener" href="https://portswigger.net/blog/exploiting-cors-misconfigurations-for-bitcoins-and-bounties">传送门</a>中文翻译文章<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2702">传送门</a></li>
-<li> 国外大牛的paper<a target="_blank" rel="noopener" href="https://www.geekboy.ninja/blog/exploiting-misconfigured-cors-cross-origin-resource-sharing/">传送门</a>（其实我觉得很稀烂，可能因为语言原因）</li>
-<li> 发现一片13年的文章，说明漏洞研究挺久的<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/18493.html">传送门</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.w3h5.com/post/364.html">https://www.w3h5.com/post/364.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/timwhitez/Sub-Filter/blob/master/blacklist.txt">https://github.com/timwhitez/Sub-Filter/blob/master/blacklist.txt</a></li>
+<li><a target="_blank" rel="noopener" href="https://ixyzero.com/blog/archives/4961.html">https://ixyzero.com/blog/archives/4961.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://bacde.me/post/some-waf-cdn-lb-list/">https://bacde.me/post/some-waf-cdn-lb-list/</a>  CDN ip</li>
 </ol>
-<h2 id="利用工具"><a href="#利用工具" class="headerlink" title="利用工具"></a>利用工具</h2><p>陈建军师傅开发的工具CORScanner<a target="_blank" rel="noopener" href="https://github.com/chenjj/CORScanner">传送门</a></p>
-<h1 id="一个案例"><a href="#一个案例" class="headerlink" title="一个案例"></a>一个案例</h1><h2 id="文章概述"><a href="#文章概述" class="headerlink" title="文章概述"></a>文章概述</h2><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827182215.png" srcset="/img/loading.gif" lazyload alt="20190827182215.png"><br>由上图可以看出特征点Access-Control-Allow-Origin和Access-Control-Allow-Credentials。疑似存在cors漏洞</p>
-<ul>
-<li>  这是个cors漏洞，但因为利用场景极其苛刻，可以说正常情况下基本利用不了。仅供出具渗透测试报告给厂商，作一个风险证明。</li>
-<li>  为什么场景苛刻，只能做个证明？因为浏览器sop的限制，导致跨域访问很难进行。参考陈建军师傅<a target="_blank" rel="noopener" href="https://www.jianjunchen.com/post/cors%E5%AE%89%E5%85%A8%E9%83%A8%E7%BD%B2%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/#2-6-origin-%E4%B8%8E-credentials-true-%E5%85%B1%E7%94%A8">《文章的2.6章节》</a>和CSDN文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/haoren_xhf/article/details/80050311">《Access-control-allow-origin:*并没有实际危害（更新）》</a></li>
-<li>我怎么做的？<ul>
-<li>  观察到客户端有请求到对应站点，同时服务器有返回包返回给客户端，只不过本地浏览器的限制导致无法利用。既然浏览器的问题，则可以通过换个浏览器，或者换个版本尝试。</li>
-<li>  chrome尝试执行命令disable掉安全选项，但是无果。firefox也报错,ie9对异步请求支持不行。</li>
-<li>  最后我采取ie同时disable掉一些安全选项。ie版本:11.295.18362.0</li>
-</ul>
 </li>
 </ul>
-<p><strong>因为正常来说是不会disable掉这些选项的，所以难利用</strong><br>当然我也只是尝试了一部分方法然后得出上面的结论，可能有点草率，主要是网上没搜到相关文章。抛砖引玉吧！<br>如果还有其他方法，欢迎大佬们一起交流如何绕过这个限制</p>
-<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><ol>
-<li>发现被限制了<br> <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/%E8%A2%AB%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E9%99%90%E5%88%B6.png" srcset="/img/loading.gif" lazyload alt="被同源策略限制.png"><br> 原因很简单：原文cors策略的限制，导致如果Access-Control-Allow-Origin为*，则Access-Control-Allow-Credentials不可以为true</li>
-<li>在Stack Overflow上找到解决方法，即采取disable掉一些安全选项。<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/20947359/how-to-disable-same-origin-policy-internet-explorer/20947828#20947828">传送门</a><br> <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827172718.png" srcset="/img/loading.gif" lazyload alt="20190827172718.png"><br> 我的disable过程截图，见文末，就不占正文空间了。</li>
-<li>构建cors站点的poc很多，推荐两个GitHub上的<a target="_blank" rel="noopener" href="https://github.com/chenjj/CORScanner">陈建军师傅的版本</a>以及<a target="_blank" rel="noopener" href="https://github.com/topavankumarj/CORS-Exploit-Script/blob/master/cors.html">我使用的版本</a><br> 由于前端代码功力太弱，建军师傅的poc我只能打印console log，然后报错，尝试半天，就换了其他的。emmm前端很菜勿喷</li>
-</ol>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>最后的利用截图（别问，政企客户打码得死死的！)<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/cors%E6%89%93%E7%A0%81.gif" srcset="/img/loading.gif" lazyload alt="cors打码.gif"></p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><h3 id="白帽汇的一篇cors文章"><a href="#白帽汇的一篇cors文章" class="headerlink" title="白帽汇的一篇cors文章"></a>白帽汇的一篇cors文章</h3><p>白帽汇的<a target="_blank" rel="noopener" href="https://nosec.org/home/detail/2440.html">翻译文章</a> 以及英文的<a target="_blank" rel="noopener" href="https://www.we45.com/blog/3-ways-to-exploit-misconfigured-cross-origin-resource-sharing-cors">原文</a> </p>
-<p>白帽汇的这篇cors的翻译文章的第一攻击场景，说<strong>Access-Control-Allow-Origin=*</strong> 和 <strong>Access-Control-Allow-Credentials=true</strong>同时出现就可以利用，其实是错误的。主要是没有注意英文原文下面的评论部分</p>
-<p>这个更加警醒我自己，纸上得来终觉浅，还是要自己亲自尝试才是！</p>
-<h3 id="其他失败的尝试过程"><a href="#其他失败的尝试过程" class="headerlink" title="其他失败的尝试过程"></a>其他失败的尝试过程</h3><p>chrome的尝试跨域的解决方法</p>
+<h3 id="想法二：多地ping"><a href="#想法二：多地ping" class="headerlink" title="想法二：多地ping"></a>想法二：多地ping</h3><p>追求时效性，目前可能于我而言最简单的方法就是现查了</p>
+<p>简单的查验：<a target="_blank" rel="noopener" href="http://ip.tool.chinaz.com/103.37.152.3">http://ip.tool.chinaz.com/</a></p>
+<p>但现查多地ping的方式，单个网站还好，多个？成千上万个？</p>
+<h3 id="想法三：脚本"><a href="#想法三：脚本" class="headerlink" title="想法三：脚本"></a>想法三：脚本</h3><p>要检测 CDN 就要从 CDN 的配置说起，配置 CDN 一般只有两种方式：</p>
+<p><strong>方法1</strong>：</p>
+<p>是给域名设置一个 <code>cname</code> 类型的记录，让它指向 cdn 厂商提供的另一个域名，这种域名有前缀一般是看起来很随机那种。</p>
+<p><strong>方法2</strong>：</p>
+<p>把域名的 <code>NS</code> 记录指向 CDN 厂商的 DNS 服务器 IP。</p>
+<p>Github 上面有一个开源项目，收集了所有常见的 cdn 厂商的 ip 范围与 cname 信息，用可于判断目标配置了具体哪个 CDN。</p>
+<p>或者有的 CDN 会改 http 响应头，能在响应头里面直接看出来。</p>
+<p><a target="_blank" rel="noopener" href="http://blog.leanote.com/post/snowming/6b9969a4aaf2">http://blog.leanote.com/post/snowming/6b9969a4aaf2</a></p>
+<p>相关轮子：</p>
+<p><strong>方法1</strong>：利用 ASN。ASN 是自治系统号，相同组织的 ASN 是一样的，所以一个 CDN 厂商的 IP 段可能都在一个 ASN 里。<a target="_blank" rel="noopener" href="https://github.com/al0ne/Vxscan/blob/master/lib/iscdn.py">https://github.com/al0ne/Vxscan/blob/master/lib/iscdn.py</a></p>
+<p><strong>方法2</strong>：查询HTTP头和Cname<a target="_blank" rel="noopener" href="https://github.com/Qclover/CDNCheck/blob/master/checkCDN/cdn3_check.py">https://github.com/Qclover/CDNCheck/blob/master/checkCDN/cdn3_check.py</a></p>
+<p>oneforall集成了上述两种方法：<a target="_blank" rel="noopener" href="https://github.com/shmilylty/OneForAll/blob/82e0180a17d91d0405541da90eb230e72be67471/modules/iscdn.py">https://github.com/shmilylty/OneForAll/blob/82e0180a17d91d0405541da90eb230e72be67471/modules/iscdn.py</a></p>
+<h1 id="如何绕CDN找源IP的其他trick"><a href="#如何绕CDN找源IP的其他trick" class="headerlink" title="如何绕CDN找源IP的其他trick"></a>如何绕CDN找源IP的其他trick</h1><h2 id="0-工具"><a href="#0-工具" class="headerlink" title="0. 工具"></a>0. 工具</h2><blockquote>
+<p>在上述文章提及之外的工具</p>
+</blockquote>
 <ul>
-<li>  插件法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/a1333888/article/details/52575325">https://blog.csdn.net/a1333888/article/details/52575325</a></li>
-<li>  命令法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39704803/article/details/82760363">https://blog.csdn.net/qq_39704803/article/details/82760363</a></li>
-<li>  命令法②：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Umbrella_Um/article/details/98222981">https://blog.csdn.net/Umbrella_Um/article/details/98222981</a><br>我个人尝试过chrome多个命令，但是最后还是无果</li>
+<li>根据IP找到host：<a target="_blank" rel="noopener" href="https://pentest-tools.com/information-gathering/find-virtual-hosts">https://pentest-tools.com/information-gathering/find-virtual-hosts</a></li>
+<li>扫描全网IP的工具w8fuckcdn：<a target="_blank" rel="noopener" href="https://github.com/boy-hack/w8fuckcdn">https://github.com/boy-hack/w8fuckcdn</a>，原理: 扫描全网，就如同前面文章所说，具体用法：<a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv8384169/">https://www.bilibili.com/read/cv8384169/</a></li>
+<li>针对cloudflare寻找其背后IP的工具：CloudFail，<a target="_blank" rel="noopener" href="https://github.com/m0rtem/CloudFail">https://github.com/m0rtem/CloudFail</a></li>
 </ul>
-<p><a target="_blank" rel="noopener" href="https://www.webdavsystem.com/ajax/programming/cross_origin_requests/">传送门</a>，查看该文章发现chrome和firefox如果想利用，则需要服务器端设置相关参数，而ie9貌似可以通过disable一些选项操作，但是我这个涉及到ajax异步的过程，ie9支持不够好，无法好好利用就没有深究。</p>
-<h3 id="我的disable过程截图"><a href="#我的disable过程截图" class="headerlink" title="我的disable过程截图"></a>我的disable过程截图</h3><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173022.png" srcset="/img/loading.gif" lazyload alt="20190827173022.png"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173101.png" srcset="/img/loading.gif" lazyload alt="20190827173101.png"><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173133.png" srcset="/img/loading.gif" lazyload alt="20190827173133.png"></p>
-<h3 id="利用过程中ie11出现的小问题"><a href="#利用过程中ie11出现的小问题" class="headerlink" title="利用过程中ie11出现的小问题"></a>利用过程中ie11出现的小问题</h3><p>本来可以正常使用，但是中途用着用着，点击按钮就没反应<br>F12查看控制台报错“SCRIPT5007: 属性“$”的值为 null、未定义或不是 Function 对象”<br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173220.png" srcset="/img/loading.gif" lazyload alt="20190827173220.png"><br>解决方法：<strong>重置ie浏览器设置即可，重置过程</strong><br><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/data/20190827173308.png" srcset="/img/loading.gif" lazyload alt="20190827173308.png"></p>
+<h2 id="1-绕过不允许IP访问的方法"><a href="#1-绕过不允许IP访问的方法" class="headerlink" title="1. 绕过不允许IP访问的方法"></a>1. 绕过不允许IP访问的方法</h2><p>在防护的时候，手段之一：只允许域名访问，不允许IP访问</p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs axapta"><span class="hljs-meta">#添加一个server,在原server里绑定域名</span><br><span class="hljs-keyword">server</span>  &#123;<br>        listen <span class="hljs-number">80</span> <span class="hljs-literal">default</span>;        <br>        server_name _;        <br>        <span class="hljs-keyword">return</span> <span class="hljs-number">403</span>;    <br>   &#125;<br><span class="hljs-keyword">server</span> &#123;<br>        listen       <span class="hljs-number">80</span>;        <br>        server_name  www.demo.com;        <br>        .........<br></code></pre></td></tr></table></figure>
+
+<p>解决方案：如果攻击者有了真实IP地址，修改本地hosts文件，强行将域名与IP解析，从而本地访问请求是无需经过DNS解析，还是可以绕过CDN防护。</p>
+<p><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/125603.html">https://www.secpulse.com/archives/125603.html</a></p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs autoit"><span class="hljs-keyword">if</span> ($host != <span class="hljs-string">&quot;example.com&quot;</span>) &#123;<br> <span class="hljs-keyword">return</span> <span class="hljs-number">404</span><span class="hljs-comment">;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>还有这种的防护，所以为什么一些请求在请求的时候要加上host头，论host头的重要性</p>
+<h2 id="2-偏远地区服务器访问"><a href="#2-偏远地区服务器访问" class="headerlink" title="2. 偏远地区服务器访问"></a>2. 偏远地区服务器访问</h2><p>在偏远地区的服务器访问时，可能不会访问到 CDN 节点，而是直接访问服务器真实 ip</p>
+<p>所以我们可以搞一个偏远地区的代理池，来访问目标域名，有概率就可以拿到真实 ip</p>
+<p>也就是平常说的多地 Ping</p>
+<p><a target="_blank" rel="noopener" href="https://forum.90sec.com/t/topic/524">https://forum.90sec.com/t/topic/524</a></p>
+<h2 id="3-利用老域名"><a href="#3-利用老域名" class="headerlink" title="3.  利用老域名"></a>3.  利用老域名</h2><p>在换新域名时，常常将 CDN 部署到新的域名上，而老域名由于没过期，可能未使用 CDN，然后就可以直接获取服务器真实 ip。</p>
+<p>例如 patrilic.top &gt; <a target="_blank" rel="noopener" href="http://patrilic.com/">patrilic.com</a></p>
+<p>域名更新时，可能老域名同时解析到真实服务器，但是没有部署 CDN</p>
+<p>这个可以通过搜集域名备案的邮箱去反查，可能会有意外收获</p>
+<p><a target="_blank" rel="noopener" href="https://forum.90sec.com/t/topic/524">https://forum.90sec.com/t/topic/524</a></p>
+<h2 id="4-奇特的-ping"><a href="#4-奇特的-ping" class="headerlink" title="4. 奇特的 ping"></a>4. 奇特的 ping</h2><p>比如可能有些地方，使用的 CDN 都是以 <a target="_blank" rel="noopener" href="http://www.xxx.edu.cn/">www.xxx.edu.cn 3</a>，例如 <a target="_blank" rel="noopener" href="http://www.cuit.edu.cn/">www.cuit.edu.cn 1</a>,<a target="_blank" rel="noopener" href="http://www.jwc.cuit.edu.cn/">www.jwc.cuit.edu.cn</a></p>
+<p>可能去掉前缀的 www，就可能绕过 CDN 了，猜测应该是类似于 Apache VirtualHost, 可参考</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://httpd.apache.org/docs/2.4/en/vhosts/examples.html">https://httpd.apache.org/docs/2.4/en/vhosts/examples.html</a> 2</p>
+</blockquote>
+<h2 id="5-社会工程学之-社工-CDN-平台"><a href="#5-社会工程学之-社工-CDN-平台" class="headerlink" title="5. 社会工程学之 社工 CDN 平台"></a>5. 社会工程学之 社工 CDN 平台</h2><pre><code>您好 这里是XX省通讯管理局 贵公司网站服务器对外发起DOS攻击 你们的域名是XX吗 我解析后IP是XX，假装不是很明白CDN的样子 然后对方可能就反驳说 不是 其实是XXX
+</code></pre>
+<p><a target="_blank" rel="noopener" href="https://www.t00ls.net/viewthread.php?tid=34467&extra=&highlight=CDN&page=2">https://www.t00ls.net/viewthread.php?tid=34467&amp;extra=&amp;highlight=CDN&amp;page=2</a></p>
+<h2 id="6-国外ping"><a href="#6-国外ping" class="headerlink" title="6. 国外ping"></a>6. 国外ping</h2><p>原理：</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/CDN%E7%BB%95%E8%BF%87%E5%92%8C%E6%A3%80%E6%B5%8B/Untitled.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="7-ICP备案查询"><a href="#7-ICP备案查询" class="headerlink" title="7. ICP备案查询"></a>7. ICP备案查询</h2><p>在 ICP/IP地址/域名信息备案管理系统 可以查询IP、域名等相关的ICP备案信息，我们可以通过查询目标站点的 ICP 备案信息，然后进行主备案号的反查，当然这种情况需要该主备案号下拥有其他已备案的域名。</p>
+<p>我们在 ICP/IP地址/域名信息备案管理系统 里检测域名，发现主备案号<br>然后通过主备案号进行查询该备案号下其他的域名</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/CDN%E7%BB%95%E8%BF%87%E5%92%8C%E6%A3%80%E6%B5%8B/Untitled%201.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/CDN%E7%BB%95%E8%BF%87%E5%92%8C%E6%A3%80%E6%B5%8B/Untitled%202.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>通过联系电话，注册邮箱等反查？不失为一种思路</p>
+</blockquote>
 
                             </div>
                             
                                 <p class="note note-info">
                                     
                                                     本文最后更新于：
-                                                        2022年6月7日 晚上
+                                                        2022年6月10日 上午
                                                             
                                 </p>
                                 
@@ -318,8 +339,8 @@
                                                 <div class="post-meta mr-3">
                                                     <i class="iconfont icon-category"></i>
                                                     
-                                                        <a class="hover-with-bg" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
-                                                            渗透测试
+                                                        <a class="hover-with-bg" href="/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/">
+                                                            安全研究
                                                         </a>
                                                         
                                                 </div>
@@ -332,8 +353,12 @@
                                                                     渗透测试
                                                                 </a>
                                                                 
-                                                                <a class="hover-with-bg" href="/tags/CORS/">
-                                                                    CORS
+                                                                <a class="hover-with-bg" href="/tags/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/">
+                                                                    安全研究
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%A2%B3%E7%90%86/">
+                                                                    知识点梳理
                                                                 </a>
                                                                 
                                                         </div>
@@ -351,9 +376,9 @@
                                                         <article class="post-prev col-6">
                                                             
                                                                 
-                                                                    <a href="/2021/01/16/%5Bnotion%5DCDN%E7%BB%95%E8%BF%87%E5%92%8C%E6%A3%80%E6%B5%8B/">
+                                                                    <a href="/2021/02/02/%5Bnotion%5Dhost%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/">
                                                                         <i class="iconfont icon-arrowleft"></i>
-                                                                        <span class="hidden-mobile">CDN绕过和检测</span>
+                                                                        <span class="hidden-mobile">HOST头漏洞的研究</span>
                                                                         <span class="visible-mobile">上一篇</span>
                                                                     </a>
                                                                     
@@ -361,8 +386,8 @@
                                                         <article class="post-next col-6">
                                                             
                                                                 
-                                                                    <a href="/2019/07/18/%5Bold%5D%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B4%9E/">
-                                                                        <span class="hidden-mobile">first vuln from practice to practice</span>
+                                                                    <a href="/2019/07/21/%5Bold%5DCORS%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/">
+                                                                        <span class="hidden-mobile">CORS漏洞学习及实战应用</span>
                                                                         <span class="visible-mobile">下一篇</span>
                                                                         <i class="iconfont icon-arrowright"></i>
                                                                     </a>

@@ -88,6 +88,52 @@
   </entry>
   
   <entry>
+    <title>HOST头漏洞的研究</title>
+    <link href="https://corp0ra1.github.io/2021/02/02/[notion]host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/"/>
+    <id>https://corp0ra1.github.io/2021/02/02/[notion]host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/</id>
+    <published>2021-02-01T16:00:00.000Z</published>
+    <updated>2022-06-10T02:58:54.904Z</updated>
+    
+    
+    <summary type="html">对host头漏洞的成因，绕过以及解决方案进行探究</summary>
+    
+    
+    
+    <category term="安全研究" scheme="https://corp0ra1.github.io/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/"/>
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="安全研究" scheme="https://corp0ra1.github.io/tags/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/"/>
+    
+    <category term="知识点梳理" scheme="https://corp0ra1.github.io/tags/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%A2%B3%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CDN绕过和检测</title>
+    <link href="https://corp0ra1.github.io/2021/01/16/[notion]CDN%E7%BB%95%E8%BF%87%E5%92%8C%E6%A3%80%E6%B5%8B/"/>
+    <id>https://corp0ra1.github.io/2021/01/16/[notion]CDN%E7%BB%95%E8%BF%87%E5%92%8C%E6%A3%80%E6%B5%8B/</id>
+    <published>2021-01-15T16:00:00.000Z</published>
+    <updated>2022-06-10T02:59:04.757Z</updated>
+    
+    
+    <summary type="html">对CDN的判断以及寻找背后IP的方法进行研究</summary>
+    
+    
+    
+    <category term="安全研究" scheme="https://corp0ra1.github.io/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/"/>
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="安全研究" scheme="https://corp0ra1.github.io/tags/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/"/>
+    
+    <category term="知识点梳理" scheme="https://corp0ra1.github.io/tags/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%A2%B3%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
     <title>CORS漏洞学习及实战应用</title>
     <link href="https://corp0ra1.github.io/2019/07/21/[old]CORS%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/"/>
     <id>https://corp0ra1.github.io/2019/07/21/[old]CORS%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/</id>

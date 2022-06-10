@@ -1,0 +1,727 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Avatar.jpg">
+  <link rel="icon" href="/img/Avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="对host头漏洞的成因，绕过以及解决方案进行探究">
+  <meta name="author" content="corp0ra1">
+  <meta name="keywords" content="">
+  
+  <title>HOST头漏洞的研究 - corp0ra1&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"corp0ra1.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"a1a4ccab78dfa522556928ac810fa739","google":"G-4X9XV0H0D5","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="corp0ra1's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">&nbsp;<strong>Corp0ra1's Blog</strong>&nbsp;</a>
+
+        <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto text-center">
+                
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+                                        </li>
+                                        
+                                            
+                                                
+                                                    <li class="nav-item" id="search-btn">
+                                                        <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+                                                    </li>
+                                                    
+                                                        
+                                                            <li class="nav-item" id="color-toggle-btn">
+                                                                <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+                                                            </li>
+                                                            
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" href="/atom.xml">
+                                                                        <i class="iconfont icon-rss"></i>
+                                                                    </a>
+                                                                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/tesla.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="HOST头漏洞的研究">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-02-02 00:00" pubdate>
+        2021年2月2日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      42
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+    <div class="container-fluid nopadding-x">
+        <div class="row nomargin-x">
+            <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-x-md">
+                <div class="container nopadding-x-md" id="board-ctn">
+                    <div class="py-5" id="board">
+                        <article class="post-content mx-auto">
+                            <!-- SEO header -->
+                            <h1 style="display: none">
+                                HOST头漏洞的研究
+                            </h1>
+                            <div class="markdown-body">
+                                <h1 id="闲话"><a href="#闲话" class="headerlink" title="闲话"></a>闲话</h1><h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>在前面学习CDN的时候了解到一个手法：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-keyword">if</span> (<span class="hljs-variable">$host</span> != <span class="hljs-string">&quot;example.com&quot;</span>) &#123;<br> return <span class="hljs-number">404</span>;<br>&#125;<br><span class="hljs-regexp">//</span>https:<span class="hljs-regexp">//</span>zdresearch.com<span class="hljs-regexp">/finding-the-origin-ip-behind-cdns/</span><br></code></pre></td></tr></table></figure>
+
+<p>这种通过检测host头的防护可以一定程度上防止用户直接用IP访问。</p>
+<p>为什么一些请求在请求的时候要加上host头？host头的重要性重要性？host在安全方面有哪些隐患点？</p>
+<p>所以有了此文，让我想了解host头。</p>
+<h2 id="文章推荐"><a href="#文章推荐" class="headerlink" title="文章推荐"></a>文章推荐</h2><p>portswigger的文章：<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/host-header">host-header</a></p>
+<p>CSDN文章：排版以及文章思路结构上不错，基于portswigger的翻译并且还多不少知识点：<a target="_blank" rel="noopener" href="https://blog.csdn.net/angry_program/article/details/109034421">HTTP Host 头攻击</a></p>
+<p>acunetix的文章：<a target="_blank" rel="noopener" href="https://www.acunetix.com/blog/articles/automated-detection-of-host-header-attacks/">automated-detection-of-host-header-attacks/</a></p>
+<p>微信上一篇文章，和acunetix的文章各有春秋：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI2NjUwNjU4OA==&mid=2247483858&idx=1&sn=2170052e99a41de3f98a6f1729dba764">林林总总的Host Header Attack</a></p>
+<p>所以我的行文，大方向摘录于这四篇文章，还其中某些片段还包含很多百度，google搜来的文章，不一定备注全来源，侵则补！</p>
+<blockquote>
+<p>搜案例语法：host header attack hackerone<br>搜文章语法：host 攻击|渗透|SRC|漏洞|赏金|CTF|红蓝|attack|inject</p>
+</blockquote>
+<h1 id="Host头的作用"><a href="#Host头的作用" class="headerlink" title="Host头的作用"></a>Host头的作用</h1><h2 id="host头的知识点"><a href="#host头的知识点" class="headerlink" title="host头的知识点"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/amyzhu/p/8186516.html">host头的知识点</a></h2><ol>
+<li>HTTP/1.0不带host,HTTP/1.1新增host头。</li>
+<li>HTTP/1.1中的host可以为空值但不可以不带。如果不带host头，会返回400 Bad request。</li>
+<li>部分站点不校验host，可以传任意值<strong>。</strong></li>
+<li>host可以是域名，也可以是IP，也可以跟端口号。</li>
+<li>host可以由程序自定义，某些程序为了防止运营商或者绕过防火墙，可以定义虚假host。</li>
+<li>http响应头不包含host字段。</li>
+</ol>
+<h2 id="host的作用"><a href="#host的作用" class="headerlink" title="host的作用"></a>host的作用</h2><p>网上有个几个解释：</p>
+<ul>
+<li>http协议在本质是要先建立tcp连接，而建立tcp连接的同时必须知道对方的ip和端口，然后才能发送数据。既然用户与服务器已经建立了连接，那host字段到底起着什么样的的作用？</li>
+<li>如果我们在浏览器里输入<a href="http://www.baidu.com，浏览器将先请求DNS服务器，获取到目标服务器的IP地址，之后的TCP通信将和域名没有关系。那么，如果一个服务器上有多个网站，那么Nginx在接收到HTTP包后，将如何区分？">www.baidu.com，浏览器将先请求DNS服务器，获取到目标服务器的IP地址，之后的TCP通信将和域名没有关系。那么，如果一个服务器上有多个网站，那么Nginx在接收到HTTP包后，将如何区分？</a></li>
+<li>明白一个前提：有的站点不需要host头，不验证host头，但是有的需要</li>
+</ul>
+<p>综上：同一个IP的同一个80端口上绑定多个域名以及对应服务，Host的作用就是用来区分用户访问的究竟是哪个域名，进而提供对应服务</p>
+<p>打个比方：你去医院就医，看外科。</p>
+<p>有的医院只有外科，你去了导医台，什么不用说，人家就知道你是看外科的，直接给你分配外科医生让你看病</p>
+<p>但是有的医院更综合，你去了导医台，你还需要和别人声明下你是看外科的，人家才能给你分配外科医生</p>
+<p>host的作用的更具体一点呢：</p>
+<ul>
+<li>虚拟主机(VirtualHost)时候使用：同一个IP的同一个80端口上绑定多个域名A,B,C，这个时候根据host头确定具体访问哪个域名（有时候我们在改apache或者nginx配置文件时候会发现需要配置VHOST这个键的值，就是在配置VHOST了，不过我们一般只是搭建测试环境忽略了，所以也可以看出这是富人家的烦恼？)</li>
+<li><del>CDN</del>（虽然portswigger文章将之归与Host的范畴，但是我更愿意将之归于X-Forward-Host这里讨论。关于X-Forward-Host的讨论具体看后文）</li>
+</ul>
+<h2 id="举个例子-Welcome-to-nginx"><a href="#举个例子-Welcome-to-nginx" class="headerlink" title="举个例子:Welcome to nginx"></a>举个例子:Welcome to nginx</h2><p>我经常困扰的问题，为什么我扫描IP段的时候，老给我来个“welcome <em>to nginx”？或者有时候A/admin可以访问（A对应IP为1.1.1.1），但是1.1.1.1/a</em>dmin则返回404</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled.png" srcset="/img/loading.gif" lazyload></p>
+<p>通过前文关于host解释，我的理解是：</p>
+<ul>
+<li>用户输入域名，经过一系列中间处理，变为IP+Port+Host。先通过IP+Port得以访问服务器的Nginx中间件（导医台），此时Nginx根据Host来确定用户到底访问的是哪个域名，进而分配对应服务。</li>
+<li>假设Nginx的配置，A.com对应ServerA，B.com对应ServerB，其他情况是默认的Server，此时用户的Host为W.com或其他，则传入的Host匹配不到对应的Server块，将会发送给默认的Server块，如上图就是Nginx的默认server块的默认界面！</li>
+<li>为什么1.1.1.1/admin则返回404？因为默认Server里面没有/admin的请求处理方法，自然会返回404</li>
+</ul>
+<h1 id="Host头导致的漏洞"><a href="#Host头导致的漏洞" class="headerlink" title="Host头导致的漏洞"></a>Host头导致的漏洞</h1><h2 id="归类"><a href="#归类" class="headerlink" title="归类"></a>归类</h2><p>host头攻击（host header attack）的定义就是篡改Request请求中的host字段来对任意启用未经校验直接调用该字段取值的功能函数。其实从根本性质上讲，host头攻击应该归属于http域变量注射类的攻击。</p>
+<h2 id="成因"><a href="#成因" class="headerlink" title="成因"></a>成因</h2><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs jsx"> （js）&lt;link href=http:<span class="hljs-comment">//_SERVER[&quot;HTTP_HOST&quot;]/a.js&gt;&lt;/link&gt;</span><br>（java）request.getHeader(<span class="hljs-string">&quot;Host&quot;</span>);then  exec(ping host) or select user <span class="hljs-keyword">from</span> corp0ra1 where domain=Host;<br> （php）$_SERVER[<span class="hljs-string">&#x27;HTTP_HOST&#x27;</span>];then sendEmail();<br></code></pre></td></tr></table></figure>
+
+<p>很明显，因为Host字段可控，进而导致了漏洞的产生。</p>
+<p>逆向思考：为什么开发要动态获取Host地址，直接写死静态地址A.com不可以吗？</p>
+<ol>
+<li>CMS。考虑到普适性，每个用户配属的时候都要手动修改下对应文件很麻烦。</li>
+<li>实际场景。 ③变动性。域名也会发现改变，尤其是测试域名和正式域名； ①操作上，往往获取正确的域名并不一定容易，尤其是大型的架构上； ②反向代理时，尤其上了CDN，Apache，Nginx这些之后； ④每个界面上引用大量的公共资源，一旦域名失效，可能所有的资源文件都失效(<del>虽然可以批量替换</del>)。</li>
+<li>开发的安全意识。开发并不了解host是用户可控，或者即使了解也不明白其危害。怎么方便怎么来嘛！</li>
+</ol>
+<h2 id="危害"><a href="#危害" class="headerlink" title="危害"></a>危害</h2><ol>
+<li>302重定向（最常见）。href=$_SERVER[‘HTTP_HOST’]/admin/log。Host可控进而重定向到evil.com</li>
+<li>拼接（如上js代码）。<ol>
+<li>导致恶意资源的加载。可以加载evil.com/a.js的恶意脚本</li>
+<li>XSS。</li>
+</ol>
+</li>
+<li>密码重置链接投毒(如上PHP代码)。 靶场：<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/host-header/exploiting/password-reset-poisoning">portswigger</a> ，也可以直接上前面推荐的<a target="_blank" rel="noopener" href="https://blog.csdn.net/angry_program/article/details/109034421#t10">CSDN的文章</a>看他的操作。 也有WORDPRESS 非授权重置密码，CVE-2017-8295</li>
+<li>绕过某些界面的访问限制。同上文章看人家操作，了解一下就行。</li>
+<li>命令执行，sql注入。同其他HTTP头注入一样，因为可能会存在对host执行某些命令或者数据库操作(如上java代码) Host:<code> curl dnslog.com/example.com</code>.example.com Host: example.com:’union select passwd from a—+</li>
+<li>RCE。 PHPMailer RCE（CVE-2016-10033）：host头可控，而sendmail时可以把包含host头的log写入了web目录下，进而写入webshell</li>
+<li>SSRF：最新的一个漏洞，<a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/the-collision-of-containers-and-the-cloud-pentesting-a-MinIO.html">P牛的MinIO Browser API SSRF</a>，也是host头可控，但是CRLF被过滤的情况下，结合302,307跳转，进而实现了SSRF（超赞！）</li>
+<li>SSRF+CRLF。Host: <a target="_blank" rel="noopener" href="http://www.nsfocus.com/r/nSet-Cookie:">a.com/r/n/r/nSet-Cookie:</a> user=corp0ra1。 关于CRLF，可看P牛的<a target="_blank" rel="noopener" href="https://wooyun.js.org/drops/CRLF%20Injection%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8%E4%B8%8E%E5%AE%9E%E4%BE%8B%E5%88%86%E6%9E%90.html">《CRLF Injection漏洞的利用与实例分析》</a> HOST+CRLF也可能导致SSRF，向redis写入内容，如mi1k7ea师傅的图 但是python和go中这类漏洞基本被修复了：<a target="_blank" rel="noopener" href="https://bugs.python.org/issue36276">Python urllib CRLF injection vulnerability</a>，<a target="_blank" rel="noopener" href="https://github.com/golang/go/issues/30794">CRLF injection vulnerability</a> <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%201.png" srcset="/img/loading.gif" lazyload></li>
+<li>绕过CDN的防护（代码可看“缘起”部分所述） 用户通过A.com访问，DNS解析后为CDN的IP，进而让用户与CDN服务器通信 用户通过IP直接访问，用户发出的请求中默认Host为IP。则由于服务器的Nginx的防御策略，Host不为A.com，则返回404。 用户通过IP直接访问，同时修改Host为A.com，不仅绕过了CDN，同时能够正常访问服务</li>
+<li><del>缓存投毒</del>。(虽然网上大部分文章都这么归类，但是我还是更愿意把它归类到X-Forward-Host部分讨论缓存投毒）</li>
+</ol>
+<h2 id="挖掘点"><a href="#挖掘点" class="headerlink" title="挖掘点"></a>挖掘点</h2><ol>
+<li>通过邮箱找回密码处(强烈推荐)</li>
+<li>302重定向界面(302很普遍)修改host头，看回显，当然也可以试一试CRLF。（案例图来着<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39190897/article/details/103594695">互联网</a>） <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%202.png" srcset="/img/loading.gif" lazyload></li>
+<li>静态资源链接包含host地址，修改host头，看回显（感觉和XSS的判断逻辑一样？） <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%203.png" srcset="/img/loading.gif" lazyload></li>
+<li>对方的暗示。实战案例还是参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/angry_program/article/details/109034421#t16">那篇CSND文章</a> <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%204.png" srcset="/img/loading.gif" lazyload></li>
+<li>代码审计，如上文P牛那个洞CVE-2021-21287，未授权+host可控+SSRF</li>
+<li>Host头可控，但是无回显的情况<ol>
+<li>vps:nc -lvvp 4444</li>
+<li>dnslog</li>
+</ol>
+ 如上文P牛那个洞CVE-2021-21287，无明显回显，但是可以监听到请求</li>
+<li>随缘法。随缘X,随缘注</li>
+</ol>
+<h2 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h2><p>看到上面举了8个危害，是不是看起来很牛？</p>
+<p><strong>邮箱重置这个点，大家挖洞的时候倒是可以多试试！</strong>但是存在一个用户交互，危险性打了一层折扣是肯定的。</p>
+<p>同时在hackerone看到302重定向中修改host头的几个案例（相信国内也有很多这种问题）</p>
+<blockquote>
+<p>100美刀：<a target="_blank" rel="noopener" href="https://hackerone.com/reports/13286">https://hackerone.com/reports/13286</a><br>150美刀：<a target="_blank" rel="noopener" href="https://hackerone.com/reports/158019">https://hackerone.com/reports/158019</a><br>也有0的案例，<a target="_blank" rel="noopener" href="https://hackerone.com/reports/601287">https://hackerone.com/reports/601287</a></p>
+</blockquote>
+<p>0刀的原因:<em>Changed to low since normally attackers don’t have the ability to inject headers into visitor requests unless they have physical access to the victim’s machine already.</em><br>是啊，上述大部分情况都需要物理访问受害者的机器，去修改受害者的Host字段，但是你都拿到了对方的机器了，还……所以大部分危害只是自己害自己。国外有的给赏金也有的也不给，国内？</p>
+<p>作为安全从业者，很难受。首先关于302中修改host触发的问题是不是一个漏洞，是！但是修不修？没有危害，不修！心一横：报告上大笔一挥“安全”，不挖不报看不见，但是仔细想想心安吗？</p>
+<p>哦！对了。如果302重定向这里存在host头漏洞，虽然危害性低，但是也就意味着在系统中其他地方也存在host头漏洞，进而也许可以找到大的漏洞（厨房发现1只蟑螂就代表家里有1万只蟑螂）</p>
+<p>命令执行，SQL注入，RCE？这个碰到的几率不如买几张彩票，代审的时候注意下就行。</p>
+<p>诚然，我最初只是想了解一下如何绕CDN来着，了解多了点……</p>
+<h1 id="Host头的绕过技巧"><a href="#Host头的绕过技巧" class="headerlink" title="Host头的绕过技巧"></a>Host头的绕过技巧</h1><p>测试的时候，随便改改host的值，看返回包是否发生变化，类似于XSS判断逻辑，看回显。</p>
+<p>但是有时候改了host之后访问网站会<strong>报错</strong>(如nginx匹配不到指定块，无法访问到正确server)，当你觉得有戏，而且可能会有<strong>奖励</strong>的前提下，可以考虑花费精力，尝试下面的绕过技巧：</p>
+<h2 id="双host和冒号截断"><a href="#双host和冒号截断" class="headerlink" title="双host和冒号截断"></a>双host和冒号截断</h2><p>双host和冒号截断，利用了组件/语言的特性。可参考P牛的一个trick之<a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/some-tricks-of-attacking-lnmp-web-application.html#0x04-nginx-host">绕过Nginx Host限制</a> </p>
+<ul>
+<li>冒号截断原理：Nginx在处理Host的时候，会将Host用冒号分割成hostname和port，port部分被丢弃。所以host:target.com:’select user() from xxx，这样就能访问到目标Server块,同时也能进行SQL</li>
+<li>双host原理：当传入两个Host头的时候，Nginx将以第一个为准，而PHP-FPM将以第二个为准。Nginx认为host为target.com，并交给目标Server块处理；但PHP中使用$_SERVER[‘HTTP_HOST’]取到的值却是’select user() from xxx。这样也可以绕过</li>
+</ul>
+<p>关于win和linux下的Apache/Nginx中Host头攻击的一些差异，可查看kingkk师傅的<a target="_blank" rel="noopener" href="https://www.kingkk.com/2018/10/Apache-Nginx%E4%B8%ADHost%E5%A4%B4%E6%94%BB%E5%87%BB%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B7%AE%E5%BC%82/">研究</a> ，进而得出结论（目前仅限PHP环境下，其他环境未测试）：</p>
+<ul>
+<li>目标为nginx，利用难度低。无论win或linx，双Host和冒号截断都能进行绕过，进而插入脏字符。</li>
+<li>目标为apache，利用难度高。若为linux，则基本不可能插入脏字符。若为windows，未配置VHost则可以插入脏字符，配置了Vhost则不行。</li>
+</ul>
+<p>由于kingkk是否并没有研究win下配置Vhost的情况，我也做了补充实验（win10+php5.4.45-nts+Vhost配置）：</p>
+<ul>
+<li>apache的情况。  ①冒号后面1-65536都可以正常访问corp0ra1.com  ②冒号后面跟其他脏字符则访问默认server  ③双host也访问默认server  ④双Host+第二个Host添加空格，则访问默认server，且PHP-FPM获取的Host为第一个和第二个Host的拼接“<em>corp0ra1 Host:test</em>”，似乎把第二个Host整体当做了第一个Host的键值  ⑤双Host+第一个Host添加空格，则访问默认server，而PHP-FPM获取的Host为第二个，第一个Host似乎被忽略  <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%205.png" srcset="/img/loading.gif" lazyload>  <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%206.png" srcset="/img/loading.gif" lazyload>  <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%207.png" srcset="/img/loading.gif" lazyload></li>
+<li>nginx的情况  ①冒号前面有脏字符，无法绕过，访问默认界面。  ②冒号后面有脏字符，则可以绕过插入脏字符。进而强化之前的结论：以冒号为截断！  ③双Host，nginx获取第一个Host，PHP-FPM获取第二个Host  ④双Host+第二个Host前添加空格，发现添加空格之后，PHP-FPM获取第一个Host  ⑤双Host+第一个Host前添加空格，发现添加空格之后，PHP-FPM获取第二个Host  <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%208.png" srcset="/img/loading.gif" lazyload>  <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%209.png" srcset="/img/loading.gif" lazyload>  <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%2010.png" srcset="/img/loading.gif" lazyload></li>
+</ul>
+<h2 id="添加缩进或换行"><a href="#添加缩进或换行" class="headerlink" title="添加缩进或换行"></a>添加缩进或换行</h2><p>算是对上面双host绕过的再绕过，出于<a target="_blank" rel="noopener" href="https://portswigger.net/web-security/host-header/exploiting">portswigger</a></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vim">GET /example HTTP/<span class="hljs-number">1.1</span><br> Hos<span class="hljs-variable">t:</span> attack-stuff<br>Hos<span class="hljs-variable">t:</span> vulnerable-website.<span class="hljs-keyword">com</span><br></code></pre></td></tr></table></figure>
+
+<p>但是从上面我的实验可以知道，好像这种并没有卵用。</p>
+<p>因为我们的目的是不仅能够访问正确server，而且还能插入脏字符</p>
+<p>但是前面加了空格，不仅nginx，而且PHP-FPM也都无法识别这个加了空格的畸形Host，进而也无法访问正确server</p>
+<p>而在apache中，虽然PHP-FPM会把“corp0ra1 Host : test”拼接在一起，但是apache无法识别并让我们访问正确server</p>
+<blockquote>
+<p>emm好像和HTTP协议有关，具体不了解，到这算了</p>
+</blockquote>
+<h2 id="手动添加与Host头功能相近的字段"><a href="#手动添加与Host头功能相近的字段" class="headerlink" title="手动添加与Host头功能相近的字段"></a>手动添加与Host头功能相近的字段</h2><p>如X-Forwarded-Host、X-Forwarded-For等，这些有时候是默认开启的。进而实现覆盖Host头的字段</p>
+<p>原理：可能程序先判断获取XFH,XFF头的值，若这些都不存在才获取Host头的值。</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%2011.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="畸形请求"><a href="#畸形请求" class="headerlink" title="畸形请求"></a>畸形请求</h2><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">[https://vulnerable-website.com/](https://vulnerable-website.com/)</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>attack-stuff<br></code></pre></td></tr></table></figure>
+
+<p>如下图，可以看出nginx识别的是：get后面的url，而php获取的头部是Host字段的值。</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%2012.png" srcset="/img/loading.gif" lazyload></p>
+<p>go中我目前测试得到获取的内容和nginx一样，并不存在差异性</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%2013.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
+<li>子域名，Host：sub.target.com ，原理：bypass其白名单机制。</li>
+<li>https改成http。因为nginx反代的时候，可能对外仅开放https，但对内还开放http。 <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/host%E5%A4%B4%E7%9A%84%E7%A0%94%E7%A9%B6/Untitled%2014.png" srcset="/img/loading.gif" lazyload></li>
+</ol>
+<h1 id="修复方案"><a href="#修复方案" class="headerlink" title="修复方案"></a>修复方案</h1><p>freebuf的<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/178315.html">《在Web服务器防止Host头攻击》</a></p>
+
+                            </div>
+                            
+                                <p class="note note-info">
+                                    
+                                                    本文最后更新于：
+                                                        2022年6月10日 上午
+                                                            
+                                </p>
+                                
+                                    <hr>
+                                    <div>
+                                        <div class="post-metas mb-3">
+                                            
+                                                <div class="post-meta mr-3">
+                                                    <i class="iconfont icon-category"></i>
+                                                    
+                                                        <a class="hover-with-bg" href="/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/">
+                                                            安全研究
+                                                        </a>
+                                                        
+                                                </div>
+                                                
+                                                    
+                                                        <div class="post-meta">
+                                                            <i class="iconfont icon-tags"></i>
+                                                            
+                                                                <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                                                                    渗透测试
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/">
+                                                                    安全研究
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%A2%B3%E7%90%86/">
+                                                                    知识点梳理
+                                                                </a>
+                                                                
+                                                        </div>
+                                                        
+                                        </div>
+                                        
+                                            <p class="note note-warning">
+                                                
+                                                            本博客所有文章欢迎转载 ，但希望转载时能注明出处！ </br>关于文章，如有疑问，欢迎讨论！Email:corp0ra1@qq.com </br>如果图片无法显示:https://corp0ra1.github.io/common/imageLoad.html
+                                                                
+                                            </p>
+                                            
+                                                
+                                                    <div class="post-prevnext">
+                                                        <article class="post-prev col-6">
+                                                            
+                                                                
+                                                                    <a href="/2021/06/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/">
+                                                                        <i class="iconfont icon-arrowleft"></i>
+                                                                        <span class="hidden-mobile">记一次不停自我追问式的学习</span>
+                                                                        <span class="visible-mobile">上一篇</span>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                        <article class="post-next col-6">
+                                                            
+                                                                
+                                                                    <a href="/2021/01/16/%5Bnotion%5DCDN%E7%BB%95%E8%BF%87%E5%92%8C%E6%A3%80%E6%B5%8B/">
+                                                                        <span class="hidden-mobile">CDN绕过和检测</span>
+                                                                        <span class="visible-mobile">下一篇</span>
+                                                                        <i class="iconfont icon-arrowright"></i>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                    </div>
+                                                    
+                                    </div>
+
+                                    
+                        </article>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+                    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+                </div>
+                
+        </div>
+    </div>
+
+    <!-- Custom -->
+    
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <div> <div class="copyright">©2020 - 2021 By Corp0ra1</div> </div> <div> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> &nbsp;|&nbsp; <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> &nbsp;|&nbsp; <a href="https://github.com/jsdelivr/jsdelivr" target="_blank" rel="nofollow noopener"><span>jsDelivr</span></a> </div> 
+  </div>
+  <!--添加运行时间-->
+<div id="sitetime"></div>
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* 
+      Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+      year - 作为date对象的年份，为4位年份值
+      month - 0-11之间的整数，做为date对象的月份
+      day - 1-31之间的整数，做为date对象的天数
+      hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+      minutes - 0-59之间的整数，做为date对象的分钟数
+      seconds - 0-59之间的整数，做为date对象的秒数
+      microseconds - 0-999之间的整数，做为date对象的毫秒数
+     */
+        var t1 = Date.UTC(2021, 05, 01, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "很高兴遇到你，我已经在此等候了你 " + /*diffYears+" 年 "+*/ diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }
+    siteTime();
+</script>
+
+    <div class="statistics">
+        
+            
+
+                
+                                                
+                                                    <!-- 不蒜子统计PV -->
+                                                    <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            
+            <span id="busuanzi_value_site_pv"></span>
+                                                     次
+                                                        &nbsp; <span class="iconfont icon-love"></span></span>
+                                                        
+
+                                                            
+
+                                                                <!-- 不蒜子统计UV -->
+                                                                <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            
+            <span id="busuanzi_value_site_uv"></span>
+                                                                 人
+                                                                    </span>
+                                                                    
+                                                                        
+    </div>
+    
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <!-- Baidu Analytics -->
+        <script defer>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?a1a4ccab78dfa522556928ac810fa739";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+        
+
+            
+                <!-- Google Analytics -->
+                <!-- <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-4X9XV0H0D5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script> -->
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+                <script async src="https://www.googletagmanager.com/gtag/js?G-4X9XV0H0D5"></script>
+                <script>
+                    window.dataLayer = window.dataLayer || [];
+
+                    function gtag() {
+                        dataLayer.push(arguments);
+                    }
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-4X9XV0H0D5');
+                </script>
+                
+
+                    
+
+                            
+
+                                    
+
+                                            
+                                                    
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
