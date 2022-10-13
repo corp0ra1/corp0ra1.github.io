@@ -86,29 +86,6 @@
   </entry>
   
   <entry>
-    <title>asp一句话与webshell管理工具.</title>
-    <link href="https://corp0ra1.github.io/2021/07/25/[notion]%E4%B8%80%E5%8F%A5%E8%AF%9D%E4%B8%8Ewebshell%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/"/>
-    <id>https://corp0ra1.github.io/2021/07/25/[notion]%E4%B8%80%E5%8F%A5%E8%AF%9D%E4%B8%8Ewebshell%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/</id>
-    <published>2021-07-24T16:00:00.000Z</published>
-    <updated>2022-06-10T03:22:33.183Z</updated>
-    
-    
-    <summary type="html">在编写POC的过程中接触到asp的一句话木马，但是不同的webshell管理工具执行效果不同，有的命令执行失败有的可能成功，那么webshell管理工具是怎么连接并处理一句话？于是进行了探究</summary>
-    
-    
-    
-    <category term="安全研究" scheme="https://corp0ra1.github.io/categories/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/"/>
-    
-    
-    <category term="渗透测试" scheme="https://corp0ra1.github.io/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    <category term="安全研究" scheme="https://corp0ra1.github.io/tags/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/"/>
-    
-    <category term="知识点梳理" scheme="https://corp0ra1.github.io/tags/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%A2%B3%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
     <title>记一次不停自我追问式的学习</title>
     <link href="https://corp0ra1.github.io/2021/06/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/"/>
     <id>https://corp0ra1.github.io/2021/06/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/</id>
