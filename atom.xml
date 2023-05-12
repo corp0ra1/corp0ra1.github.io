@@ -6,7 +6,7 @@
   <link href="https://corp0ra1.cn/atom.xml" rel="self"/>
   
   <link href="https://corp0ra1.cn/"/>
-  <updated>2022-06-07T12:13:36.646Z</updated>
+  <updated>2023-05-12T14:34:17.181Z</updated>
   <id>https://corp0ra1.cn/</id>
   
   <author>
@@ -17,14 +17,104 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>The Dirty Pipe Vulnerability[学习记录]</title>
-    <link href="https://corp0ra1.cn/2022/04/10/The%20Dirty%20Pipe%20Vulnerability_%E5%A4%8D%E7%8E%B0/"/>
-    <id>https://corp0ra1.cn/2022/04/10/The%20Dirty%20Pipe%20Vulnerability_%E5%A4%8D%E7%8E%B0/</id>
-    <published>2022-04-10T03:39:39.105Z</published>
-    <updated>2022-06-07T12:13:36.646Z</updated>
+    <title>LLM中的安全隐患-提示注入Prompt injection</title>
+    <link href="https://corp0ra1.cn/2023/05/12/[notion]LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection/"/>
+    <id>https://corp0ra1.cn/2023/05/12/[notion]LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection/</id>
+    <published>2023-05-12T11:01:17.343Z</published>
+    <updated>2023-05-12T14:34:17.181Z</updated>
     
     
-    <summary type="html">断断续续慢慢跟完了整个漏洞，基本都是拾人牙慧缝合他人记录而形成自己的笔记，内容有点啰嗦和繁琐，但也想记录下自己跟的整个历程，并尝试以自己的逻辑表达出来</summary>
+    <summary type="html">对LLM中的安全隐患-提示注入进行介绍</summary>
+    
+    
+    
+    <category term="LLM" scheme="https://corp0ra1.cn/categories/LLM/"/>
+    
+    
+    <category term="LLM" scheme="https://corp0ra1.cn/tags/LLM/"/>
+    
+    <category term="prompt injection" scheme="https://corp0ra1.cn/tags/prompt-injection/"/>
+    
+    <category term="碎碎念" scheme="https://corp0ra1.cn/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Web缓存欺骗攻击-以OpenAI为例</title>
+    <link href="https://corp0ra1.cn/2023/04/14/[notion]Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB/"/>
+    <id>https://corp0ra1.cn/2023/04/14/[notion]Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB/</id>
+    <published>2023-04-14T14:23:00.000Z</published>
+    <updated>2023-05-12T10:59:34.047Z</updated>
+    
+    
+    <summary type="html">本文主要介绍针对OpenAI的两个Web缓存欺骗攻击案例，其中第一个案例是比较常规的Web缓存欺骗攻击，第二个是在第一个的基础上进一步拓展，并成功绕过了修复方案。</summary>
+    
+    
+    
+    <category term="渗透测试" scheme="https://corp0ra1.cn/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    
+    <category term="文档翻译" scheme="https://corp0ra1.cn/tags/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
+    
+    <category term="渗透测试" scheme="https://corp0ra1.cn/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="Web缓存欺骗" scheme="https://corp0ra1.cn/tags/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我理解的fofahub</title>
+    <link href="https://corp0ra1.cn/2022/10/06/[notion]%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84fofahub/"/>
+    <id>https://corp0ra1.cn/2022/10/06/[notion]%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84fofahub/</id>
+    <published>2022-10-05T16:00:00.000Z</published>
+    <updated>2023-05-12T14:33:18.206Z</updated>
+    
+    
+    <summary type="html">对fofahubu，以及workflow系列工具未来的理解和展望</summary>
+    
+    
+    
+    <category term="杂" scheme="https://corp0ra1.cn/categories/%E6%9D%82/"/>
+    
+    
+    <category term="杂" scheme="https://corp0ra1.cn/tags/%E6%9D%82/"/>
+    
+    <category term="碎碎念" scheme="https://corp0ra1.cn/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
+    
+    <category term="fofahub" scheme="https://corp0ra1.cn/tags/fofahub/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>学校体温上报脚本</title>
+    <link href="https://corp0ra1.cn/2022/09/08/[notion]%E4%BD%93%E6%B8%A9%E4%B8%8A%E6%8A%A5/"/>
+    <id>https://corp0ra1.cn/2022/09/08/[notion]%E4%BD%93%E6%B8%A9%E4%B8%8A%E6%8A%A5/</id>
+    <published>2022-09-07T16:00:00.000Z</published>
+    <updated>2023-05-12T14:31:46.591Z</updated>
+    
+    
+    <summary type="html">实现自动化的体温上报</summary>
+    
+    
+    
+    <category term="杂" scheme="https://corp0ra1.cn/categories/%E6%9D%82/"/>
+    
+    
+    <category term="杂" scheme="https://corp0ra1.cn/tags/%E6%9D%82/"/>
+    
+    <category term="脚本编写" scheme="https://corp0ra1.cn/tags/%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>记一次不停自我追问式的学习</title>
+    <link href="https://corp0ra1.cn/2022/06/28/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://corp0ra1.cn/2022/06/28/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/</id>
+    <published>2022-06-27T16:00:00.000Z</published>
+    <updated>2023-05-12T14:35:08.591Z</updated>
+    
+    
+    <summary type="html">最初只是简单的搭建环境，拿着公开的POC复现漏洞。然后想着学学Goby如何编写POC&amp;EXP，先拿GUI的形式编写，但是逐渐发现很多想法都满足不了，于是尝试Go语言编写。但也不满足于此，想去探究漏洞成因遂代码审计，最后追溯漏洞的源头得出结论！</summary>
     
     
     
@@ -33,11 +123,34 @@
     
     <category term="漏洞复现" scheme="https://corp0ra1.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
+    <category term="POC编写" scheme="https://corp0ra1.cn/tags/POC%E7%BC%96%E5%86%99/"/>
+    
+    <category term="代码审计" scheme="https://corp0ra1.cn/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>The Dirty Pipe Vulnerability漏洞学习记录</title>
+    <link href="https://corp0ra1.cn/2022/04/10/The%20Dirty%20Pipe%20Vulnerability_%E5%A4%8D%E7%8E%B0/"/>
+    <id>https://corp0ra1.cn/2022/04/10/The%20Dirty%20Pipe%20Vulnerability_%E5%A4%8D%E7%8E%B0/</id>
+    <published>2022-04-09T16:00:00.000Z</published>
+    <updated>2023-05-12T14:09:17.205Z</updated>
+    
+    
+    <summary type="html">断断续续慢慢跟完了整个漏洞，从开发者、漏洞、POC三个角度看待Dirty Pipe Vulnerability漏洞。内容有点啰嗦和繁琐，主要想记录下自己跟的整个历程，并尝试以自己的逻辑表达出来。</summary>
+    
+    
+    
+    <category term="漏洞复现" scheme="https://corp0ra1.cn/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+    
+    <category term="漏洞复现" scheme="https://corp0ra1.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
     <category term="CVE-2022-0847" scheme="https://corp0ra1.cn/tags/CVE-2022-0847/"/>
     
     <category term="Dirty Pipe提权漏洞" scheme="https://corp0ra1.cn/tags/Dirty-Pipe%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/"/>
     
-    <category term="技术探索" scheme="https://corp0ra1.cn/tags/%E6%8A%80%E6%9C%AF%E6%8E%A2%E7%B4%A2/"/>
+    <category term="深度探索" scheme="https://corp0ra1.cn/tags/%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2/"/>
     
   </entry>
   
@@ -45,8 +158,8 @@
     <title>The Dirty Pipe Vulnerability[中文翻译]</title>
     <link href="https://corp0ra1.cn/2022/03/15/The%20Dirty%20Pipe%20Vulnerability/"/>
     <id>https://corp0ra1.cn/2022/03/15/The%20Dirty%20Pipe%20Vulnerability/</id>
-    <published>2022-03-15T14:56:28.685Z</published>
-    <updated>2022-03-15T15:21:29.113Z</updated>
+    <published>2022-03-14T16:00:00.000Z</published>
+    <updated>2023-05-12T14:08:38.304Z</updated>
     
     
     <summary type="html">看到P牛在知识星球发了这个漏洞，想着跟一下漏洞，由于当时资料较少，于是打算先自行翻译一次，了解一下作者整个发现漏洞流程。</summary>
@@ -61,6 +174,29 @@
     <category term="CVE-2022-0847" scheme="https://corp0ra1.cn/tags/CVE-2022-0847/"/>
     
     <category term="Dirty Pipe提权漏洞" scheme="https://corp0ra1.cn/tags/Dirty-Pipe%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>禅道zentaopms-9.1.2-sql SQL注入</title>
+    <link href="https://corp0ra1.cn/2021/08/15/%E7%A6%85%E9%81%93zentaopms-9%201%202-sql%20SQL%E6%B3%A8%E5%85%A5%202c263c29afc44e4aa00e637dbab1b1c7/"/>
+    <id>https://corp0ra1.cn/2021/08/15/%E7%A6%85%E9%81%93zentaopms-9%201%202-sql%20SQL%E6%B3%A8%E5%85%A5%202c263c29afc44e4aa00e637dbab1b1c7/</id>
+    <published>2021-08-14T16:00:00.000Z</published>
+    <updated>2023-05-12T14:36:23.818Z</updated>
+    
+    
+    <summary type="html">对禅道zentaopms-9.1.2-sql SQL注入进行复现，在使用日志写入shell时候遇到的一些坑和一些探索的记录</summary>
+    
+    
+    
+    <category term="漏洞复现" scheme="https://corp0ra1.cn/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+    
+    <category term="漏洞复现" scheme="https://corp0ra1.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+    <category term="渗透测试" scheme="https://corp0ra1.cn/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="禅道zentaopms" scheme="https://corp0ra1.cn/tags/%E7%A6%85%E9%81%93zentaopms/"/>
     
   </entry>
   
@@ -86,25 +222,140 @@
   </entry>
   
   <entry>
-    <title>记一次不停自我追问式的学习</title>
-    <link href="https://corp0ra1.cn/2021/06/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/"/>
-    <id>https://corp0ra1.cn/2021/06/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/</id>
-    <published>2021-06-24T16:30:47.168Z</published>
-    <updated>2022-06-07T12:13:36.646Z</updated>
+    <title>Klog Server Unauth RCE(CVE-2020-35729)漏洞复现</title>
+    <link href="https://corp0ra1.cn/2021/07/29/[notion]Klog%20Server%20Unauth%20RCE(CVE-2020-35729)/"/>
+    <id>https://corp0ra1.cn/2021/07/29/[notion]Klog%20Server%20Unauth%20RCE(CVE-2020-35729)/</id>
+    <published>2021-07-28T16:00:00.000Z</published>
+    <updated>2023-05-12T14:22:12.286Z</updated>
     
     
-    <summary type="html">最初只是简单的搭建环境，拿着公开的POC复现漏洞。然后想着学学Goby如何编写POC&amp;EXP，先拿GUI的形式编写，但是逐渐发现很多想法都满足不了，于是尝试Go语言编写。但也不满足于此，想去探究漏洞成因遂代码审计，最后追溯漏洞的源头得出结论！</summary>
+    <summary type="html">Klog Server环境搭建，POC以及一些简单的探索</summary>
     
     
     
-    <category term="漏洞研究" scheme="https://corp0ra1.cn/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+    <category term="漏洞复现" scheme="https://corp0ra1.cn/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
     
     <category term="漏洞复现" scheme="https://corp0ra1.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
     
-    <category term="POC编写" scheme="https://corp0ra1.cn/tags/POC%E7%BC%96%E5%86%99/"/>
+    <category term="渗透测试" scheme="https://corp0ra1.cn/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
     
-    <category term="代码审计" scheme="https://corp0ra1.cn/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <category term="Klog Server" scheme="https://corp0ra1.cn/tags/Klog-Server/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>rConfig系列漏洞复现</title>
+    <link href="https://corp0ra1.cn/2021/07/18/[notion]rconfig%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    <id>https://corp0ra1.cn/2021/07/18/[notion]rconfig%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</id>
+    <published>2021-07-17T16:00:00.000Z</published>
+    <updated>2023-05-12T14:17:27.060Z</updated>
+    
+    
+    <summary type="html">rConfig系列环境搭建，POC以及POC编写注意事项</summary>
+    
+    
+    
+    <category term="漏洞复现" scheme="https://corp0ra1.cn/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+    
+    <category term="漏洞复现" scheme="https://corp0ra1.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+    <category term="渗透测试" scheme="https://corp0ra1.cn/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="rConfig" scheme="https://corp0ra1.cn/tags/rConfig/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>IceWarp RCE复现之指纹细化</title>
+    <link href="https://corp0ra1.cn/2021/07/13/[notion]IceWarp%20RCE%E5%A4%8D%E7%8E%B0%E4%B9%8B%E6%8C%87%E7%BA%B9%E7%BB%86%E5%8C%96/"/>
+    <id>https://corp0ra1.cn/2021/07/13/[notion]IceWarp%20RCE%E5%A4%8D%E7%8E%B0%E4%B9%8B%E6%8C%87%E7%BA%B9%E7%BB%86%E5%8C%96/</id>
+    <published>2021-07-12T16:00:00.000Z</published>
+    <updated>2023-05-12T14:24:02.133Z</updated>
+    
+    
+    <summary type="html">对IceWarp的RCE进行复现，并不断地优化fofa dork语法</summary>
+    
+    
+    
+    <category term="漏洞复现" scheme="https://corp0ra1.cn/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+    
+    <category term="漏洞复现" scheme="https://corp0ra1.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+    <category term="渗透测试" scheme="https://corp0ra1.cn/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
+    
+    <category term="指纹优化" scheme="https://corp0ra1.cn/tags/%E6%8C%87%E7%BA%B9%E4%BC%98%E5%8C%96/"/>
+    
+    <category term="IceWarp" scheme="https://corp0ra1.cn/tags/IceWarp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Git在使用过程中证书校验报错问题</title>
+    <link href="https://corp0ra1.cn/2021/07/05/[notion]SSL%E9%AA%8C%E8%AF%81%E9%97%AE%E9%A2%98/"/>
+    <id>https://corp0ra1.cn/2021/07/05/[notion]SSL%E9%AA%8C%E8%AF%81%E9%97%AE%E9%A2%98/</id>
+    <published>2021-07-04T16:00:00.000Z</published>
+    <updated>2023-05-12T14:12:37.576Z</updated>
+    
+    
+    <summary type="html">git clone时常用set https.sslverify false的方式解决证书校验报错的问题，但其存在安全风险，作为安全从业人员需要警惕，从细节。</summary>
+    
+    
+    
+    <category term="杂" scheme="https://corp0ra1.cn/categories/%E6%9D%82/"/>
+    
+    
+    <category term="杂" scheme="https://corp0ra1.cn/tags/%E6%9D%82/"/>
+    
+    <category term="证书校验" scheme="https://corp0ra1.cn/tags/%E8%AF%81%E4%B9%A6%E6%A0%A1%E9%AA%8C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DevOps与CI/CD</title>
+    <link href="https://corp0ra1.cn/2021/03/25/[notion]DevOps%E4%B8%8ECI%20CD/"/>
+    <id>https://corp0ra1.cn/2021/03/25/[notion]DevOps%E4%B8%8ECI%20CD/</id>
+    <published>2021-03-24T16:00:00.000Z</published>
+    <updated>2023-05-12T14:26:40.265Z</updated>
+    
+    
+    <summary type="html">DevOps与CI/CD一些概念</summary>
+    
+    
+    
+    <category term="杂" scheme="https://corp0ra1.cn/categories/%E6%9D%82/"/>
+    
+    
+    <category term="杂" scheme="https://corp0ra1.cn/tags/%E6%9D%82/"/>
+    
+    <category term="CI/CD" scheme="https://corp0ra1.cn/tags/CI-CD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Notion AI’Prompt逆向| Reverse Prompt Engineering for Fun and (no) Profit</title>
+    <link href="https://corp0ra1.cn/2021/03/02/[notion]Notion%20AI%E2%80%99Prompt%E9%80%86%E5%90%91%20Reverse%20Prompt%20Engineering%20for/"/>
+    <id>https://corp0ra1.cn/2021/03/02/[notion]Notion%20AI%E2%80%99Prompt%E9%80%86%E5%90%91%20Reverse%20Prompt%20Engineering%20for/</id>
+    <published>2021-03-01T16:00:00.000Z</published>
+    <updated>2023-05-12T14:20:03.485Z</updated>
+    
+    
+    <summary type="html">使用提示注入攻击获取Notion AI所用于文本润色的prompt</summary>
+    
+    
+    
+    <category term="文档翻译" scheme="https://corp0ra1.cn/categories/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
+    
+    
+    <category term="文档翻译" scheme="https://corp0ra1.cn/tags/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
+    
+    <category term="LLM" scheme="https://corp0ra1.cn/tags/LLM/"/>
+    
+    <category term="prompt injection" scheme="https://corp0ra1.cn/tags/prompt-injection/"/>
+    
+    <category term="notion AI" scheme="https://corp0ra1.cn/tags/notion-AI/"/>
     
   </entry>
   
@@ -216,203 +467,6 @@
     <category term="靶场" scheme="https://corp0ra1.cn/tags/%E9%9D%B6%E5%9C%BA/"/>
     
     <category term="XSS" scheme="https://corp0ra1.cn/tags/XSS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>vscode调试php底层代码</title>
-    <link href="https://corp0ra1.cn/2019/07/09/[old]php%E5%BA%95%E5%B1%82%E6%BA%90%E4%BB%A3%E7%A0%81/"/>
-    <id>https://corp0ra1.cn/2019/07/09/[old]php%E5%BA%95%E5%B1%82%E6%BA%90%E4%BB%A3%E7%A0%81/</id>
-    <published>2019-07-09T01:46:00.000Z</published>
-    <updated>2022-06-07T12:05:09.389Z</updated>
-    
-    
-    <summary type="html">缘起是P牛的知识星球trick：VSCODE调试PHP底层源码，不过仅是mac下的，于是试了下windows下的调试</summary>
-    
-    
-    
-    <category term="代码审计" scheme="https://corp0ra1.cn/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
-    
-    
-    <category term="vscode" scheme="https://corp0ra1.cn/tags/vscode/"/>
-    
-    <category term="学习笔记" scheme="https://corp0ra1.cn/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sqlmap命令备忘录</title>
-    <link href="https://corp0ra1.cn/2019/07/08/[old]sqlmap%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95/"/>
-    <id>https://corp0ra1.cn/2019/07/08/[old]sqlmap%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98%E5%BD%95/</id>
-    <published>2019-07-08T15:46:00.000Z</published>
-    <updated>2022-06-07T12:04:32.312Z</updated>
-    
-    
-    <summary type="html">跟着苑老师学习sqlmap的使用，并且仅命令进行记录</summary>
-    
-    
-    
-    <category term="渗透测试" scheme="https://corp0ra1.cn/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    
-    <category term="学习笔记" scheme="https://corp0ra1.cn/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    
-    <category term="渗透测试" scheme="https://corp0ra1.cn/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    <category term="sqlmap" scheme="https://corp0ra1.cn/tags/sqlmap/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一年的ubuntu使用之旅</title>
-    <link href="https://corp0ra1.cn/2019/06/29/[old]%E7%9F%AD%E6%9A%82%E7%9A%84ubuntu%E4%B9%8B%E6%97%85/"/>
-    <id>https://corp0ra1.cn/2019/06/29/[old]%E7%9F%AD%E6%9A%82%E7%9A%84ubuntu%E4%B9%8B%E6%97%85/</id>
-    <published>2019-06-29T06:26:00.000Z</published>
-    <updated>2022-06-07T12:27:28.383Z</updated>
-    
-    
-    <summary type="html">将linux系统当做了一年的主系统，各种bug以及解决的备忘</summary>
-    
-    
-    
-    <category term="杂" scheme="https://corp0ra1.cn/categories/%E6%9D%82/"/>
-    
-    
-    <category term="杂" scheme="https://corp0ra1.cn/tags/%E6%9D%82/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sqli-labs靶场通关记录</title>
-    <link href="https://corp0ra1.cn/2019/06/18/[old]sqli-labs%E9%9D%B6%E5%9C%BA-%E6%8A%80%E8%83%BD%E7%82%B9%E8%A1%A5%E5%85%85/"/>
-    <id>https://corp0ra1.cn/2019/06/18/[old]sqli-labs%E9%9D%B6%E5%9C%BA-%E6%8A%80%E8%83%BD%E7%82%B9%E8%A1%A5%E5%85%85/</id>
-    <published>2019-06-17T16:45:00.000Z</published>
-    <updated>2022-06-07T13:19:06.334Z</updated>
-    
-    
-    <summary type="html">sqli-labs靶场通关过程中，一些小的知识点以及其他知识点的学习</summary>
-    
-    
-    
-    <category term="渗透测试" scheme="https://corp0ra1.cn/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    
-    <category term="渗透测试" scheme="https://corp0ra1.cn/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    <category term="靶场" scheme="https://corp0ra1.cn/tags/%E9%9D%B6%E5%9C%BA/"/>
-    
-    <category term="sqli" scheme="https://corp0ra1.cn/tags/sqli/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>sqli-labs靶场通关记录</title>
-    <link href="https://corp0ra1.cn/2019/06/12/[old]sqli-labs%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/"/>
-    <id>https://corp0ra1.cn/2019/06/12/[old]sqli-labs%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E8%AE%B0%E5%BD%95/</id>
-    <published>2019-06-12T14:41:00.000Z</published>
-    <updated>2022-06-07T12:54:43.522Z</updated>
-    
-    
-    <summary type="html">sqli-labs靶场通关过程记录</summary>
-    
-    
-    
-    <category term="渗透测试" scheme="https://corp0ra1.cn/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    
-    <category term="渗透测试" scheme="https://corp0ra1.cn/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    <category term="靶场" scheme="https://corp0ra1.cn/tags/%E9%9D%B6%E5%9C%BA/"/>
-    
-    <category term="sqli" scheme="https://corp0ra1.cn/tags/sqli/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CTF引发的对报错注入的深入学习</title>
-    <link href="https://corp0ra1.cn/2019/05/15/[old]CTF%E5%BC%95%E5%8F%91%E7%9A%84%E5%AF%B9%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E7%9A%84%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0/"/>
-    <id>https://corp0ra1.cn/2019/05/15/[old]CTF%E5%BC%95%E5%8F%91%E7%9A%84%E5%AF%B9%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E7%9A%84%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0/</id>
-    <published>2019-05-15T09:43:00.000Z</published>
-    <updated>2022-06-07T12:57:13.622Z</updated>
-    
-    
-    <summary type="html">因为2019全国信安大赛的“全宇宙最简单的SQL”这道题的注入，所以引发对报错注入的深入学习</summary>
-    
-    
-    
-    <category term="技术点" scheme="https://corp0ra1.cn/categories/%E6%8A%80%E6%9C%AF%E7%82%B9/"/>
-    
-    
-    <category term="CTF" scheme="https://corp0ra1.cn/tags/CTF/"/>
-    
-    <category term="靶场" scheme="https://corp0ra1.cn/tags/%E9%9D%B6%E5%9C%BA/"/>
-    
-    <category term="XSS" scheme="https://corp0ra1.cn/tags/XSS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>upload-lab靶场通关记录</title>
-    <link href="https://corp0ra1.cn/2019/05/14/[old]upload-lab%E9%80%9A%E5%85%B3%E7%A7%98%E7%B1%8D/"/>
-    <id>https://corp0ra1.cn/2019/05/14/[old]upload-lab%E9%80%9A%E5%85%B3%E7%A7%98%E7%B1%8D/</id>
-    <published>2019-05-14T10:39:00.000Z</published>
-    <updated>2022-06-07T12:58:02.540Z</updated>
-    
-    
-    <summary type="html">upload-labs关于文件上传漏洞很全很系统，每一道题再发散的话基本上说可以把文件上传漏洞打穿了。自己动手尝试了一次Upload</summary>
-    
-    
-    
-    <category term="渗透测试" scheme="https://corp0ra1.cn/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    
-    <category term="渗透测试" scheme="https://corp0ra1.cn/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    <category term="靶场" scheme="https://corp0ra1.cn/tags/%E9%9D%B6%E5%9C%BA/"/>
-    
-    <category term="文件上传" scheme="https://corp0ra1.cn/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>hexo环境的搭建</title>
-    <link href="https://corp0ra1.cn/2019/05/14/[old]hexo%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
-    <id>https://corp0ra1.cn/2019/05/14/[old]hexo%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</id>
-    <published>2019-05-14T10:38:00.000Z</published>
-    <updated>2022-06-07T12:33:59.209Z</updated>
-    
-    
-    <summary type="html">hexo环境的搭建的备忘录</summary>
-    
-    
-    
-    <category term="杂" scheme="https://corp0ra1.cn/categories/%E6%9D%82/"/>
-    
-    
-    <category term="杂" scheme="https://corp0ra1.cn/tags/%E6%9D%82/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>文件上传之二次渲染</title>
-    <link href="https://corp0ra1.cn/2019/05/14/[old]%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B9%8BGD/"/>
-    <id>https://corp0ra1.cn/2019/05/14/[old]%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B9%8BGD/</id>
-    <published>2019-05-13T16:39:00.000Z</published>
-    <updated>2022-06-07T12:29:17.313Z</updated>
-    
-    
-    <summary type="html">2019年DDCTF的一道文件上传题目，里面涉及到了GD库对上传的图片进行特殊渲染处理，导致payload上传文件的失效。多方查找资料之后，找到了两个方法绕过GD库的渲染处理的方法，并对原理进行了简单的剖析</summary>
-    
-    
-    
-    <category term="技术点" scheme="https://corp0ra1.cn/categories/%E6%8A%80%E6%9C%AF%E7%82%B9/"/>
-    
-    
-    <category term="CTF" scheme="https://corp0ra1.cn/tags/CTF/"/>
-    
-    <category term="文件上传" scheme="https://corp0ra1.cn/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"/>
-    
-    <category term="二次渲染" scheme="https://corp0ra1.cn/tags/%E4%BA%8C%E6%AC%A1%E6%B8%B2%E6%9F%93/"/>
     
   </entry>
   

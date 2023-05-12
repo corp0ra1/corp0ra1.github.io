@@ -1,0 +1,642 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Avatar.jpg">
+  <link rel="icon" href="/img/Avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="对fofahubu，以及workflow系列工具未来的理解和展望">
+  <meta name="author" content="corp0ra1">
+  <meta name="keywords" content="">
+  
+  <title>我理解的fofahub - corp0ra1&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"corp0ra1.cn","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"a1a4ccab78dfa522556928ac810fa739","google":"G-4X9XV0H0D5","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="corp0ra1's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">&nbsp;<strong>Corp0ra1's Blog</strong>&nbsp;</a>
+
+        <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto text-center">
+                
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+                                        </li>
+                                        
+                                            
+                                                
+                                                    <li class="nav-item" id="search-btn">
+                                                        <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+                                                    </li>
+                                                    
+                                                        
+                                                            <li class="nav-item" id="color-toggle-btn">
+                                                                <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+                                                            </li>
+                                                            
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" href="/atom.xml">
+                                                                        <i class="iconfont icon-rss"></i>
+                                                                    </a>
+                                                                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/tesla.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="我理解的fofahub">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-06 00:00" pubdate>
+        2022年10月6日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+    <div class="container-fluid nopadding-x">
+        <div class="row nomargin-x">
+            <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-x-md">
+                <div class="container nopadding-x-md" id="board-ctn">
+                    <div class="py-5" id="board">
+                        <article class="post-content mx-auto">
+                            <!-- SEO header -->
+                            <h1 style="display: none">
+                                我理解的fofahub
+                            </h1>
+                            <div class="markdown-body">
+                                <h1 id="我理解的fofahub"><a href="#我理解的fofahub" class="headerlink" title="我理解的fofahub"></a>我理解的fofahub</h1><p>之前看Zwell发的介绍fofahub《我认为网络安全工具的未来：资产篇》[1]，以为就只是个订阅资产变动并且推送的平台，而这一块zoomeye等厂商其实早在一两年前就做了[2]。</p>
+<p>但今天注意到Automa这个Web UI自动化编排工具[3]，想起了Zwell之前一直提及的工作流，于是上fofahub上看了下，发现fofahub市场中有一些工作流，进而了解到Zwell在文章中提及的“在你的资产仓库中，你可以任意发挥”和“workflow”的玩法。</p>
+<h1 id="什么是workflow"><a href="#什么是workflow" class="headerlink" title="什么是workflow"></a>什么是workflow</h1><p>以Automa的”填写防疫信息“为例解释workflow[4]，浏览器自动打开网页自动执行相应的判定，自动执行相应的填报操作，填报的过程全自动化。用户仅需拖动相应的模块即可完成，全程无需实际编码。</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84fofahub%205c614893d73d479294f951e5b1fbd72b/Untitled.png" srcset="/img/loading.gif" lazyload></p>
+<p>更简单的如scratch这类少儿编程软件，儿童只需要拖动相关控件即可享受编程的乐趣</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84fofahub%205c614893d73d479294f951e5b1fbd72b/Untitled%201.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="fofahub的workflow"><a href="#fofahub的workflow" class="headerlink" title="fofahub的workflow"></a>fofahub的workflow</h1><p>以fofahub市场中的<code>fofabot/H3C RCE(CNVD-2021-39067)</code>为例：①用户上传文件②提取相关字段的URL③在URL后添加Path路径④执行HTTP请求并发送POC④判断POC利用成功与否，并将结果输出</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84fofahub%205c614893d73d479294f951e5b1fbd72b/Untitled%202.png" srcset="/img/loading.gif" lazyload></p>
+<p>上述操作和正常的漏洞测试流程相同，也就说完成了批量验证漏洞这一工作流，而fofahub整个工作流不需要使用者有任何编码基础，只需要拖动相应的控件即可完成。部分使用控件如下图：</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84fofahub%205c614893d73d479294f951e5b1fbd72b/Untitled%203.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="傻瓜化"><a href="#傻瓜化" class="headerlink" title="傻瓜化"></a>傻瓜化</h1><p>相比仅通知资产变动，fofahub基于workflow可以实现了对资产数据更深层次的自动化分析和利用。scratch式拖动控件，十分灵活和方便，或者说实现了对数据流的傻瓜式操作。这让我想到了Goby的POC编写模块，相应的GUI只需要用户填写对应的文本，即可完成复杂POC的编写，十分简单。或者我理解的是：将重复的编码提炼并抽象为模板，实现了一种面向用户的无代码操作，降低了使用门槛。</p>
+<p>常羡慕大牛们使用出神入化的命令行手艺，各个工具的结果输出在管道符的操作下，也可以达到workflow的效果，如<code>./subfinder -d baidu.com -silent|./ksubdomain -verify -silent|./httpx -title -content-length -status-code</code> [5] ，也纳闷GUI_Tools这种仅将各种工具的启动方式套一层GUI皮的工具居然能达到700+star[6]。这想起了自己最初入门首选Kali，也会想要悬剑单兵武器库，无他，工具多，感觉安心，而到后来收集了一套自己顺手的工具集，再到后面喜欢自己DIY写顺手的脚本。</p>
+<p>所以回归到fofahub的模块化控件的拖动方式，其主要起到了降低门槛的作用，其受众应该不是已经对管道符无比熟练的大牛们，而是对资产收集还没有一套完整工作流的入门者。</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84fofahub%205c614893d73d479294f951e5b1fbd72b/Untitled%204.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>fofahub的workflow还有很长的路要走，就目前而言控件图片太丑，部分控件含义不胜其解，组件排列也有些杂乱，门槛尚且还有些高，但这都是通过时间可以优化解决的。而其未来，基于控件拖动的模式，既可以快速DIY自己的工作流，也可以傻瓜式的复用他人想法到自己的流程中，极大程度的降低了使用门槛，同时市场的模式也极大程度的避免了重复的轮子。</p>
+<p>这是从资产数据收集走向资产数据分析和利用的很大一步，很多有趣的想法不会因为不懂代码而夭折，现阶段纸面上的经验总结，也将在未来形成体系化的范式。没有等到Zwell所留下的“未来的更复杂也是更重要的工作”的下篇文章，但是我想，那就是他一带而过的workflow吧，那就期待着！</p>
+<h2 id="废话"><a href="#废话" class="headerlink" title="废话"></a>废话</h2><p>我有一个幻想：渗透测试工具这么多，每个流程那么多的轮子，各玩各的。虽然有不少将各个轮子封装的扫描器，但是也基本是开发者开发时就做好了封装，很难以推广，这也是为什么轮子越来越多的原因，毕竟总感觉有处地方不顺手。但为什么不能做个workflow，以资产数据为数据流，协调各个工具的输入输出，将工具作为控件一样拖动，不就解决了轮子的问题？</p>
+<p>当然fofahub的路都还没走完，毕竟工作量还是有些的，我也只是从未经过社会毒打的学生角度的理想主义的梦话罢。</p>
+<p>[1]<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/543838893">我认为网络安全工具的未来：资产篇 - 知乎 (zhihu.com)</a></p>
+<p>[2]<a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1685836162096628159">全球网络资产探测系统ZoomEye升级</a></p>
+<p>[3]<a target="_blank" rel="noopener" href="https://www.automa.site/">Automa - An extension for browser automation - Automa</a></p>
+<p>[4]<a target="_blank" rel="noopener" href="https://www.automa.site/workflow/hLEK9N8a46ZQQrdyfhybG">Automa的”填写防疫信息“</a></p>
+<p>[5]<a target="_blank" rel="noopener" href="https://github.com/knownsec/ksubdomain#%E7%AE%A1%E9%81%93%E6%93%8D%E4%BD%9C">ksubdomain的管道操作</a></p>
+<p>[6]<a target="_blank" rel="noopener" href="https://github.com/ghealer/GUI_Tools">GUI_Tools，一个由各种图形化渗透工具组成的工具集</a></p>
+
+                            </div>
+                            
+                                <p class="note note-info">
+                                    
+                                                    本文最后更新于：
+                                                        2023年5月12日 晚上
+                                                            
+                                </p>
+                                
+                                    <hr>
+                                    <div>
+                                        <div class="post-metas mb-3">
+                                            
+                                                <div class="post-meta mr-3">
+                                                    <i class="iconfont icon-category"></i>
+                                                    
+                                                        <a class="hover-with-bg" href="/categories/%E6%9D%82/">
+                                                            杂
+                                                        </a>
+                                                        
+                                                </div>
+                                                
+                                                    
+                                                        <div class="post-meta">
+                                                            <i class="iconfont icon-tags"></i>
+                                                            
+                                                                <a class="hover-with-bg" href="/tags/%E6%9D%82/">
+                                                                    杂
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/">
+                                                                    碎碎念
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/fofahub/">
+                                                                    fofahub
+                                                                </a>
+                                                                
+                                                        </div>
+                                                        
+                                        </div>
+                                        
+                                            <p class="note note-warning">
+                                                
+                                                            本博客所有文章欢迎转载 ，但希望转载时能注明出处！ </br>关于文章，如有疑问，欢迎讨论！Email:corp0ra1@qq.com </br>如果图片无法显示:https://corp0ra1.github.io/common/imageLoad.html
+                                                                
+                                            </p>
+                                            
+                                                
+                                                    <div class="post-prevnext">
+                                                        <article class="post-prev col-6">
+                                                            
+                                                                
+                                                                    <a href="/2023/04/14/%5Bnotion%5DWeb%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB/">
+                                                                        <i class="iconfont icon-arrowleft"></i>
+                                                                        <span class="hidden-mobile">Web缓存欺骗攻击-以OpenAI为例</span>
+                                                                        <span class="visible-mobile">上一篇</span>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                        <article class="post-next col-6">
+                                                            
+                                                                
+                                                                    <a href="/2022/09/08/%5Bnotion%5D%E4%BD%93%E6%B8%A9%E4%B8%8A%E6%8A%A5/">
+                                                                        <span class="hidden-mobile">学校体温上报脚本</span>
+                                                                        <span class="visible-mobile">下一篇</span>
+                                                                        <i class="iconfont icon-arrowright"></i>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                    </div>
+                                                    
+                                    </div>
+
+                                    
+                        </article>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+                    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+                </div>
+                
+        </div>
+    </div>
+
+    <!-- Custom -->
+    
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <div> <div class="copyright">©2020 - 2021 By Corp0ra1</div> </div> <div> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> &nbsp;|&nbsp; <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> &nbsp;|&nbsp; <a href="https://github.com/jsdelivr/jsdelivr" target="_blank" rel="nofollow noopener"><span>jsDelivr</span></a> </div> 
+  </div>
+  <!--添加运行时间-->
+<div id="sitetime"></div>
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* 
+      Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+      year - 作为date对象的年份，为4位年份值
+      month - 0-11之间的整数，做为date对象的月份
+      day - 1-31之间的整数，做为date对象的天数
+      hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+      minutes - 0-59之间的整数，做为date对象的分钟数
+      seconds - 0-59之间的整数，做为date对象的秒数
+      microseconds - 0-999之间的整数，做为date对象的毫秒数
+     */
+        var t1 = Date.UTC(2021, 05, 01, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "很高兴遇到你，我已经在此等候了你 " + /*diffYears+" 年 "+*/ diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }
+    siteTime();
+</script>
+
+    <div class="statistics">
+        
+            
+
+                
+                                                
+                                                    <!-- 不蒜子统计PV -->
+                                                    <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            
+            <span id="busuanzi_value_site_pv"></span>
+                                                     次
+                                                        &nbsp; <span class="iconfont icon-love"></span></span>
+                                                        
+
+                                                            
+
+                                                                <!-- 不蒜子统计UV -->
+                                                                <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            
+            <span id="busuanzi_value_site_uv"></span>
+                                                                 人
+                                                                    </span>
+                                                                    
+                                                                        
+    </div>
+    
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        鄂ICP备2022018419号-1
+      </a>
+    </span>
+    
+      
+        <span>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=46010802001190"
+            rel="nofollow noopener"
+            class="beian-police"
+            target="_blank"
+          >
+            
+              <span style="visibility: hidden; width: 0">|</span>
+              <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            
+            <span>琼公网安备 46010802001190号</span>
+          </a>
+        </span>
+      
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <!-- Baidu Analytics -->
+        <script defer>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?a1a4ccab78dfa522556928ac810fa739";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+        
+
+            
+                <!-- Google Analytics -->
+                <!-- <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-4X9XV0H0D5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script> -->
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+                <script async src="https://www.googletagmanager.com/gtag/js?G-4X9XV0H0D5"></script>
+                <script>
+                    window.dataLayer = window.dataLayer || [];
+
+                    function gtag() {
+                        dataLayer.push(arguments);
+                    }
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-4X9XV0H0D5');
+                </script>
+                
+
+                    
+
+                            
+
+                                    
+
+                                            
+                                                    
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

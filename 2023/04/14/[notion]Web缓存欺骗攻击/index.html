@@ -1,0 +1,744 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Avatar.jpg">
+  <link rel="icon" href="/img/Avatar.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="本文主要介绍针对OpenAI的两个Web缓存欺骗攻击案例，其中第一个案例是比较常规的Web缓存欺骗攻击，第二个是在第一个的基础上进一步拓展，并成功绕过了修复方案。">
+  <meta name="author" content="corp0ra1">
+  <meta name="keywords" content="">
+  
+  <title>Web缓存欺骗攻击-以OpenAI为例 - corp0ra1&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"corp0ra1.cn","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"a1a4ccab78dfa522556928ac810fa739","google":"G-4X9XV0H0D5","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="corp0ra1's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/">&nbsp;<strong>Corp0ra1's Blog</strong>&nbsp;</a>
+
+        <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto text-center">
+                
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+                                        </li>
+                                        
+                                            
+                    
+                        
+                            
+                                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+                                        </li>
+                                        
+                                            
+                                                
+                                                    <li class="nav-item" id="search-btn">
+                                                        <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+                                                    </li>
+                                                    
+                                                        
+                                                            <li class="nav-item" id="color-toggle-btn">
+                                                                <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+                                                            </li>
+                                                            
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" href="/atom.xml">
+                                                                        <i class="iconfont icon-rss"></i>
+                                                                    </a>
+                                                                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/tesla.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Web缓存欺骗攻击-以OpenAI为例">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-04-14 22:23" pubdate>
+        2023年4月14日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      31
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+    <div class="container-fluid nopadding-x">
+        <div class="row nomargin-x">
+            <div class="d-none d-lg-block col-lg-2"></div>
+            <div class="col-lg-8 nopadding-x-md">
+                <div class="container nopadding-x-md" id="board-ctn">
+                    <div class="py-5" id="board">
+                        <article class="post-content mx-auto">
+                            <!-- SEO header -->
+                            <h1 style="display: none">
+                                Web缓存欺骗攻击-以OpenAI为例
+                            </h1>
+                            <div class="markdown-body">
+                                <h1 id="Web缓存欺骗攻击"><a href="#Web缓存欺骗攻击" class="headerlink" title="Web缓存欺骗攻击"></a>Web缓存欺骗攻击</h1><blockquote>
+<p>本文主要介绍针对OpenAI的两个Web缓存欺骗攻击案例，其中第一个案例是比较常规的Web缓存欺骗攻击，第二个是在第一个的基础上进一步拓展，并成功绕过了修复方案。</p>
+</blockquote>
+<h1 id="攻击概述"><a href="#攻击概述" class="headerlink" title="攻击概述"></a>攻击概述</h1><p>背景：</p>
+<ol>
+<li>登录OpenAI账户时，会请求<code>/api/auth/session</code> 并返回accessToken等敏感信息</li>
+<li>OpenAI使用cloudflare服务做负载均衡，会对一些静态文件进行缓存</li>
+</ol>
+<p>针对OpenAI的Web缓存欺骗攻击：</p>
+<ol>
+<li>攻击者生成<code>openai[.]com/api/auth/session/victim.css</code>的链接发给受害人（ 因为后端配置缺陷，访问<code>/api/auth/session/victim.css</code>、<code>/api/auth/session/non-existent.css</code> 和访问<code>/api/auth/session</code> 的结果一样）</li>
+<li>受害人访问上述链接，由于处于登录状态，会获取到其accessToken；同时由于其后缀是<code>.css</code> 的静态文件，本次响应内容也会被cloudflare缓存下来</li>
+<li>攻击者访问该链接，击中了cloudflare的缓存，于是直接从cloudflare的缓存中获取到受害人的accessToken</li>
+</ol>
+<p>演示视频如下：</p>
+<p><a target="_blank" rel="noopener" href="https://video.twimg.com/ext_tw_video/1639341101134774283/pu/vid/1280x540/EgFy14DVaZ7Jjxmf.mp4?tag=12">https://video.twimg.com/ext_tw_video/1639341101134774283/pu/vid/1280x540/EgFy14DVaZ7Jjxmf.mp4?tag=12</a></p>
+<hr>
+<h1 id="首次发现漏洞"><a href="#首次发现漏洞" class="headerlink" title="首次发现漏洞"></a>首次发现漏洞</h1><ul>
+<li>原文：<a target="_blank" rel="noopener" href="https://twitter.com/naglinagli/status/1639343866313601024">https://twitter.com/naglinagli/status/1639343866313601024</a></li>
+<li>由于攻击过程展现在多个评论中，为了更适合阅读，转换为流：<a target="_blank" rel="noopener" href="https://threadreaderapp.com/thread/1639343866313601024.html">https://threadreaderapp.com/thread/1639343866313601024.html</a></li>
+</ul>
+<h2 id="1-起：如何发现问题"><a href="#1-起：如何发现问题" class="headerlink" title="1. 起：如何发现问题"></a>1. 起：如何发现问题</h2><p>在探索处理 ChatGPT 身份验证流程的请求时，我一直在寻找可能暴露用户信息的任何异常情况。以下 GET 请求引起了我的注意：<code>https://chat.openai[.]com/api/auth/session</code></p>
+<p>基本上，每当我们登录到我们的 ChatGPT 实例时，他们的应用程序都会从服务器获取我们的帐户上下文，如我们的电子邮件、名称、图像和 accessToken，如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled.png" srcset="/img/loading.gif" lazyload></p>
+<p>泄露此类信息的一个常见用例是在服务器上利用“Web 缓存欺骗”，我已经在 Live Hacking Events 中多次找到它，并且在各种博客中也有详细记录，例如：</p>
+<p><a target="_blank" rel="noopener" href="https://omergil.blogspot.com/2017/02/web-cache-deception-attack.html">Web Cache Deception Attack</a></p>
+<p>站在一个高维的角度，该漏洞非常简单，如果我们设法强制负载均衡将我们的请求缓存在我们预设的特定路径上，我们将能够从缓存的响应中读取受害者的敏感数据。</p>
+<p>但是在这个案例中，并不是这么简单。</p>
+<h2 id="2-承转：如何实现攻击"><a href="#2-承转：如何实现攻击" class="headerlink" title="2. 承转：如何实现攻击"></a>2. 承转：如何实现攻击</h2><p>为了让漏洞发挥作用，我们需要让 CF-Cache-Status 响应以确认缓存的“HIT”，这意味着它缓存了数据，并将提供给跨同一区域的下一个请求。</p>
+<p>但是我们收到“DYNAMIC”的响应，即其不会缓存数据</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%201.png" srcset="/img/loading.gif" lazyload></p>
+<p>当我们部署 Web 服务器时，“缓存”的主要目标是能够更快地为最终用户提供大量资源，主要是 JS / CSS / 静态文件，CloudFlare 有一个默认扩展列表，可以访问网页获取：</p>
+<p><a target="_blank" rel="noopener" href="https://t.co/0DZiNmewos">Default Cache Behavior · Cloudflare Cache (CDN) docs</a></p>
+<p>“Cloudflare only caches based on file extension and not by MIME type”</p>
+<p>基本上，如果我们设法找到一种方法来加载具有以下指定文件扩展名之一的相同接口，同时强制该接口保留敏感 JSON 数据，我们将能够缓存这些敏感数据。</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%202.png" srcset="/img/loading.gif" lazyload></p>
+<p>因此，我要尝试的第一件事是获取在接口上附加了文件扩展名的资源，并查看它是否会引发错误或显示原始响应。</p>
+<p><code>chat.openai[.]com/api/auth/session.css</code> -&gt; 400 ❌</p>
+<p><code>chat.openai[.]com/api/auth/session/test.css</code> - 200 ✔️</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%203.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%204.png" srcset="/img/loading.gif" lazyload></p>
+<p>这一步工作取得了很大的进展，因为使用带有 css 文件扩展名的路径进行请求，Open AI服务器会返回敏感的JSON，这可能是由于正则表达式失败或者只是他们没有将此攻击向量纳入防御的考虑范围。那么现在只有一件事需要确定：我们是否可以从LB 缓存服务器获取“HIT” ，来标志包含敏感JSON的缓存被读取。</p>
+<p>如下图，这个事情也被确定了，整个攻击链条都按照计划工作了</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%205.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="合"><a href="#合" class="headerlink" title="合"></a>合</h2><p>攻击链</p>
+<ol>
+<li>攻击者制作 /api/auth/session接口的特定的.css 路径(注：如<code>/api/auth/session/victim.css</code>)</li>
+<li>攻击者分发链接（直接给受害者或公开）</li>
+<li>受害者访问该链接</li>
+<li>响应被缓存。</li>
+<li>攻击者获取 JWT 凭证。</li>
+</ol>
+<p>修复方案</p>
+<ol>
+<li>缓存服务器不要通过正则表达式匹配相应的接口**(Open AI采取的修复方案)**</li>
+<li>除非直接请求所需的接口，不然不要返回敏感的 JSON 响应，<code>chat.openai[.]com/api/auth/session</code>≠<code>chat.openai[.]com/api/auth/session/test.css</code></li>
+</ol>
+<p>漏洞披露流程（3月25日）：</p>
+<ol>
+<li>首次发给openai.com邮件披露时间：19:54 </li>
+<li>首次回复邮件时间：20:02</li>
+<li>首次尝试修复时间：20:40</li>
+<li>生产环境修复时间：21:31</li>
+</ol>
+<h1 id="再次发现"><a href="#再次发现" class="headerlink" title="再次发现"></a>再次发现</h1><blockquote>
+<p>在Twitter发布后的几个小时，另外一个研究员<a target="_blank" rel="noopener" href="https://twitter.com/_ayoubfathi_"><em>ayoubfathi</em></a>发现基于正则表达式的修复方式有许多绕过方法</p>
+</blockquote>
+<ul>
+<li>原文：<a target="_blank" rel="noopener" href="https://twitter.com/_ayoubfathi_/status/1639637351042359296">https://twitter.com/<em>ayoubfathi</em>/status/1639637351042359296</a></li>
+<li>流格式：<a target="_blank" rel="noopener" href="https://threadreaderapp.com/thread/1639637351042359296.html">https://threadreaderapp.com/thread/1639637351042359296.html</a></li>
+</ul>
+<h2 id="起：如何在原有基础上发现新漏洞"><a href="#起：如何在原有基础上发现新漏洞" class="headerlink" title="起：如何在原有基础上发现新漏洞"></a>起：如何在原有基础上发现新漏洞</h2><p>发现Open AI修复了类似的问题后，我知道这是错误的修复——所以我更深入地研究了 Auth API，但没有成功。</p>
+<p>我以为缓存欺骗是固定的。但是在 Auth API上失败的绕过尝试在另一个 API 上起作用—允许访问用户所有对话的标题</p>
+<p>我认为我所能找到的只是一种绕过阅读某人对话标题的方法——这个方法依然存在危害，只是危害没有账户接管那么大而已</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%206.png" srcset="/img/loading.gif" lazyload></p>
+<p>为了解释上图，我们正在获取 API 请求（非静态文件请求）的“HIT”缓存状态。</p>
+<p>这意味着“API”请求被缓存，因为 Cloudflare 认为这是一个需要缓存的静态文件请求。</p>
+<p>因此，您可以伪造基于 URL 的漏洞，例如：<code>/backend-api/conversations%0A%0D-testtest.css?offset=0&amp;limit=20</code> ，将其发送给受害者，并在访问它时——受害人自己的“API”响应将被缓存，如果您重新检查相同的 URL (即获取受害者的缓存响应），您将能够看到受害者的 HTTP 响应，其中包含受害人对话的标题。</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%207.png" srcset="/img/loading.gif" lazyload></p>
+<p>有了这个发现，我决定将其报告给 OpenAI 团队并得到以下回复：</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%208.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后我回去重新开始寻找。让我有点困扰的是我无法绕过那个 Auth API，我报告的只是阅读用户的对话标题。</p>
+<p>那我就到此为止吧，可能吗？</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%209.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="承转：如何绕过原有修复措施"><a href="#承转：如何绕过原有修复措施" class="headerlink" title="承转：如何绕过原有修复措施"></a>承转：如何绕过原有修复措施</h2><p>现在进入有趣的部分——还有更多。我找到了一个新的攻击向量来绕过原始帐户接管攻击的修复</p>
+<p>我认为 <code>%0A%0D</code> 也可以在 Auth API 上使用，但事实并非如此：</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%2010.png" srcset="/img/loading.gif" lazyload></p>
+<p>因此，我认为 CRLF 字符在Auth 会话 API 中被转义了，但我怀疑攻击者可能会利用其他字符进行攻击。</p>
+<p>我知道正则表达式在捕获编码的空白字符方面很糟糕，尤其是当它在不同的网络节点之间转发时。所以我添加了制表符 <code>\t</code>在URL编码后的表示<code>%09</code>，形成了一个新的payload： <code>%0A%0D%09</code>，然后成功了。</p>
+<p>通过这种方法，我能够绕过 OpenAI 对原始帐户接管问题的修复，新的payload使这个问题重现——接管任何用户帐户：</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%2011.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%2012.png" srcset="/img/loading.gif" lazyload></p>
+<p>但这只是我接下来要展示的其他发现中的第一个发现，并没有就此停止。我认为所有的 chat[.].openai[.]com API 都容易受到相同的绕过有效负载的攻击</p>
+<p>阅读某人的完整对话</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%2013.png" srcset="/img/loading.gif" lazyload></p>
+<p>阅读用户对话标题</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%2014.png" srcset="/img/loading.gif" lazyload></p>
+<p>查看他们的账户状态：</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%2015.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="合-1"><a href="#合-1" class="headerlink" title="合"></a>合</h2><p>我与 OpenAI 团队进行了多次讨论，以帮助他们解决这四个问题。在遇到几个网络缓存欺骗问题并修复它们之后，我向 OpenAI 团队发送了关于如何修复它的明确说明</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%2016.png" srcset="/img/loading.gif" lazyload></p>
+<p>对于那些对 OpenAI 实施的新修复感兴趣的人来说，使用正则表达式修复此问题并不是最好的。</p>
+<p>您需要将 Content-Type 与 URL 文件扩展名进行比较，Cloudflare 上有一个名为“Cache Deception Armor”的模块可以做到这一点</p>
+<p><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/cache/about/cache-deception-armor/">Cache Deception Armor · Cloudflare Cache (CDN) docs</a></p>
+<p>时间线：</p>
+<ol>
+<li>首次报告：2:25</li>
+<li>首次回应：2:25</li>
+<li>初步评估：2:32</li>
+<li>添加了更多细节：2:39</li>
+<li>OpenAI 跟进修复建议：3:26</li>
+<li>添加了更多细节：4: 05 </li>
+<li>OpenAI 确认修复已生效：5:16</li>
+</ol>
+<h1 id="Open-AI的赏金计划"><a href="#Open-AI的赏金计划" class="headerlink" title="Open AI的赏金计划"></a>Open AI的赏金计划</h1><p>无论是首次发现的研究员<a target="_blank" rel="noopener" href="https://twitter.com/naglinagli">naglinagli</a>还是后续的研究员<a target="_blank" rel="noopener" href="https://twitter.com/_ayoubfathi_"><em>ayoubfathi</em></a>都提到了Open AI在这些事件上BugBounty的缺位，而Open AI在4月12日之后也终于开始了他的赏金计划</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%2017.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%2018.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB%200fb4301319044a57af7a1514f9ff24be/Untitled%2019.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h1><ol>
+<li>写作原因。在OpenAI的赏金计划推文下留意到naglinagli发表的评论，最终成为本篇文章的写作动因。</li>
+<li>Web缓存欺骗攻击。之前我一直认为这类漏洞的危害并不严重，但通过上述案例，账户信息泄露还是有些严重的，国内大厂应该也存在类似的漏洞，只是不清楚国内对此的认可程度。</li>
+<li>漏洞修复。首先，国外的漏洞修复速度非常快，第一个和第二个漏洞从披露到修复整体不超过12个小时，感慨那群人也许真的是在用爱发电，热情。其次，漏洞修复不是一蹴而就的过程。最后，对于开发者而言，很多时候他们无法很好地掌握安全知识，甚至连像Cloudflare这样的安全配置也不尽了解。安全人员可以利用这种信息差发现漏洞，但仍存在视野局限性，提供的安全修复建议可能并不能完全修复漏洞。这需要安全专家自我提升修养。在国内，常常出现这样的情况：“我按照你说的做了，但是还是出现了新的漏洞。”或者“你能不能一次性说明白？”</li>
+<li>公开披露的利弊。对于企业来说，漏洞公开披露意味着面临更大的威胁，但也能让企业发现更深层次的风险问题(感谢国外企业对漏洞披露的开放态度)。对于个人而言，挖掘漏洞能赚取名声，也能在讨论中交流思路，启发他人，同时也带来回报，弥补自己的思路上的不足。例如，作者通过此文弥补了自身的局限性：一个是攻击面的问题，一个是修复方案的缺陷导致的绕过问题。</li>
+<li>_ayoubfathi_的思路。首先，因为漏洞是针对所有API都是共性的，所以可以刷一次所有API（攻防都需要这种思路）。其次，编码绕过正则表达式的思路非常新颖，甚至不需要进行Fuzz测试就能成功（regex is terrible at catching encoded whitespace characters, especially when it gets forwarded between different hops）。</li>
+<li>BugBounty。即使没有BugBounty，挖到OpenAI的漏洞所带来的名气都是巨大的，但有了BugBounty会更加正向的激励bughunter。</li>
+</ol>
+
+                            </div>
+                            
+                                <p class="note note-info">
+                                    
+                                                    本文最后更新于：
+                                                        2023年5月12日 晚上
+                                                            
+                                </p>
+                                
+                                    <hr>
+                                    <div>
+                                        <div class="post-metas mb-3">
+                                            
+                                                <div class="post-meta mr-3">
+                                                    <i class="iconfont icon-category"></i>
+                                                    
+                                                        <a class="hover-with-bg" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                                                            渗透测试
+                                                        </a>
+                                                        
+                                                </div>
+                                                
+                                                    
+                                                        <div class="post-meta">
+                                                            <i class="iconfont icon-tags"></i>
+                                                            
+                                                                <a class="hover-with-bg" href="/tags/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/">
+                                                                    文档翻译
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">
+                                                                    渗透测试
+                                                                </a>
+                                                                
+                                                                <a class="hover-with-bg" href="/tags/Web%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97/">
+                                                                    Web缓存欺骗
+                                                                </a>
+                                                                
+                                                        </div>
+                                                        
+                                        </div>
+                                        
+                                            <p class="note note-warning">
+                                                
+                                                            本博客所有文章欢迎转载 ，但希望转载时能注明出处！ </br>关于文章，如有疑问，欢迎讨论！Email:corp0ra1@qq.com </br>如果图片无法显示:https://corp0ra1.github.io/common/imageLoad.html
+                                                                
+                                            </p>
+                                            
+                                                
+                                                    <div class="post-prevnext">
+                                                        <article class="post-prev col-6">
+                                                            
+                                                                
+                                                                    <a href="/2023/05/12/%5Bnotion%5DLLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection/">
+                                                                        <i class="iconfont icon-arrowleft"></i>
+                                                                        <span class="hidden-mobile">LLM中的安全隐患-提示注入Prompt injection</span>
+                                                                        <span class="visible-mobile">上一篇</span>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                        <article class="post-next col-6">
+                                                            
+                                                                
+                                                                    <a href="/2022/10/06/%5Bnotion%5D%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84fofahub/">
+                                                                        <span class="hidden-mobile">我理解的fofahub</span>
+                                                                        <span class="visible-mobile">下一篇</span>
+                                                                        <i class="iconfont icon-arrowright"></i>
+                                                                    </a>
+                                                                    
+                                                        </article>
+                                                    </div>
+                                                    
+                                    </div>
+
+                                    
+                        </article>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+                    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+                </div>
+                
+        </div>
+    </div>
+
+    <!-- Custom -->
+    
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <div> <div class="copyright">©2020 - 2021 By Corp0ra1</div> </div> <div> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> &nbsp;|&nbsp; <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> &nbsp;|&nbsp; <a href="https://github.com/jsdelivr/jsdelivr" target="_blank" rel="nofollow noopener"><span>jsDelivr</span></a> </div> 
+  </div>
+  <!--添加运行时间-->
+<div id="sitetime"></div>
+<script language=javascript>
+    function siteTime() {
+        window.setTimeout("siteTime()", 1000);
+        var seconds = 1000;
+        var minutes = seconds * 60;
+        var hours = minutes * 60;
+        var days = hours * 24;
+        var years = days * 365;
+        var today = new Date();
+        var todayYear = today.getFullYear();
+        var todayMonth = today.getMonth() + 1;
+        var todayDate = today.getDate();
+        var todayHour = today.getHours();
+        var todayMinute = today.getMinutes();
+        var todaySecond = today.getSeconds();
+        /* 
+      Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+      year - 作为date对象的年份，为4位年份值
+      month - 0-11之间的整数，做为date对象的月份
+      day - 1-31之间的整数，做为date对象的天数
+      hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+      minutes - 0-59之间的整数，做为date对象的分钟数
+      seconds - 0-59之间的整数，做为date对象的秒数
+      microseconds - 0-999之间的整数，做为date对象的毫秒数
+     */
+        var t1 = Date.UTC(2021, 05, 01, 00, 00, 00); //北京时间2018-2-13 00:00:00
+        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+        var diff = t2 - t1;
+        var diffYears = Math.floor(diff / years);
+        var diffDays = Math.floor((diff / days) - diffYears * 365);
+        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+        document.getElementById("sitetime").innerHTML = "很高兴遇到你，我已经在此等候了你 " + /*diffYears+" 年 "+*/ diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+    }
+    siteTime();
+</script>
+
+    <div class="statistics">
+        
+            
+
+                
+                                                
+                                                    <!-- 不蒜子统计PV -->
+                                                    <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            
+            <span id="busuanzi_value_site_pv"></span>
+                                                     次
+                                                        &nbsp; <span class="iconfont icon-love"></span></span>
+                                                        
+
+                                                            
+
+                                                                <!-- 不蒜子统计UV -->
+                                                                <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            
+            <span id="busuanzi_value_site_uv"></span>
+                                                                 人
+                                                                    </span>
+                                                                    
+                                                                        
+    </div>
+    
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        鄂ICP备2022018419号-1
+      </a>
+    </span>
+    
+      
+        <span>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=46010802001190"
+            rel="nofollow noopener"
+            class="beian-police"
+            target="_blank"
+          >
+            
+              <span style="visibility: hidden; width: 0">|</span>
+              <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            
+            <span>琼公网安备 46010802001190号</span>
+          </a>
+        </span>
+      
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        <!-- Baidu Analytics -->
+        <script defer>
+            var _hmt = _hmt || [];
+            (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?a1a4ccab78dfa522556928ac810fa739";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();
+        </script>
+        
+
+            
+                <!-- Google Analytics -->
+                <!-- <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-4X9XV0H0D5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script> -->
+                <!-- Global site tag (gtag.js) - Google Analytics -->
+                <script async src="https://www.googletagmanager.com/gtag/js?G-4X9XV0H0D5"></script>
+                <script>
+                    window.dataLayer = window.dataLayer || [];
+
+                    function gtag() {
+                        dataLayer.push(arguments);
+                    }
+                    gtag('js', new Date());
+
+                    gtag('config', 'G-4X9XV0H0D5');
+                </script>
+                
+
+                    
+
+                            
+
+                                    
+
+                                            
+                                                    
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
