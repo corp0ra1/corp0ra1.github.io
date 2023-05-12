@@ -63,6 +63,31 @@
   </entry>
   
   <entry>
+    <title>Notion AI’Prompt逆向| Reverse Prompt Engineering for Fun and (no) Profit</title>
+    <link href="https://corp0ra1.cn/2023/03/02/[notion]Notion%20AI%E2%80%99Prompt%E9%80%86%E5%90%91%20Reverse%20Prompt%20Engineering%20for/"/>
+    <id>https://corp0ra1.cn/2023/03/02/[notion]Notion%20AI%E2%80%99Prompt%E9%80%86%E5%90%91%20Reverse%20Prompt%20Engineering%20for/</id>
+    <published>2023-03-01T16:00:00.000Z</published>
+    <updated>2023-05-12T14:48:49.831Z</updated>
+    
+    
+    <summary type="html">使用提示注入攻击获取Notion AI所用于文本润色的prompt</summary>
+    
+    
+    
+    <category term="文档翻译" scheme="https://corp0ra1.cn/categories/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
+    
+    
+    <category term="文档翻译" scheme="https://corp0ra1.cn/tags/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
+    
+    <category term="LLM" scheme="https://corp0ra1.cn/tags/LLM/"/>
+    
+    <category term="prompt injection" scheme="https://corp0ra1.cn/tags/prompt-injection/"/>
+    
+    <category term="notion AI" scheme="https://corp0ra1.cn/tags/notion-AI/"/>
+    
+  </entry>
+  
+  <entry>
     <title>我理解的fofahub</title>
     <link href="https://corp0ra1.cn/2022/10/06/[notion]%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84fofahub/"/>
     <id>https://corp0ra1.cn/2022/10/06/[notion]%E6%88%91%E7%90%86%E8%A7%A3%E7%9A%84fofahub/</id>
@@ -103,29 +128,6 @@
     <category term="杂" scheme="https://corp0ra1.cn/tags/%E6%9D%82/"/>
     
     <category term="脚本编写" scheme="https://corp0ra1.cn/tags/%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>记一次不停自我追问式的学习</title>
-    <link href="https://corp0ra1.cn/2022/06/28/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/"/>
-    <id>https://corp0ra1.cn/2022/06/28/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/</id>
-    <published>2022-06-27T16:00:00.000Z</published>
-    <updated>2023-05-12T14:35:08.591Z</updated>
-    
-    
-    <summary type="html">最初只是简单的搭建环境，拿着公开的POC复现漏洞。然后想着学学Goby如何编写POC&amp;EXP，先拿GUI的形式编写，但是逐渐发现很多想法都满足不了，于是尝试Go语言编写。但也不满足于此，想去探究漏洞成因遂代码审计，最后追溯漏洞的源头得出结论！</summary>
-    
-    
-    
-    <category term="漏洞研究" scheme="https://corp0ra1.cn/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
-    
-    
-    <category term="漏洞复现" scheme="https://corp0ra1.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
-    
-    <category term="POC编写" scheme="https://corp0ra1.cn/tags/POC%E7%BC%96%E5%86%99/"/>
-    
-    <category term="代码审计" scheme="https://corp0ra1.cn/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     
   </entry>
   
@@ -314,6 +316,29 @@
   </entry>
   
   <entry>
+    <title>记一次不停自我追问式的学习</title>
+    <link href="https://corp0ra1.cn/2021/06/28/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://corp0ra1.cn/2021/06/28/%E8%AE%B0%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%81%9C%E8%87%AA%E6%88%91%E8%BF%BD%E9%97%AE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0/</id>
+    <published>2021-06-27T16:00:00.000Z</published>
+    <updated>2023-05-12T14:48:27.488Z</updated>
+    
+    
+    <summary type="html">最初只是简单的搭建环境，拿着公开的POC复现漏洞。然后想着学学Goby如何编写POC&amp;EXP，先拿GUI的形式编写，但是逐渐发现很多想法都满足不了，于是尝试Go语言编写。但也不满足于此，想去探究漏洞成因遂代码审计，最后追溯漏洞的源头得出结论！</summary>
+    
+    
+    
+    <category term="漏洞研究" scheme="https://corp0ra1.cn/categories/%E6%BC%8F%E6%B4%9E%E7%A0%94%E7%A9%B6/"/>
+    
+    
+    <category term="漏洞复现" scheme="https://corp0ra1.cn/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/"/>
+    
+    <category term="POC编写" scheme="https://corp0ra1.cn/tags/POC%E7%BC%96%E5%86%99/"/>
+    
+    <category term="代码审计" scheme="https://corp0ra1.cn/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+  </entry>
+  
+  <entry>
     <title>DevOps与CI/CD</title>
     <link href="https://corp0ra1.cn/2021/03/25/[notion]DevOps%E4%B8%8ECI%20CD/"/>
     <id>https://corp0ra1.cn/2021/03/25/[notion]DevOps%E4%B8%8ECI%20CD/</id>
@@ -331,31 +356,6 @@
     <category term="杂" scheme="https://corp0ra1.cn/tags/%E6%9D%82/"/>
     
     <category term="CI/CD" scheme="https://corp0ra1.cn/tags/CI-CD/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Notion AI’Prompt逆向| Reverse Prompt Engineering for Fun and (no) Profit</title>
-    <link href="https://corp0ra1.cn/2021/03/02/[notion]Notion%20AI%E2%80%99Prompt%E9%80%86%E5%90%91%20Reverse%20Prompt%20Engineering%20for/"/>
-    <id>https://corp0ra1.cn/2021/03/02/[notion]Notion%20AI%E2%80%99Prompt%E9%80%86%E5%90%91%20Reverse%20Prompt%20Engineering%20for/</id>
-    <published>2021-03-01T16:00:00.000Z</published>
-    <updated>2023-05-12T14:20:03.485Z</updated>
-    
-    
-    <summary type="html">使用提示注入攻击获取Notion AI所用于文本润色的prompt</summary>
-    
-    
-    
-    <category term="文档翻译" scheme="https://corp0ra1.cn/categories/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
-    
-    
-    <category term="文档翻译" scheme="https://corp0ra1.cn/tags/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
-    
-    <category term="LLM" scheme="https://corp0ra1.cn/tags/LLM/"/>
-    
-    <category term="prompt injection" scheme="https://corp0ra1.cn/tags/prompt-injection/"/>
-    
-    <category term="notion AI" scheme="https://corp0ra1.cn/tags/notion-AI/"/>
     
   </entry>
   
