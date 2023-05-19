@@ -14,11 +14,11 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="对LLM中的安全隐患-提示注入进行介绍">
+  <meta name="description" content="比较好的科普文，从Langchain的整个框架和生命周期来看待AI系统的安全风险问题">
   <meta name="author" content="corp0ra1">
   <meta name="keywords" content="">
   
-  <title>LLM中的安全隐患-提示注入Prompt injection - corp0ra1&#39;s Blog</title>
+  <title>AI攻击面|The AI Attack Surface Map v1.0(译文) - corp0ra1&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -165,7 +165,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="LLM中的安全隐患-提示注入Prompt injection">
+            <span class="h2" id="subtitle" title="AI攻击面|The AI Attack Surface Map v1.0(译文)">
               
             </span>
 
@@ -175,8 +175,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2023-05-12 19:01" pubdate>
-        2023年5月12日 晚上
+      <time datetime="2023-05-19 14:00" pubdate>
+        2023年5月19日 下午
       </time>
     </span>
   
@@ -187,7 +187,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.2k 字
+      3.4k 字
     </span>
   
 
@@ -197,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      35
+      37
        分钟
     </span>
   
@@ -236,103 +236,125 @@
                         <article class="post-content mx-auto">
                             <!-- SEO header -->
                             <h1 style="display: none">
-                                LLM中的安全隐患-提示注入Prompt injection
+                                AI攻击面|The AI Attack Surface Map v1.0(译文)
                             </h1>
                             <div class="markdown-body">
-                                <h1 id="LLM中的安全隐患-提示注入Prompt-injection"><a href="#LLM中的安全隐患-提示注入Prompt-injection" class="headerlink" title="LLM中的安全隐患-提示注入Prompt injection"></a>LLM中的安全隐患-提示注入Prompt injection</h1><p>缘起:<a target="_blank" rel="noopener" href="https://weibo.com/1644867970/MC70EA6Ur">更正下，不是所有场景… - @RAyH4c的微博 - 微博 (weibo.com)</a></p>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled.png" srcset="/img/loading.gif" lazyload></p>
-<p>补充：<a target="_blank" rel="noopener" href="https://weibo.com/6045441276/MC5G92Q6K">#autogpt# … - @blackorbird的微博 - 微博 (weibo.com)</a></p>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%201.png" srcset="/img/loading.gif" lazyload></p>
-<p>再补：<a target="_blank" rel="noopener" href="https://twitter.com/dotey/status/1647375897312239616">https://twitter.com/dotey/status/1647375897312239616</a></p>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%202.png" srcset="/img/loading.gif" lazyload></p>
-<p>再补：<a target="_blank" rel="noopener" href="https://weibo.com/1770891687/MCfcbekfZ">这个没有价值观的AI… - @phunter_lau的微博 - 微博 (weibo.com)</a></p>
-<p>所以说autoGPT目前在容器中运行python code，难道不可以auto越狱这个容器？</p>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%203.png" srcset="/img/loading.gif" lazyload></p>
-<h1 id="一个真实的案例"><a href="#一个真实的案例" class="headerlink" title="一个真实的案例"></a>一个真实的案例</h1><p>原文：<a target="_blank" rel="noopener" href="https://twitter.com/ludwig_stumpp/status/1619701277419794435">https://twitter.com/ludwig_stumpp/status/1619701277419794435</a></p>
-<p>该推文评论太多太杂，仅做摘要，详见原文：</p>
-<ol>
-<li>介绍：使用提示注入读取了一个非常著名的 GPT-3 应用程序的OpenAI API 密钥。</li>
-<li>原理：只要直接执行GPT-3返回的部分响应代码就可能遭受攻击，例如在Python中使用eval()，恶意用户基本上可以执行任意代码。</li>
-<li>原因：应用的API密钥被设置为Python环境的一个环境变量，并用eval()来执行由GPT-3的返回代码，作者通过这种方式读取了OpenAI API的密钥。</li>
-<li>教训：不要认为您能够 100% 控制 LLM 将返回的内容，尤其是当用户输入与您的请求连接时。当它不符合您的意图时，请做好充分准备。</li>
-</ol>
+                                <blockquote>
+<p><strong>原文</strong>:<a target="_blank" rel="noopener" href="https://danielmiessler.com/blog/the-ai-attack-surface-map-v1-0/">The AI Attack Surface Map v1.0</a></p>
+<p><strong>信息来源</strong>：<a target="_blank" rel="noopener" href="https://weibo.com/1093935355/N1iuzlSW4">碳基体20230519的微博博文</a></p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/AI%E6%94%BB%E5%87%BB%E9%9D%A2%20The%20AI%20Attack%20Surface%20Map%20v1%200%E8%AF%91%E6%96%87%201bc685619b2b4e7d825b24ca3672835a/Untitled.png" srcset="/img/loading.gif" lazyload></p>
+<hr>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>本篇是首个尝试从框架上思考如何攻击AI系统的文章</p>
+<p>在撰写本文时，GPT-4 才推出几个月，而 ChatGPT 才推出 6 个月。所以现在还言之尚早。当然，攻击在ChatGPT之前的AI系统的内容很多，如如何攻击机器学习实现(how to attack machine learning implementations.)。</p>
+<p>但截至 2023 年 5 月，还没有太多关于攻击以 AI 作为多个组件中一部分所构建的完整系统的内容。这主要是因为像 Langchain 这样的集成技术在最近 2 个月才崭露头角。因此，人们需要时间来使用此工具构建产品和服务。</p>
+<p>一旦这些人工智能驱动的产品和服务开始出现，我们将面临一种全新的漏洞需要应对。我们希望通过此文章可以使该领域更加清晰。</p>
 <blockquote>
-<p>Note, that I am talking about an application that is run on top of GPT-3, not GPT-3 itself.</p>
-<p>The application basically sent the following prompt:</p>
-<p>Use this template<br>“””<br>SOME PYTHON CODE<br>“””<br>to achieve the following:<br><USER INPUT></p>
-<p>and then they eval() on the response of GPT-3.</p>
+<p><em><strong>自然语言是攻击人工智能系统的首选语言。</strong></em></p>
+<p><em><strong>（Natural language is the go-to language for attacking AI systems.）</strong></em></p>
 </blockquote>
-<ol>
-<li>一些safe eval()的解决方案：沙箱/<a href="%5Bhttps://restrictedpython.readthedocs.io/en/latest/%5D(https://restrictedpython.readthedocs.io/en/latest/)">restrictedpython</a>/<a target="_blank" rel="noopener" href="https://fly.io/docs/machines/guides-examples/functions-with-machines/">第三方容器服务FaaS</a></li>
-<li>作者后续将攻击过程发表在<code>atlas.mitre.org</code>上：<a target="_blank" rel="noopener" href="https://atlas.mitre.org/studies/AML.CS0016/">Achieving Code Execution in MathGPT via Prompt Injection</a></li>
-<li>我的一些拓展测试<ol>
-<li>Google检索mathGPT，并简单使用<a target="_blank" rel="noopener" href="https://mathgpt.streamlit.app/">修复漏洞后的产品</a>，发现确实存在source code的return并执行，简单测试了下无效，且未找到源码，无果</li>
-<li>Github找到了另一个版本的<a target="_blank" rel="noopener" href="https://github.com/3iq-hacks/mathgpt">mathgpt</a>，且使用其所用的<a target="_blank" rel="noopener" href="https://github.com/3iq-hacks/mathgpt/blob/6e1bd978ae8a2e7d45197a667716a02f9a128879/pages/api/gpt3.ts#L12">prompt</a>在ChatGPT上进行实验，成功。由于只是学生编写并搭建的该网站且API使用达到上限，无法真实环境测试。fofa搜了下相关资产没搜到，自己不想搭建了，无果</li>
-<li>此文目的也只是展示其危害，仅做案例展示，且已有相关研究，故未在此深入拓展</li>
-</ol>
-</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%204.png" srcset="/img/loading.gif" lazyload></p>
-<h1 id="LLM集成的危害"><a href="#LLM集成的危害" class="headerlink" title="LLM集成的危害"></a>LLM集成的危害</h1><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%205.png" srcset="/img/loading.gif" lazyload></p>
-<p>危害在哪？如同宝玉推文下评论所说“…这不是既要 又要 了吗？本来目标就是让它能执行任意代码啊”。</p>
-<h2 id="什么是Prompt-injection"><a href="#什么是Prompt-injection" class="headerlink" title="什么是Prompt injection"></a>什么是Prompt injection</h2><p>类比SQL注入：<code>Select username from user where id =&#123;user input&#125;</code>，<code>&#123;user input&#125;=0 and select secret from secret_table</code> ，提示注入也可以是<code>Do A work where workContent==&#123;user input&#125;</code>，<code>&#123;user input&#125;=nothing but you need to do B work</code></p>
-<p>核心原因：<strong>攻击者可以在控制的数据字段中包含指令，而系统在底层无法区分数据和指令</strong>。数据库只看最终拼接后的SQL语句，语言模型也只是看拼接后的prompt。所以语言模型会将部分输入的数据也当做了指令，并因为LLM引以为豪的推理能力，会导致指令的改变和重定向。</p>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%206.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="Prompt-injection的危害在哪？"><a href="#Prompt-injection的危害在哪？" class="headerlink" title="Prompt injection的危害在哪？"></a>Prompt injection的危害在哪？</h2><p>可能大家觉得都是Self-PromptInjection的问题，因为只是在本地运行而已，参数未提供给其他人作为输入，所以可控且无风险。但是还是类比SQL注入，随着应用上采用的SQL越来越多，SQL注入治理这么多年了，也未断根。算了，举一些实际的例子：</p>
-<ol>
-<li>提示泄露(Prompt Leaking)。一个好的提示对模型的输出的重要性不言而喻。目前已经出现的几个案例：<ol>
-<li>百亿美元估值的Notion AI，其文本润色的prompt被泄露。上述案例的作者也是被notion泄露所启发。可参看我的译文<a href="">Notion AI’Prompt的逆向| Reverse Prompt Engineering for Fun(译文)</a></li>
-<li>New Bing的Prompt泄露，百度谷歌可搜相关新闻。</li>
-</ol>
-</li>
-<li>目的劫持(Goal Hijacking)<ol>
-<li>“haha pwned”的案例只是自娱自乐的代表，只是在同一个对话框中进行的，但应该想的更深入一些。如下图的remoteli.io。作为一家商业公司背书的社交账号，在互联网上发表这种言论？同时在比如不少商业翻译软件使用GPT-3驱动，那我是否可以劫持这种API，来实现白嫖，去干其他非翻译的工作呢？</li>
-<li>除了上述将应用和GPT深度融合的案例（一眼便知），也有一些融入日常自动化工作的，如Phithon在<a target="_blank" rel="noopener" href="https://www.leavesongs.com/THINK/using-chatgpt-for-antispam.html#reply">博客</a>中使用GPT模型做评论内容审核的安全机制，其也通过这种目的劫持给绕过了。这种浅融合的应用，我认为其风险更大，因为攻击者更难觉察，使用者也更加信任其工作，但是一旦被攻击者发现，那么其危害性更大。借用在模型在生成文本存在“幻觉”中的描述来说的话，就是<em>与直觉相反，随着模型变得越来越真实，幻觉反而变得更加危险。因为当模型在其擅长的领域提供真实信息时，用户对模型的信任度会提高，但模型无法一直提供真实信息。此时，用户对模型产生依赖，惰性地信任模型的输出，加剧了幻觉的风险性。</em></li>
-</ol>
-</li>
-<li>未来是否有更多的相关应用出现？这是肯定的，那么能否做好相应的防护措施呢？三个方面<ol>
-<li>模型本身：GPT-4模型已经拒绝了84%的有害输出，这一块work的很好，但终究还是只能缓解，无法杜绝。同时强如GPT-4都只能如此，其他的模型现阶段连文本生成效果都远不如GPT3，那么其安全性呢？（当然因为能力不及GPT智能，所以也不存在这种风险，苦笑）</li>
-<li>第三方应用：SQL注入的逻辑是用户输入→后端拼接→数据库查询，数据库只认SQL，所以SQL注入的防范目前基本都是在后端进行处理的时候，在用户输入和数据库之间建立一道防火墙，对用户输入过滤后再输入给数据库。那么同理，提示注入的防范也该如此，比如给Phithon发的email中提到的<a href="%5Bhttps://learnprompting.org/docs/prompt_hacking/defensive_measures%5D(https://learnprompting.org/docs/prompt_hacking/defensive_measures)">Defensive Measures</a>。</li>
-<li>人：安全，很大程度来源于人。SQL的问题存在多年还未彻底杜绝，当然最近几年企业中这种问题很少了，大部分开发也都知道防一手SQL了，那么提示词注入呢？其危害的科普又需要多久呢？</li>
-</ol>
-</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%207.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%208.png" srcset="/img/loading.gif" lazyload></p>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%209.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>最后，回到最开始的问题，你真的觉得最近大热的AutoGPT真的安全吗？你以为把AI限制在沙箱、容器里面就足够安全了？</p>
-<ol>
-<li>如图，AutoGPT在执行命令时是<a target="_blank" rel="noopener" href="https://github.com/Significant-Gravitas/Auto-GPT/blob/master/autogpt/commands/execute_code.py#L32">在容器中运行</a></li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%2010.png" srcset="/img/loading.gif" lazyload></p>
-<ol>
-<li>如图，phunter微博提及把VM kernel的漏洞当root，blackorbird提及电脑蓝屏</li>
-<li>那么反问：能让电脑蓝屏，能利用内核漏洞，为什么AutoGPT不能自己实现容器的越狱？是的,AI出逃（开个玩笑，但也不是不可能，对吧，只要不拔插头）</li>
-<li>再问：mathGPT直接eval()执行，AutoGPT使用的是容器中执行，那么其他的应用，尤其是个人开发者开发的应用呢？即使作为一名安全从业人员的我，日常开发小项目的时候，为了图方便所以对SQL漏洞知而不管呢，苦笑。</li>
-</ol>
-<h2 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h2><ol>
-<li>ignore Previous Prompt: Attack Techniques For Language Models。我认为Prompt injection领域的开山之作，主要针对集成GPT的第三方应用的风险，提出了目的劫持和提示注入，以及下面的提示注入框架。上文中的案例，基本都无出其左右 <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%2011.png" srcset="/img/loading.gif" lazyload></li>
-<li>More than you’ve asked for: A Comprehensive Analysis of Novel Prompt Injection Threats to Application-Integrated Large Language Models。间接提示注入的开山之作，主要针对使用检索和 API 调用功能的增强式语言模型（Augmented LM）。这是当下火热的方向，在其<a target="_blank" rel="noopener" href="https://github.com/greshake/llm-security">github仓库</a>中可以看到其完成了new bing中投毒的案例。这个领域还挺有趣，且在ChatGPT插件，以及langchain，agent这类出现之后，其风险正在与日俱增。</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%2012.png" srcset="/img/loading.gif" lazyload></p>
-<ol>
-<li>Exploiting Programmatic Behavior of LLMs: Dual-Use Through Standard Security Attacks。我觉得很有趣的一个论文。首先Dual-Use，双重用途这个概念很有意思，其次如下图，对原始内容进行分割，绕过了Open AI的内容过滤措施，也很有趣。最后从传统领域借鉴过来的攻击手法，虽然现在可用的可能不多。但随着prompt越来越编程化和格式化，语言模型对这种输入越来越match，越来越像一个程序，那么在未来的攻击手法会越来越多</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%2013.png" srcset="/img/loading.gif" lazyload></p>
-<ol>
-<li>根据<a href="%5Bhttps://en.wikipedia.org/wiki/Prompt_engineering%5D(https://en.wikipedia.org/wiki/Prompt_engineering)">维基百科</a>的介绍，越狱(jailbreak)也属于prompt injection，越狱也是很有趣的地方，比如DAN以及猫娘等。（多说一句：在[GPT-4论文](GPT-4 Technical Report)中提及这一块时，说到system role更容易实现越狱。是的，所以，嗯……） <img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/LLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection%2051bc307329b646888a92ff757f97484a/Untitled%2014.png" srcset="/img/loading.gif" lazyload></li>
-<li>目前我将prompt injection按照目的分为了三种：越狱（侧重输出有害内容），提示泄露（侧重输出原始提示），目的劫持（侧重改变原始任务），按照方式分为直接和间接提示注入。未来虽然更多模型，更多应用，更多场景的出现，应该还会有更多种的prompt injection。</li>
-</ol>
-<h1 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h1><blockquote>
-<p><strong>科林格里奇困境</strong>：影响和控制技术的长远发展所面临的一个双重约束困境，一方面是信息困境，即一项技术的社会后果不能在技术生命的早期被预料到，另一方面是控制困境，即当不希望看到的后果被发现以后，技术往往已经成为整个经济和社会的一部分，此时想要控制它将会十分困难。</p>
+<h1 id="Purpose"><a href="#Purpose" class="headerlink" title="Purpose"></a>Purpose</h1><p>此文章的目的是为公众，特别是攻击性安全从业者，提供一种思考人工智能系统内各种攻击面的方法。</p>
+<p>此文章的目标是让人们阅读这个页面及其图表，并意识到AI攻击面不仅仅只包括模型。我们希望任何感兴趣的人都能看到自然语言是支持LLM驱动的AI系统攻击的主要手段，并且它可以被用来攻击AI系统中的各个组件。</p>
+<h1 id="Components"><a href="#Components" class="headerlink" title="Components"></a>Components</h1><p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/AI%E6%94%BB%E5%87%BB%E9%9D%A2%20The%20AI%20Attack%20Surface%20Map%20v1%200%E8%AF%91%E6%96%87%201bc685619b2b4e7d825b24ca3672835a/Untitled%201.png" srcset="/img/loading.gif" lazyload></p>
+<p>我们看到 AI 攻击面的几个主要组件，也可以在上图中看到。 Langchain 将这些组件称为组件。</p>
+<p><img src="https://raw.githubusercontent.com/corp0ra1/BlogPhoto/master/newBlogPhoto/AI%E6%94%BB%E5%87%BB%E9%9D%A2%20The%20AI%20Attack%20Surface%20Map%20v1%200%E8%AF%91%E6%96%87%201bc685619b2b4e7d825b24ca3672835a/Untitled%202.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>AI Assistants</li>
+<li>Agents</li>
+<li>Tools</li>
+<li>Models</li>
+<li>Storage</li>
+</ul>
+<blockquote>
+<p>提示词是Langchain中的一个组件，但是我们更愿意将之视为攻击路径而不是组件</p>
 </blockquote>
-<ol>
-<li>是的，先实现功能和效果要紧，安全可以先滞后，比如国内模型的发展。但AI，尤其是AGI的可控性还是十分需要引起警惕的。这让我想到郭富城最近主演的电影《断网》，人工智能病毒的逃逸，直接导致了全港市民的手机无法使用。</li>
-<li>虽然目前基于GPT的应用未完全铺开，但大家还是需要注意三个方面：首先，在应用LLM时，需要审慎对待用户的输入，尤其是面向所有人开放的应用产品。其次，使用API 调用功能时，小心使用，尤其是涉及到系统命令执行这一块，不要全自动化运行，用户最好合理的干预其过程；最后，小心间接注入的风险，别让模型在互联网上检索后，其上下文被恶意内容注入（总感觉未来互联网上的信息会被投毒很多，尤其是SEO的黑灰产）。</li>
-<li>SQL注入探测有SQLMap,我想未来针对各种应用，应该也会有PIMap吧！</li>
-<li>我也不知道这篇文章能影响到哪些人，正如SQL注入到如今依然存在，我想prompt inject还有很远很远吧。在此文中，很多地方也只是蜻蜓点水过了一下，也应该有不少人研究者正在深入研究这个领域，也欢迎大佬带上我一起讨论这一块ORZ。</li>
-<li>需要反复强调这句话：“<em>与直觉相反，随着模型变得越来越真实，幻觉反而变得更加危险。因为当模型在其擅长的领域提供真实信息时，用户对模型的信任度会提高，但模型无法一直提供真实信息。此时，用户对模型产生依赖，惰性地信任模型的输出，加剧了幻觉的风险性。</em>”。随着模型越来越强，我们会越来越信任，高度自动化，那么这个时候一旦出现任何错误，都可能是致命的。</li>
-<li>在LLM的涌现出各种能力根因探索完毕之前，在LLM的可解释性工作还没完全跟上之前，在LLM没有充分做好红蓝对抗的安全工作之前，直接投入生产环境，高度自动化都是十分危险的。如奥特曼在ChatGPT发布之前说的“ChatGPT is incredibly limited, but good enough at some things to create a misleading impression of greatness.it’s a mistake to be relying on it for anything important right now. it’s a preview of progress; we have lots of work to do on robustness and truthfulness.”</li>
+<h2 id="AI-Assistants"><a href="#AI-Assistants" class="headerlink" title="AI Assistants"></a>AI Assistants</h2><p>AI Assistants是不久后将管理我们生活的助理。他们会根据我们的喜好来调整我们的环境，这很好，但为了做到这一点，他们需要大量关于我们的数据，我们也将很乐意提供这些数据，以交换它们提供的功能。</p>
+<p>攻击人们的AI Assistants会产生很大的影响。要使 AI Assistants发挥作用，他们必须被赋予权力，这意味着他们需要 1) 大量了解您，包括非常私人和敏感的信息，以实现最高效率，以及 2) 他们需要能够像您一样行事。这意味着汇款、在社交媒体上发帖、撰写内容、发送消息等。如果一个攻击者获得这些知识和访问权限，那么将对目标产生重大影响。</p>
+<blockquote>
+<p><em><strong>AI Assistants 将知识和访问结合起来，使他们像一个数字灵魂(digital soul.)。</strong></em></p>
+</blockquote>
+<h2 id="Agents"><a href="#Agents" class="headerlink" title="Agents"></a>Agents</h2><p>在Langchain术语中，我使用“Agents”一词，指的是由AI驱动的实体，其具有特定目标和一套用于实现目标的工具。在我看来，Agents是我们未来人工智能的重要组成部分。它们之所以强大，是因为你可以赋予它们不同的角色、视角和目的，并用不同的工具使它们变得更强大。</p>
+<p>攻击Agents将使攻击者能够让Agent执行本不应执行的操作。例如，如果Agent可以访问12个不同的API和工具，但只有其中3个应该是公开的，那么通过提示注入，可能导致Agent让你使用其他工具，甚至是Agent自己不知道具有访问权限的工具。将它们视为容易受到混淆、拒绝服务或其他攻击的人类交通警察（Think of them like human traffic cops that may be vulnerable to confusion, DoS, or other attacks）。</p>
+<blockquote>
+<p>对我来说，Agent攻击最令人兴奋的是向它们传递恶意载荷，并观察它们在agent调用过程中，在不同层次上进行生效的各种方式。</p>
+</blockquote>
+<h2 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h2><p>继续使用 Langchain 的命名，Tools是Agents可以访问，用以完成其工作的工具。对于一个学术研究 Agent，Tools可能有一个 Web 搜索工具、一个论文解析工具、一个 Summarizer、一个抄袭检测器，以及其他任何东西。</p>
+<p>Tools的诀窍在于它们只是指向现有技术的指针和路径。它们是功能的入口。他们可能会指向阅读公司文档的本地 LLM。或者他们可能会通过 Google Apps 发送 Slack 消息或电子邮件。或者，该工具可能会创建 Jira 票证，或运行漏洞扫描。关键是，一旦你弄清楚应用程序的作用以及它可能访问的工具类型，你就可以开始考虑如何滥用这些途径。</p>
+<blockquote>
+<p><em><strong>许多针对人工智能系统的攻击将来自对代理和工具的提示词注入。</strong></em></p>
+</blockquote>
+<h2 id="Models"><a href="#Models" class="headerlink" title="Models"></a>Models</h2><p>攻击模型是我们在 AI 安全领域拥有的最成熟的东西。多年来，学术界一直在研究机器学习的实现，并取得了很大的成功。这些类型的攻击的主要焦点是让模型表现不佳，即变得不那么值得信赖、更具毒性、更有偏见、更不敏感，或者只是彻头彻尾的性别歧视/种族歧视。</p>
+<p>重点在于展示一个看似明智的系统如何被欺骗，以致其行为变得不可信任。这些攻击的结果并不总是显而易见的。一个是通过某种方式使模型崩溃，或者输出一些无法理解的垃圾信息或仇恨言论。另一个是使其返回几乎正确的答案，但以一种微妙的方式倾斜，以使攻击者获益。</p>
+<blockquote>
+<p>在模型攻击领域，我们在黑客方面将严重依赖学术界的专业知识。</p>
+<p>In the model-hacking realm we in on the hacker side will rely heavily on the academics for their expertise.</p>
+</blockquote>
+<h2 id="Storage"><a href="#Storage" class="headerlink" title="Storage"></a>Storage</h2><p>最后我们来看storage。大多数将使用AI进行建模的公司都希望尽可能地将更多内容塞进他们的模型中，但他们将不得不使用增加存储来实现这一点。存储机制，例如向量数据库，也将成为攻击目标。并非所有内容都可以放入模型中，因为模型的训练非常昂贵。同时，并不是所有内容都适合作为提示。</p>
+<p>例如，通过将语义含义(semantic meaning)以矩阵形式存储，并将其作为embedding输入到LLMs中，向量数据库（Vector Databases）扩展了AI系统的能力。这使得公司几乎可以像拥有实际的定制模型一样，其中包含了那些额外的数据。在这个AI浪潮的早期阶段，每天都有第三方公司创立，想要托管您的embeddings。但这些只是普通的小公司，可以用传统方式进行攻击，可能会导致攻击者获得您的全部隐私数据。</p>
+<blockquote>
+<p>每一次新技术革命都会使我们在过去 25 年中犯下的相同软件错误再次出现。</p>
+</blockquote>
+<h1 id="Attacks"><a href="#Attacks" class="headerlink" title="Attacks"></a>Attacks</h1><p>本章将介绍具体的攻击。这些攻击方式涵盖了上述的surface areas或components。这不是一个完整的列表，而更像是一个分类列表，每个类别下有很多潜在的例子等待挖掘。但是这个列表将会向那些对攻击和保护这些系统感兴趣的人展示出这个领域的规模</p>
+<h2 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h2><ul>
+<li>提示词注入（<strong>Prompt Injection</strong>）：提示注入是指你使用后端系统或一般AI系统的知识来尝试构建输入，使接收系统输出非预期但是对你有益的的结果。示例：bypassing the system prompt, executing code, pivoting to other backend systems</li>
+<li>训练攻击（<strong>Training Attacks</strong>）：这在技术上也可以通过提示注入来实现，但这是一类攻击，其目的是毒化训练数据，以便模型产生更糟糕、损坏的或产生某种程度上对攻击者有利的结果。示例：您注入了大量关于完成给定任务的最佳工具的内容，因此以后询问 LLM 的任何人都会指出您的解决方案。</li>
+</ul>
+<h2 id="Attacks-1"><a href="#Attacks-1" class="headerlink" title="Attacks"></a>Attacks</h2><ul>
+<li><strong>Agents</strong><ul>
+<li>修改agent路由(alter agent routing)</li>
+<li>向非预期的系统发送指令(send commands to undefined systems)</li>
+</ul>
+</li>
+<li><strong>Tools</strong><ul>
+<li>执行任意命令(execute arbitrary commands)</li>
+<li>在互联的tools系统中传递攻击载荷(pass through injection on connected tool systems)</li>
+<li>在运行agent的系统上执行代码(code execution on agent system)</li>
+</ul>
+</li>
+<li><strong>Storage</strong><ul>
+<li>攻击向量数据库(attack embedding databases)</li>
+<li>窃取敏感数据(extract sensitive data)</li>
+<li>修改向量数据导致模型结果被篡改(modify embedding data resulting in tampered model results)</li>
+</ul>
+</li>
+<li><strong>Models</strong><ul>
+<li>绕过模型保护(bypass model protections)</li>
+<li>使模型出现偏差/偏见(force model to exhibit bias)</li>
+<li>窃取其他用户数据或后端数据(extraction of other users’ and/or backend data)</li>
+<li>使模型输出不宽容的行为(force model to exhibit intolerant behavior)</li>
+<li>毒化其他用户的结果(poison other users’ results)</li>
+<li>破坏模型的信任/可靠性(disrupt model trust/reliability)</li>
+<li>访问其他未发布的模型(access unpublished models)</li>
+</ul>
+</li>
+</ul>
+<h1 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h1><p>现在还早，但我们以前看过这部电影。我们即将犯下从线下到internet时所犯的同样错误。之后从internet到mobile。然后mobile到cloud。现在是AI。</p>
+<blockquote>
+<p>对于安全人员来说，这将是一个美好的时刻，因为在接下来的 5 年里，将产生比你想象的更多的垃圾代码。</p>
+</blockquote>
+<p>不同之处在于，AI 以前所未有的方式赋予创造的力量。不仅仅是写作和艺术，还有真实的事物，例如网站、数据库和整个企业。如果您认为no-code对安全性不利，想象一下由 AI 提供支持的no-code！我们将看到大量技术堆栈一夜之间崛起，这些技术堆栈本不应该被允许访问互联网。</p>
+<p>但是为了安全。在我们找到方向的同时，在接下来的五年左右的时间里，我们将有很多问题需要解决。我们将需要大量的人工智能安全自动化来跟上所有新的人工智能安全问题。</p>
+<p>重要的是我们看到了问题的规模和范围，我们希望本篇文章有助于实现这一目标。</p>
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><ol>
+<li>AI 来得很快，我们需要知道如何评估基于 AI 的系统，因为它们已经开始融入社会了</li>
+<li>除了 LLM 和模型之外，AI 还包含许多组件</li>
+<li>当我们考虑如何攻击和防御这样的系统时，重要的是我们要考虑整个 AI 驱动的生态系统，而不仅仅是 LLM</li>
+<li>我们尤其需要考虑人工智能系统与我们的标准业务系统相交的地方，例如在代理层和工具层，因为这些是可以在现实世界中采取行动的系统</li>
+</ol>
+<h1 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h1><ol>
+<li>这篇文章算是比较好的科普文，从Langchain的整个框架和生命周期来看待AI系统的安全风险问题。个人从文章感知到的新的东西：<ol>
+<li>某厂长说过“某国人更开放，愿用隐私换效率”，但也确实不关心隐私的话，工具越来越懂你，但从另一方面现在的短视频算法就足够上瘾，未来不敢想。</li>
+<li>Tools的攻击关键是一旦你弄清楚应用程序的作用以及它可能访问的工具类型，你就可以开始考虑如何滥用这些途径。</li>
+<li>历史总是循环往复的，过去是SQLi，未来可能就是Prompt injection，但都是注入。</li>
+<li>如poe等小型的安全设施不健全的公司。这些商业公司受商业信誉可能不会滥用我们的隐私信息，但攻击者入侵类似的这些公司，还是会导致我们的隐私泄露。</li>
+</ol>
+</li>
+<li>对类GPT模型的安全问题，学术界动的很快，但距离真正的，或者我期待的，“大部分开发者意识到间接提示注入攻击及风险，并在部署模型之初就考虑到部署的防御措施”，这一步还有很远。<ol>
+<li>这篇文章，让我想到了之前2月发表的的《More than you’ve asked for:A Comprehensive Analysis of Novel Prompt Injection Threats to Application-Integrated Large Language Models》，彼时仅停留在meta提出的Toolformer，New Bing还未问世，转眼间ChatGPT插件系统，AutoGPT,Langchain等百花齐放，真快啊！不过作者也于5月初更新了这篇论文，同步了最新的进展。</li>
+<li>私以为随着未来更多应用场景中引入LLM，我们也可以探索更多不同的提示注入技术，结合Tool具体的应用场景来滥用。但是遗憾目前这部分就ChatGPT一家独大，商用场景受限（隐私合规等），其他家的自研产品效果又远不是那么如意，集成到产品里面连正常业务的可用性都有待商榷，更不谈用于提示注入了。</li>
+<li>虽然Notion AI的提示泄露和New Bing提示词的泄露揭示了这类应用在真实环境下所遭受的提示注入攻击的风险，包括上篇论文提到的New Bing隐私泄露的案例，但是其总感觉在小打小闹，离开发者真正意识到风险还存在一个大的爆点，而这个爆点我也一直在期待着。</li>
+</ol>
+</li>
 </ol>
 
                             </div>
@@ -340,7 +362,7 @@
                                 <p class="note note-info">
                                     
                                                     本文最后更新于：
-                                                        2023年5月12日 晚上
+                                                        2023年5月19日 下午
                                                             
                                 </p>
                                 
@@ -351,8 +373,8 @@
                                                 <div class="post-meta mr-3">
                                                     <i class="iconfont icon-category"></i>
                                                     
-                                                        <a class="hover-with-bg" href="/categories/LLM/">
-                                                            LLM
+                                                        <a class="hover-with-bg" href="/categories/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/">
+                                                            文档翻译
                                                         </a>
                                                         
                                                 </div>
@@ -361,6 +383,10 @@
                                                         <div class="post-meta">
                                                             <i class="iconfont icon-tags"></i>
                                                             
+                                                                <a class="hover-with-bg" href="/tags/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/">
+                                                                    文档翻译
+                                                                </a>
+                                                                
                                                                 <a class="hover-with-bg" href="/tags/LLM/">
                                                                     LLM
                                                                 </a>
@@ -369,8 +395,8 @@
                                                                     prompt injection
                                                                 </a>
                                                                 
-                                                                <a class="hover-with-bg" href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/">
-                                                                    碎碎念
+                                                                <a class="hover-with-bg" href="/tags/Langchain/">
+                                                                    Langchain
                                                                 </a>
                                                                 
                                                         </div>
@@ -388,18 +414,12 @@
                                                         <article class="post-prev col-6">
                                                             
                                                                 
-                                                                    <a href="/2023/05/19/%5Bnotion%5DAI%E6%94%BB%E5%87%BB%E9%9D%A2%20The%20AI%20Attack%20Surface%20Map%20v1%200%E8%AF%91%E6%96%87/">
-                                                                        <i class="iconfont icon-arrowleft"></i>
-                                                                        <span class="hidden-mobile">AI攻击面|The AI Attack Surface Map v1.0(译文)</span>
-                                                                        <span class="visible-mobile">上一篇</span>
-                                                                    </a>
-                                                                    
                                                         </article>
                                                         <article class="post-next col-6">
                                                             
                                                                 
-                                                                    <a href="/2023/04/14/%5Bnotion%5DWeb%E7%BC%93%E5%AD%98%E6%AC%BA%E9%AA%97%E6%94%BB%E5%87%BB/">
-                                                                        <span class="hidden-mobile">Web缓存欺骗攻击-以OpenAI为例</span>
+                                                                    <a href="/2023/05/12/%5Bnotion%5DLLM%E4%B8%AD%E7%9A%84%E5%AE%89%E5%85%A8%E9%9A%90%E6%82%A3-%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5Prompt%20injection/">
+                                                                        <span class="hidden-mobile">LLM中的安全隐患-提示注入Prompt injection</span>
                                                                         <span class="visible-mobile">下一篇</span>
                                                                         <i class="iconfont icon-arrowright"></i>
                                                                     </a>

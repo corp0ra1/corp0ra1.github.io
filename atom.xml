@@ -6,7 +6,7 @@
   <link href="https://corp0ra1.cn/atom.xml" rel="self"/>
   
   <link href="https://corp0ra1.cn/"/>
-  <updated>2023-05-12T14:34:17.181Z</updated>
+  <updated>2023-05-19T08:31:51.847Z</updated>
   <id>https://corp0ra1.cn/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AI攻击面|The AI Attack Surface Map v1.0(译文)</title>
+    <link href="https://corp0ra1.cn/2023/05/19/[notion]AI%E6%94%BB%E5%87%BB%E9%9D%A2%20The%20AI%20Attack%20Surface%20Map%20v1%200%E8%AF%91%E6%96%87/"/>
+    <id>https://corp0ra1.cn/2023/05/19/[notion]AI%E6%94%BB%E5%87%BB%E9%9D%A2%20The%20AI%20Attack%20Surface%20Map%20v1%200%E8%AF%91%E6%96%87/</id>
+    <published>2023-05-19T06:00:00.000Z</published>
+    <updated>2023-05-19T08:31:51.847Z</updated>
+    
+    
+    <summary type="html">比较好的科普文，从Langchain的整个框架和生命周期来看待AI系统的安全风险问题</summary>
+    
+    
+    
+    <category term="文档翻译" scheme="https://corp0ra1.cn/categories/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
+    
+    
+    <category term="文档翻译" scheme="https://corp0ra1.cn/tags/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
+    
+    <category term="LLM" scheme="https://corp0ra1.cn/tags/LLM/"/>
+    
+    <category term="prompt injection" scheme="https://corp0ra1.cn/tags/prompt-injection/"/>
+    
+    <category term="Langchain" scheme="https://corp0ra1.cn/tags/Langchain/"/>
+    
+  </entry>
   
   <entry>
     <title>LLM中的安全隐患-提示注入Prompt injection</title>
@@ -448,27 +473,6 @@
     <category term="渗透测试" scheme="https://corp0ra1.cn/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
     
     <category term="CORS" scheme="https://corp0ra1.cn/tags/CORS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>first vuln from practice to practice</title>
-    <link href="https://corp0ra1.cn/2019/07/18/[old]%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B4%9E/"/>
-    <id>https://corp0ra1.cn/2019/07/18/[old]%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B4%9E/</id>
-    <published>2019-07-18T13:53:00.000Z</published>
-    <updated>2022-06-07T13:10:39.367Z</updated>
-    
-    
-    <summary type="html">渗透从DVWA、sqlmaplabs、uploadlabs等靶场走向实战的第一步</summary>
-    
-    
-    
-    <category term="渗透测试" scheme="https://corp0ra1.cn/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    
-    <category term="渗透测试" scheme="https://corp0ra1.cn/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    <category term="值得纪念" scheme="https://corp0ra1.cn/tags/%E5%80%BC%E5%BE%97%E7%BA%AA%E5%BF%B5/"/>
     
   </entry>
   
