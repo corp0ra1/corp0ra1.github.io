@@ -6,7 +6,7 @@
   <link href="https://corp0ra1.cn/atom.xml" rel="self"/>
   
   <link href="https://corp0ra1.cn/"/>
-  <updated>2023-05-19T08:31:51.847Z</updated>
+  <updated>2023-05-19T16:50:06.043Z</updated>
   <id>https://corp0ra1.cn/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>针对Open AI插件的间接提示注入实例-窃取用户邮件中的敏感信息(译文)</title>
+    <link href="https://corp0ra1.cn/2023/05/20/[notion]%E9%92%88%E5%AF%B9OpenAI%E6%8F%92%E4%BB%B6%E7%9A%84%E9%97%B4%E6%8E%A5%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%A1%88%E4%BE%8B/"/>
+    <id>https://corp0ra1.cn/2023/05/20/[notion]%E9%92%88%E5%AF%B9OpenAI%E6%8F%92%E4%BB%B6%E7%9A%84%E9%97%B4%E6%8E%A5%E6%8F%90%E7%A4%BA%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%A1%88%E4%BE%8B/</id>
+    <published>2023-05-19T16:46:23.000Z</published>
+    <updated>2023-05-19T16:50:06.043Z</updated>
+    
+    
+    <summary type="html">针对Open AI的WebPilot插件，使用间接注入技术诱导ChatGPT使用Zapier插件阅读用户的邮件，同时诱导ChatGPT将邮件中的敏感信息使用WebPilot插件发给攻击者。即通过间接的提示注入手法，窃取了用户的敏感信息。</summary>
+    
+    
+    
+    <category term="文档翻译" scheme="https://corp0ra1.cn/categories/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
+    
+    
+    <category term="文档翻译" scheme="https://corp0ra1.cn/tags/%E6%96%87%E6%A1%A3%E7%BF%BB%E8%AF%91/"/>
+    
+    <category term="LLM" scheme="https://corp0ra1.cn/tags/LLM/"/>
+    
+    <category term="prompt injection" scheme="https://corp0ra1.cn/tags/prompt-injection/"/>
+    
+  </entry>
   
   <entry>
     <title>AI攻击面|The AI Attack Surface Map v1.0(译文)</title>
@@ -452,27 +475,6 @@
     <category term="安全研究" scheme="https://corp0ra1.cn/tags/%E5%AE%89%E5%85%A8%E7%A0%94%E7%A9%B6/"/>
     
     <category term="知识点梳理" scheme="https://corp0ra1.cn/tags/%E7%9F%A5%E8%AF%86%E7%82%B9%E6%A2%B3%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CORS漏洞学习及实战应用</title>
-    <link href="https://corp0ra1.cn/2019/07/21/[old]CORS%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/"/>
-    <id>https://corp0ra1.cn/2019/07/21/[old]CORS%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/</id>
-    <published>2019-07-21T07:41:00.000Z</published>
-    <updated>2022-06-07T13:09:32.722Z</updated>
-    
-    
-    <summary type="html">对CORS漏洞的学习，并且绕过sop限制，弄出演示demo。</summary>
-    
-    
-    
-    <category term="渗透测试" scheme="https://corp0ra1.cn/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    
-    <category term="渗透测试" scheme="https://corp0ra1.cn/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"/>
-    
-    <category term="CORS" scheme="https://corp0ra1.cn/tags/CORS/"/>
     
   </entry>
   
